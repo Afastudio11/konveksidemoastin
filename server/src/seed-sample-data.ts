@@ -74,10 +74,10 @@ function generateAddress(): string {
 async function seedSampleData() {
   console.log('Starting sample data seeding...');
 
-  let adminUser = await db.select().from(users).where(eq(users.email, 'admin@sekala.id')).limit(1).then(r => r[0]);
+  let adminUser = await db.select().from(users).where(eq(users.email, 'admin@konveksi.id')).limit(1).then(r => r[0]);
   
   if (!adminUser) {
-    adminUser = await db.select().from(users).where(eq(users.email, 'superadmin@sekala.id')).limit(1).then(r => r[0]);
+    adminUser = await db.select().from(users).where(eq(users.email, 'superadmin@konveksi.id')).limit(1).then(r => r[0]);
   }
   
   if (!adminUser) {

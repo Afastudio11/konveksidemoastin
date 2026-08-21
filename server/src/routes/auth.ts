@@ -7,7 +7,7 @@ import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 
 const router = Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'sekala-strack-secret-key-2025';
+const JWT_SECRET = process.env.JWT_SECRET || 'konveksi-strack-secret-key-2025';
 
 const loginSchema = z.object({
   email: z.string().email(),

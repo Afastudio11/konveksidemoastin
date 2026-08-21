@@ -39,7 +39,7 @@ router.get('/export/pdf', requireRole('superadmin'), async (req: AuthRequest, re
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Data Pelanggan - Sekala Industry</title>
+  <title>Data Pelanggan - Konveksi Industry</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; font-size: 12px; }
     h1 { text-align: center; color: #333; margin-bottom: 20px; }
@@ -55,7 +55,7 @@ router.get('/export/pdf', requireRole('superadmin'), async (req: AuthRequest, re
 </head>
 <body>
   <div class="header">
-    <div class="logo">SEKALA INDUSTRY</div>
+    <div class="logo">Konveksi Industry</div>
     <p>Data Pelanggan</p>
     <p>Tanggal: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
   </div>
@@ -90,7 +90,7 @@ router.get('/export/pdf', requireRole('superadmin'), async (req: AuthRequest, re
   </table>
 
   <div class="footer">
-    <p>Dokumen ini digenerate otomatis oleh Sekala Industry</p>
+    <p>Dokumen ini digenerate otomatis oleh Konveksi Industry</p>
   </div>
 </body>
 </html>`;

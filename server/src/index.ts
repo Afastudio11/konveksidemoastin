@@ -54,5 +54,5 @@ if (isProduction) {
 }
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Sekala Industry Server running on port ${PORT} (${isProduction ? 'production' : 'development'})`);
+  console.log(`Konveksi Industry Server running on port ${PORT} (${isProduction ? 'production' : 'development'})`);
 });

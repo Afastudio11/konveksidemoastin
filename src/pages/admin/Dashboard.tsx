@@ -239,7 +239,7 @@ export default function AdminDashboard() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <h1 className="text-3xl font-bold">Dashboard</h1>
-            <p className="text-muted-foreground">Selamat datang di Sekala Industry Admin</p>
+            <p className="text-muted-foreground">Selamat datang di Konveksi Industry Admin</p>
           </div>
           <div className="flex gap-2 flex-wrap">
             <Button 

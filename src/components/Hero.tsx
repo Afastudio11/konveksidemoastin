@@ -87,7 +87,7 @@ const Hero = () => {
       <div className="absolute inset-0">
         <img 
           src="/hero-background.png" 
-          alt="Sekala Industry Products" 
+          alt="Konveksi Industry Products" 
           className="w-full h-full object-cover"
         />
       </div>
@@ -117,7 +117,7 @@ const Hero = () => {
               <span className="bg-accent text-foreground px-2 sm:px-2.5 inline-block shadow-glow-accent border-4 border-black mt-3 md:mt-4 break-words leading-[0.9]" style={{ paddingTop: '2px', paddingBottom: '2px', maxWidth: 'calc(100vw - 2rem)' }}>Premium Kamu.</span>
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-white/90 leading-relaxed max-w-2xl">
-              Sekala Industry adalah mitra terpercaya untuk kebutuhan konveksi profesional. Dari seragam perusahaan hingga merchandise custom dengan kualitas terbaik.
+              Konveksi Industry adalah mitra terpercaya untuk kebutuhan konveksi profesional. Dari seragam perusahaan hingga merchandise custom dengan kualitas terbaik.
             </p>
 
             {/* Stats - 4 kotak dengan border tebal */}

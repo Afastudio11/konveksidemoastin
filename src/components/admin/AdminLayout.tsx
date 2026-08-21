@@ -15,7 +15,6 @@ import {
   Shield,
 } from 'lucide-react';
 import { useState } from 'react';
-import logo from '@/assets/logo.png';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -70,7 +69,19 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             to={menuItems.length > 0 ? menuItems[0].path : '#'} 
             className="flex items-center justify-center"
           >
-            <img src={logo} alt="Sekala Industry" className="h-12 w-auto" />
+            <div className="flex items-center gap-2.5 py-1">
+              <div className="w-9 h-9 rounded-lg bg-amber-500 flex items-center justify-center text-slate-950 font-black text-lg shadow">
+                KI
+              </div>
+              <div className="flex flex-col text-left">
+                <span className="font-bold text-sm text-white leading-tight">
+                  KONVEKSI INDUSTRY
+                </span>
+                <span className="text-[9px] text-blue-200 uppercase tracking-wider font-medium">
+                  Admin Panel
+                </span>
+              </div>
+            </div>
           </Link>
         </div>
 

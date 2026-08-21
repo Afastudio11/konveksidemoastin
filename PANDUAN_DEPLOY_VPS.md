@@ -1,8 +1,8 @@
-# Panduan Deploy Sekala Industry ke VPS
+# Panduan Deploy Konveksi Industry ke VPS
 
 ## LANGKAH 1: Download File dari Replit
 
-Klik kanan file `sekala-deploy-new.tar.gz` di panel Files sebelah kiri, lalu pilih **Download**.
+Klik kanan file `konveksi-deploy-new.tar.gz` di panel Files sebelah kiri, lalu pilih **Download**.
 
 ---
 
@@ -11,7 +11,7 @@ Klik kanan file `sekala-deploy-new.tar.gz` di panel Files sebelah kiri, lalu pil
 Buka terminal di komputer Anda dan jalankan:
 
 ```bash
-scp sekala-deploy-new.tar.gz root@72.60.76.117:/var/www/
+scp konveksi-deploy-new.tar.gz root@72.60.76.117:/var/www/
 ```
 
 ---
@@ -26,22 +26,22 @@ ssh root@72.60.76.117
 cd /var/www
 
 # Stop server dulu
-pm2 stop sekala-api
+pm2 stop konveksi-api
 
 # Backup folder lama (opsional, untuk jaga-jaga)
-mv sekala-industry sekala-industry-backup-$(date +%Y%m%d)
+mv konveksi-industry konveksi-industry-backup-$(date +%Y%m%d)
 
 # Buat folder baru dan extract
-mkdir -p sekala-industry
-tar xzvf sekala-deploy-new.tar.gz -C sekala-industry
+mkdir -p konveksi-industry
+tar xzvf konveksi-deploy-new.tar.gz -C konveksi-industry
 
 # Masuk ke folder project
-cd sekala-industry
+cd konveksi-industry
 
 # Buat file .env dengan database Anda
 cat > .env << 'EOF'
-DATABASE_URL=postgresql://sekala_user:SekalaPass123@localhost:5432/sekala_industry
-JWT_SECRET=sekala-production-secret-key-2025
+DATABASE_URL=postgresql://konveksi_user:KonveksiPass123@localhost:5432/konveksi_industry
+JWT_SECRET=konveksi-production-secret-key-2025
 NODE_ENV=production
 PORT=3001
 EOF
@@ -53,14 +53,14 @@ npm install --production
 npm run db:push
 
 # Start server dengan PM2
-pm2 start npm --name "sekala-api" -- run start
+pm2 start npm --name "konveksi-api" -- run start
 
 # Pastikan auto-start saat reboot
 pm2 save
 
 # Cek status
 pm2 status
-pm2 logs sekala-api --lines 20
+pm2 logs konveksi-api --lines 20
 ```
 
 ---
@@ -71,7 +71,7 @@ Pastikan Nginx mengarah ke folder dist baru:
 
 ```bash
 # Cek konfigurasi nginx
-cat /etc/nginx/sites-available/sekala-industry
+cat /etc/nginx/sites-available/konveksi-industry
 
 # Restart nginx
 sudo systemctl restart nginx
@@ -82,8 +82,8 @@ sudo systemctl restart nginx
 ## Hapus Backup Setelah Berhasil (Opsional)
 
 ```bash
-rm -rf /var/www/sekala-industry-backup-*
-rm /var/www/sekala-deploy-new.tar.gz
+rm -rf /var/www/konveksi-industry-backup-*
+rm /var/www/konveksi-deploy-new.tar.gz
 ```
 
 ---

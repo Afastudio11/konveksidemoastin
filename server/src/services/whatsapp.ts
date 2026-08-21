@@ -18,17 +18,17 @@ const MESSAGE_TEMPLATES = {
   orderConfirmation: (params: { customerName: string; trackingCode: string; totalAmount: string }) => `
 Halo ${params.customerName}! 👋
 
-Terima kasih atas pesanan Anda di Sekala Industry.
+Terima kasih atas pesanan Anda di Konveksi Industry.
 
 📦 *Detail Pesanan:*
 Kode Tracking: *${params.trackingCode}*
 Total: ${params.totalAmount}
 
 Anda dapat melacak status pesanan di:
-🔗 https://sekala.id/track/${params.trackingCode}
+🔗 https://konveksi.id/track/${params.trackingCode}
 
 Terima kasih! 🙏
-- Tim Sekala Industry
+- Tim Konveksi Industry
   `.trim(),
 
   statusUpdate: (params: { customerName: string; trackingCode: string; status: string; statusLabel: string }) => `
@@ -40,9 +40,9 @@ Status pesanan Anda telah diperbarui:
 📍 Status: *${params.statusLabel}*
 
 Lacak pesanan Anda di:
-🔗 https://sekala.id/track/${params.trackingCode}
+🔗 https://konveksi.id/track/${params.trackingCode}
 
-- Tim Sekala Industry
+- Tim Konveksi Industry
   `.trim(),
 
   paymentReminder: (params: { customerName: string; trackingCode: string; totalAmount: string; dueDate: string }) => `
@@ -57,9 +57,9 @@ Ini adalah pengingat pembayaran untuk pesanan Anda:
 Silakan lakukan pembayaran sebelum tanggal jatuh tempo.
 
 Bayar sekarang:
-🔗 https://sekala.id/pay/${params.trackingCode}
+🔗 https://konveksi.id/pay/${params.trackingCode}
 
-- Tim Sekala Industry
+- Tim Konveksi Industry
   `.trim(),
 
   paymentConfirmation: (params: { customerName: string; trackingCode: string; amount: string; paymentMethod: string }) => `
@@ -74,9 +74,9 @@ Pembayaran Anda telah kami terima:
 Terima kasih! Pesanan Anda akan segera diproses.
 
 Lacak pesanan:
-🔗 https://sekala.id/track/${params.trackingCode}
+🔗 https://konveksi.id/track/${params.trackingCode}
 
-- Tim Sekala Industry
+- Tim Konveksi Industry
   `.trim(),
 
   orderCompleted: (params: { customerName: string; trackingCode: string }) => `
@@ -86,12 +86,12 @@ Pesanan Anda telah selesai dan siap dikirim/diambil!
 
 📦 Kode Tracking: *${params.trackingCode}*
 
-Terima kasih telah mempercayakan pesanan Anda kepada Sekala Industry.
+Terima kasih telah mempercayakan pesanan Anda kepada Konveksi Industry.
 
 Kami sangat menghargai feedback Anda:
-🔗 https://sekala.id/review/${params.trackingCode}
+🔗 https://konveksi.id/review/${params.trackingCode}
 
-- Tim Sekala Industry
+- Tim Konveksi Industry
   `.trim(),
 
   orderShipped: (params: { customerName: string; trackingCode: string; courier: string; resiNumber: string }) => `
@@ -104,9 +104,9 @@ Pesanan Anda telah dikirim!
 📋 No. Resi: *${params.resiNumber}*
 
 Lacak pengiriman Anda di website kurir atau:
-🔗 https://sekala.id/track/${params.trackingCode}
+🔗 https://konveksi.id/track/${params.trackingCode}
 
-- Tim Sekala Industry
+- Tim Konveksi Industry
   `.trim(),
 };
 

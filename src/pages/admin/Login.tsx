@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
-import logoDark from '@/assets/logo-dark.png';
 
 const menuPermissionMap = [
   { path: '/admin/dashboard', permission: 'dashboard' },
@@ -64,11 +63,13 @@ export default function AdminLogin() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
-            <img src={logoDark} alt="Sekala Industry" className="h-16 w-auto" />
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-blue-500 flex items-center justify-center text-white font-black text-2xl shadow-lg">
+              KI
+            </div>
           </div>
-          <CardTitle className="text-2xl">Sekala Industry Admin</CardTitle>
+          <CardTitle className="text-2xl">Konveksi Industry Admin</CardTitle>
           <CardDescription>
-            Masuk ke dashboard admin Sekala Industry
+            Masuk ke dashboard admin Konveksi Industry
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -78,7 +79,7 @@ export default function AdminLogin() {
               <Input
                 id="email"
                 type="email"
-                placeholder="admin@sekala.id"
+                placeholder="admin@konveksi.id"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"

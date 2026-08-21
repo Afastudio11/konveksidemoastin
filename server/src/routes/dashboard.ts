@@ -405,7 +405,7 @@ router.get('/export/excel', async (req: AuthRequest, res) => {
     const workbook = XLSX.utils.book_new();
 
     const summaryData = [
-      ['LAPORAN DASHBOARD SEKALA INDUSTRY'],
+      ['LAPORAN DASHBOARD Konveksi Industry'],
       [''],
       ['Periode', getPeriodLabel(startDate as string, endDate as string, month as string, year as string)],
       ['Tanggal Export', new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })],
@@ -578,7 +578,7 @@ router.get('/export/pdf', async (req: AuthRequest, res) => {
       <html>
       <head>
         <meta charset="UTF-8">
-        <title>Laporan Dashboard - Sekala Industry</title>
+        <title>Laporan Dashboard - Konveksi Industry</title>
         <style>
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body { font-family: 'Segoe UI', Tahoma, sans-serif; padding: 40px; color: #333; }
@@ -607,9 +607,9 @@ router.get('/export/pdf', async (req: AuthRequest, res) => {
         <div class="header">
           ${logoBase64 ? `<img src="${logoBase64}" class="logo" alt="Logo">` : ''}
           <div class="company-info">
-            <h1>SEKALA INDUSTRY</h1>
+            <h1>Konveksi Industry</h1>
             <p>Jl. Maccini Sawah No 48, Maccini, Kota Makassar</p>
-            <p>Telp: 0857-5477-7068 | Email: sekalaindustry@gmail.com</p>
+            <p>Telp: 0857-5477-7068 | Email: konveksiindustry@gmail.com</p>
           </div>
         </div>
         
@@ -683,8 +683,8 @@ router.get('/export/pdf', async (req: AuthRequest, res) => {
         </div>
 
         <div class="footer">
-          <p>Dokumen ini digenerate secara otomatis oleh sistem Sekala Industry</p>
-          <p>&copy; ${new Date().getFullYear()} Sekala Industry. All rights reserved.</p>
+          <p>Dokumen ini digenerate secara otomatis oleh sistem Konveksi Industry</p>
+          <p>&copy; ${new Date().getFullYear()} Konveksi Industry. All rights reserved.</p>
         </div>
       </body>
       </html>

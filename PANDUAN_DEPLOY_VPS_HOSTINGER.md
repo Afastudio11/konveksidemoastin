@@ -1,4 +1,4 @@
-# Panduan Deploy Sekala Industry ke VPS Hostinger
+# Panduan Deploy Konveksi Industry ke VPS Hostinger
 
 ## Persyaratan VPS
 - VPS Hostinger dengan OS **Ubuntu 22.04** atau **Ubuntu 24.04**
@@ -12,7 +12,7 @@
 
 ### File/Folder yang DIUPLOAD:
 ```
-sekala-industry/
+konveksi-industry/
 ├── server/                 # Backend Express.js (WAJIB)
 ├── src/                    # Frontend React (WAJIB)
 ├── public/                 # Assets public (WAJIB)
@@ -66,7 +66,7 @@ cd REPO-NAME
 Buat file `.env.production` dengan isi:
 ```env
 # Database PostgreSQL
-DATABASE_URL=postgresql://username:password@localhost:5432/sekala_industry
+DATABASE_URL=postgresql://username:password@localhost:5432/konveksi_industry
 
 # Server
 NODE_ENV=production
@@ -118,9 +118,9 @@ systemctl enable postgresql
 sudo -u postgres psql
 
 # Di dalam psql, jalankan:
-CREATE USER sekala_admin WITH PASSWORD 'password_aman_anda';
-CREATE DATABASE sekala_industry OWNER sekala_admin;
-GRANT ALL PRIVILEGES ON DATABASE sekala_industry TO sekala_admin;
+CREATE USER konveksi_admin WITH PASSWORD 'password_aman_anda';
+CREATE DATABASE konveksi_industry OWNER konveksi_admin;
+GRANT ALL PRIVILEGES ON DATABASE konveksi_industry TO konveksi_admin;
 \q
 ```
 
@@ -153,8 +153,8 @@ apt install -y chromium
 ### Langkah 1: Buat Folder Aplikasi
 
 ```bash
-mkdir -p /var/www/sekala-industry
-cd /var/www/sekala-industry
+mkdir -p /var/www/konveksi-industry
+cd /var/www/konveksi-industry
 ```
 
 ### Langkah 2: Upload File ke VPS
@@ -162,7 +162,7 @@ cd /var/www/sekala-industry
 **Opsi A: Menggunakan SCP (dari komputer lokal)**
 ```bash
 # Di komputer lokal, jalankan:
-scp -r ./sekala-industry/* root@IP_VPS_ANDA:/var/www/sekala-industry/
+scp -r ./konveksi-industry/* root@IP_VPS_ANDA:/var/www/konveksi-industry/
 ```
 
 **Opsi B: Menggunakan FileZilla (SFTP)**
@@ -172,18 +172,18 @@ scp -r ./sekala-industry/* root@IP_VPS_ANDA:/var/www/sekala-industry/
    - Username: root
    - Password: password VPS
    - Port: 22
-3. Upload semua file ke `/var/www/sekala-industry/`
+3. Upload semua file ke `/var/www/konveksi-industry/`
 
 **Opsi C: Menggunakan Git**
 ```bash
-cd /var/www/sekala-industry
+cd /var/www/konveksi-industry
 git clone https://github.com/USERNAME/REPO.git .
 ```
 
 ### Langkah 3: Setup Environment Variables
 
 ```bash
-cd /var/www/sekala-industry
+cd /var/www/konveksi-industry
 
 # Buat file .env
 nano .env
@@ -191,7 +191,7 @@ nano .env
 
 Isi dengan:
 ```env
-DATABASE_URL=postgresql://sekala_admin:password_aman_anda@localhost:5432/sekala_industry
+DATABASE_URL=postgresql://konveksi_admin:password_aman_anda@localhost:5432/konveksi_industry
 NODE_ENV=production
 API_PORT=3001
 JWT_SECRET=ganti_dengan_secret_key_panjang_random_anda
@@ -202,7 +202,7 @@ Simpan: `Ctrl+X`, lalu `Y`, lalu `Enter`
 ### Langkah 4: Install Dependencies
 
 ```bash
-cd /var/www/sekala-industry
+cd /var/www/konveksi-industry
 npm install
 ```
 
@@ -231,20 +231,20 @@ Isi dengan:
 module.exports = {
   apps: [
     {
-      name: 'sekala-backend',
+      name: 'konveksi-backend',
       script: 'npx',
       args: 'tsx server/src/index.ts',
-      cwd: '/var/www/sekala-industry',
+      cwd: '/var/www/konveksi-industry',
       env: {
         NODE_ENV: 'production',
         API_PORT: 3001
       }
     },
     {
-      name: 'sekala-frontend',
+      name: 'konveksi-frontend',
       script: 'npx',
       args: 'vite preview --host 0.0.0.0 --port 5000',
-      cwd: '/var/www/sekala-industry',
+      cwd: '/var/www/konveksi-industry',
       env: {
         NODE_ENV: 'production'
       }
@@ -268,14 +268,14 @@ pm2 startup
 ### Langkah 1: Buat Konfigurasi Nginx
 
 ```bash
-nano /etc/nginx/sites-available/sekala-industry
+nano /etc/nginx/sites-available/konveksi-industry
 ```
 
 Isi dengan:
 ```nginx
 server {
     listen 80;
-    server_name sekalaindustry.com www.sekalaindustry.com;
+    server_name konveksiindustry.com www.konveksiindustry.com;
 
     # Frontend (React)
     location / {
@@ -308,7 +308,7 @@ server {
 ### Langkah 2: Aktifkan Konfigurasi
 
 ```bash
-ln -s /etc/nginx/sites-available/sekala-industry /etc/nginx/sites-enabled/
+ln -s /etc/nginx/sites-available/konveksi-industry /etc/nginx/sites-enabled/
 nginx -t  # Test konfigurasi
 systemctl restart nginx
 ```
@@ -334,7 +334,7 @@ apt install -y certbot python3-certbot-nginx
 ### Generate SSL Certificate
 
 ```bash
-certbot --nginx -d sekalaindustry.com -d www.sekalaindustry.com
+certbot --nginx -d konveksiindustry.com -d www.konveksiindustry.com
 ```
 
 Ikuti instruksi di layar, masukkan email dan setujui terms.
@@ -353,9 +353,9 @@ pm2 logs
 ### Cek Website
 
 1. Buka browser
-2. Akses: `https://sekalaindustry.com`
+2. Akses: `https://konveksiindustry.com`
 3. Login dengan:
-   - Email: `superadmin@sekala.id`
+   - Email: `superadmin@konveksi.id`
    - Password: `super123`
 
 ---
@@ -371,14 +371,14 @@ pm2 restart all
 ### Lihat Logs
 
 ```bash
-pm2 logs sekala-backend
-pm2 logs sekala-frontend
+pm2 logs konveksi-backend
+pm2 logs konveksi-frontend
 ```
 
 ### Update Aplikasi
 
 ```bash
-cd /var/www/sekala-industry
+cd /var/www/konveksi-industry
 git pull origin main  # atau upload file baru
 npm install
 npm run build
@@ -388,13 +388,13 @@ pm2 restart all
 ### Backup Database
 
 ```bash
-pg_dump -U sekala_admin sekala_industry > backup_$(date +%Y%m%d).sql
+pg_dump -U konveksi_admin konveksi_industry > backup_$(date +%Y%m%d).sql
 ```
 
 ### Restore Database
 
 ```bash
-psql -U sekala_admin sekala_industry < backup_20251203.sql
+psql -U konveksi_admin konveksi_industry < backup_20251203.sql
 ```
 
 ---
@@ -404,8 +404,8 @@ psql -U sekala_admin sekala_industry < backup_20251203.sql
 ### Error: EACCES permission denied
 
 ```bash
-chown -R $USER:$USER /var/www/sekala-industry
-chmod -R 755 /var/www/sekala-industry
+chown -R $USER:$USER /var/www/konveksi-industry
+chmod -R 755 /var/www/konveksi-industry
 ```
 
 ### Error: Port already in use
@@ -423,7 +423,7 @@ kill -9 PID_NUMBER
 systemctl status postgresql
 
 # Cek koneksi database
-psql -U sekala_admin -d sekala_industry -h localhost
+psql -U konveksi_admin -d konveksi_industry -h localhost
 ```
 
 ### Error: Puppeteer/Chromium tidak jalan
@@ -479,4 +479,4 @@ systemctl restart postgresql
 
 ---
 
-**Selamat! Aplikasi Sekala Industry Anda sudah live di VPS Hostinger!**
+**Selamat! Aplikasi Konveksi Industry Anda sudah live di VPS Hostinger!**

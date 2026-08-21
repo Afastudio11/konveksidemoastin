@@ -9,7 +9,7 @@ async function seed() {
   console.log('Seeding database with orders...');
 
   // Ensure users exist
-  const superAdminEmail = 'superadmin@sekala.id';
+  const superAdminEmail = 'superadmin@konveksi.id';
   let [superAdmin] = await db.select().from(users).where(eq(users.email, superAdminEmail)).limit(1);
   if (!superAdmin) {
     const hashedPassword = await bcrypt.hash('super123', 10);

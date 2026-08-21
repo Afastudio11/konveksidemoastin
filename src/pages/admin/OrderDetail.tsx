@@ -824,7 +824,7 @@ export default function OrderDetail() {
                           /\D/g,
                           ''
                         )}?text=${encodeURIComponent(
-                          `Halo ${order.customer?.name}, berikut link tracking pesanan Anda di Sekala Industry:\n\n${trackingUrl}\n\nNomor Invoice: ${order.invoiceNumber}\nNomor Tracking: ${order.trackingCode}`
+                          `Halo ${order.customer?.name}, berikut link tracking pesanan Anda di Konveksi Industry:\n\n${trackingUrl}\n\nNomor Invoice: ${order.invoiceNumber}\nNomor Tracking: ${order.trackingCode}`
                         )}`,
                         '_blank'
                       )

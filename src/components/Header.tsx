@@ -1,7 +1,6 @@
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import logo from "@/assets/logo.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -61,13 +60,18 @@ const Header = () => {
             onClick={handleLogoClick}
             data-testid="link-home"
           >
-            <div className="relative">
-              <img 
-                src={logo} 
-                alt="Sekala Industry" 
-                className="h-10 w-auto transition-transform duration-300 group-hover:scale-110" 
-              />
-              <div className="absolute inset-0 bg-accent/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="flex items-center gap-2.5">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-400 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg transition-transform duration-300 group-hover:scale-105">
+                KI
+              </div>
+              <div className="flex flex-col">
+                <span className="font-extrabold text-base tracking-tight text-white group-hover:text-amber-400 transition-colors">
+                  KONVEKSI INDUSTRY
+                </span>
+                <span className="text-[9px] tracking-widest uppercase font-semibold text-gray-300">
+                  Custom Apparel & Garment
+                </span>
+              </div>
             </div>
           </div>
 
@@ -100,7 +104,7 @@ const Header = () => {
               </button>
             </Link>
             <a
-              href="https://wa.me/6285754777068?text=Halo%20Sekala%20Industry%2C%20saya%20tertarik%20dengan%20layanan%20konveksi%20Anda"
+              href="https://wa.me/6285754777068?text=Halo%20Konveksi%20Industry%2C%20saya%20tertarik%20dengan%20layanan%20konveksi%20Anda"
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-2 bg-[#CCFF00] text-blue-900 font-bold rounded-full transition-all duration-300 hover:scale-105 border-2 border-black"

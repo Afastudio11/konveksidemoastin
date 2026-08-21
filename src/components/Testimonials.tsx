@@ -11,87 +11,87 @@ const customerPhotos = [
   {
     id: 1,
     image: "/galeri-customer/IMG-20251008-WA0020_1759894910497.jpg",
-    alt: "Pelanggan Sekala Industry"
+    alt: "Pelanggan Konveksi Industry"
   },
   {
     id: 2,
     image: "/galeri-customer/IMG-20251008-WA0002_1759894910497.jpg",
-    alt: "Pelanggan Sekala Industry"
+    alt: "Pelanggan Konveksi Industry"
   },
   {
     id: 3,
     image: "/galeri-customer/IMG-20251008-WA0003_1759894910497.jpg",
-    alt: "Pelanggan Sekala Industry"
+    alt: "Pelanggan Konveksi Industry"
   },
   {
     id: 4,
     image: "/galeri-customer/IMG-20251008-WA0004_1759894910498.jpg",
-    alt: "Pelanggan Sekala Industry"
+    alt: "Pelanggan Konveksi Industry"
   },
   {
     id: 5,
     image: "/galeri-customer/IMG-20251008-WA0005_1759894910498.jpg",
-    alt: "Pelanggan Sekala Industry"
+    alt: "Pelanggan Konveksi Industry"
   },
   {
     id: 6,
     image: "/galeri-customer/IMG-20251008-WA0006_1759894910499.jpg",
-    alt: "Pelanggan Sekala Industry"
+    alt: "Pelanggan Konveksi Industry"
   },
   {
     id: 7,
     image: "/galeri-customer/IMG-20251008-WA0007_1759894910499.jpg",
-    alt: "Pelanggan Sekala Industry"
+    alt: "Pelanggan Konveksi Industry"
   },
   {
     id: 8,
     image: "/galeri-customer/IMG-20251008-WA0008_1759894910499.jpg",
-    alt: "Pelanggan Sekala Industry"
+    alt: "Pelanggan Konveksi Industry"
   },
   {
     id: 9,
     image: "/galeri-customer/IMG-20251008-WA0009_1759894910500.jpg",
-    alt: "Pelanggan Sekala Industry"
+    alt: "Pelanggan Konveksi Industry"
   },
   {
     id: 10,
     image: "/galeri-customer/IMG-20251008-WA0010_1759894910500.jpg",
-    alt: "Pelanggan Sekala Industry"
+    alt: "Pelanggan Konveksi Industry"
   },
   {
     id: 11,
     image: "/galeri-customer/IMG-20251008-WA0011_1759894910500.jpg",
-    alt: "Pelanggan Sekala Industry"
+    alt: "Pelanggan Konveksi Industry"
   },
   {
     id: 12,
     image: "/galeri-customer/IMG-20251008-WA0012_1759894910501.jpg",
-    alt: "Pelanggan Sekala Industry"
+    alt: "Pelanggan Konveksi Industry"
   },
   {
     id: 13,
     image: "/galeri-customer/IMG-20251008-WA0013_1759894910501.jpg",
-    alt: "Pelanggan Sekala Industry"
+    alt: "Pelanggan Konveksi Industry"
   },
   {
     id: 14,
     image: "/galeri-customer/IMG-20251008-WA0014_1759894910501.jpg",
-    alt: "Pelanggan Sekala Industry"
+    alt: "Pelanggan Konveksi Industry"
   },
   {
     id: 15,
     image: "/galeri-customer/IMG-20251008-WA0015_1759894910502.jpg",
-    alt: "Pelanggan Sekala Industry"
+    alt: "Pelanggan Konveksi Industry"
   },
   {
     id: 16,
     image: "/galeri-customer/IMG-20251008-WA0016_1759894910502.jpg",
-    alt: "Pelanggan Sekala Industry"
+    alt: "Pelanggan Konveksi Industry"
   },
   {
     id: 17,
     image: "/galeri-customer/IMG-20251008-WA0018_1759894910502.jpg",
-    alt: "Pelanggan Sekala Industry"
+    alt: "Pelanggan Konveksi Industry"
   }
 ];
 

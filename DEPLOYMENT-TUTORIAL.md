@@ -1,9 +1,9 @@
-# Tutorial Deployment Sekala Industry ke VPS
+# Tutorial Deployment Konveksi Industry ke VPS
 
 ## Persiapan di Replit
 
 File yang perlu didownload:
-- `sekala-deploy-complete.tar.gz` (35MB) - Semua source code
+- `konveksi-deploy-complete.tar.gz` (35MB) - Semua source code
 
 ---
 
@@ -11,11 +11,11 @@ File yang perlu didownload:
 
 ```bash
 # Dari komputer lokal setelah download dari Replit
-scp sekala-deploy-complete.tar.gz root@sekalaindustry.com:/tmp/
+scp konveksi-deploy-complete.tar.gz root@konveksiindustry.com:/tmp/
 ```
 
 Atau jika menggunakan FileZilla/WinSCP:
-- Upload `sekala-deploy-complete.tar.gz` ke folder `/tmp/` di VPS
+- Upload `konveksi-deploy-complete.tar.gz` ke folder `/tmp/` di VPS
 
 ---
 
@@ -23,26 +23,26 @@ Atau jika menggunakan FileZilla/WinSCP:
 
 Login ke VPS via SSH:
 ```bash
-ssh root@sekalaindustry.com
+ssh root@konveksiindustry.com
 ```
 
 Jalankan perintah berikut satu per satu:
 
 ```bash
 # 1. Masuk ke folder project
-cd /var/www/sekala-industry
+cd /var/www/konveksi-industry
 
 # 2. Stop aplikasi
 pm2 stop all
 
 # 3. Backup database (PENTING!)
-pg_dump -U sekala_user -d sekala_db > /tmp/backup-$(date +%Y%m%d-%H%M%S).sql
+pg_dump -U konveksi_user -d konveksi_db > /tmp/backup-$(date +%Y%m%d-%H%M%S).sql
 
 # 4. Hapus semua file lama KECUALI .env dan node_modules
 find . -mindepth 1 ! -name '.env' ! -name 'node_modules' -exec rm -rf {} + 2>/dev/null
 
 # 5. Extract file baru
-tar -xzf /tmp/sekala-deploy-complete.tar.gz
+tar -xzf /tmp/konveksi-deploy-complete.tar.gz
 
 # 6. Install dependencies
 npm install
@@ -65,7 +65,7 @@ pm2 logs --lines 50
 
 ## LANGKAH 3: Verifikasi
 
-1. Buka browser: https://sekalaindustry.com
+1. Buka browser: https://konveksiindustry.com
 2. Login sebagai superadmin
 3. Cek apakah semua data masih ada
 4. Test fitur edit/hapus order (hanya muncul untuk superadmin)
@@ -78,24 +78,24 @@ Buat file script untuk mempermudah deploy selanjutnya:
 
 ```bash
 # Buat file deploy.sh di VPS
-cat > /root/deploy-sekala.sh << 'EOF'
+cat > /root/deploy-konveksi.sh << 'EOF'
 #!/bin/bash
 set -e
 
-echo "=== Sekala Industry Deployment Script ==="
-cd /var/www/sekala-industry
+echo "=== Konveksi Industry Deployment Script ==="
+cd /var/www/konveksi-industry
 
 echo "1. Stopping application..."
 pm2 stop all
 
 echo "2. Backing up database..."
-pg_dump -U sekala_user -d sekala_db > /tmp/backup-$(date +%Y%m%d-%H%M%S).sql
+pg_dump -U konveksi_user -d konveksi_db > /tmp/backup-$(date +%Y%m%d-%H%M%S).sql
 
 echo "3. Removing old files (keeping .env)..."
 find . -mindepth 1 ! -name '.env' ! -name 'node_modules' -exec rm -rf {} + 2>/dev/null || true
 
 echo "4. Extracting new files..."
-tar -xzf /tmp/sekala-deploy-complete.tar.gz
+tar -xzf /tmp/konveksi-deploy-complete.tar.gz
 
 echo "5. Installing dependencies..."
 npm install
@@ -115,14 +115,14 @@ pm2 status
 echo "=== Deployment Complete! ==="
 EOF
 
-chmod +x /root/deploy-sekala.sh
+chmod +x /root/deploy-konveksi.sh
 ```
 
 Untuk deploy selanjutnya, cukup jalankan:
 ```bash
 # Upload file baru ke /tmp/
 # Lalu jalankan:
-/root/deploy-sekala.sh
+/root/deploy-konveksi.sh
 ```
 
 ---
@@ -140,16 +140,16 @@ pm2 logs --lines 100
 ls -la /tmp/backup-*.sql
 
 # Restore dari backup tertentu
-psql -U sekala_user -d sekala_db < /tmp/backup-YYYYMMDD-HHMMSS.sql
+psql -U konveksi_user -d konveksi_db < /tmp/backup-YYYYMMDD-HHMMSS.sql
 ```
 
 ### Jika perlu cek database connection:
 ```bash
 # Cek .env file
-cat /var/www/sekala-industry/.env | grep DATABASE
+cat /var/www/konveksi-industry/.env | grep DATABASE
 
 # Test koneksi
-psql -U sekala_user -d sekala_db -c "SELECT COUNT(*) FROM orders;"
+psql -U konveksi_user -d konveksi_db -c "SELECT COUNT(*) FROM orders;"
 ```
 
 ---

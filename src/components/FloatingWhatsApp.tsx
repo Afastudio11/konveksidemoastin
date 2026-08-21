@@ -8,7 +8,7 @@ const FloatingWhatsApp = () => {
   
   const handleClick = () => {
     window.open(
-      'https://wa.me/6285754777068?text=Halo%20Sekala%20Industry,%20saya%20ingin%20konsultasi%20untuk%20pemesanan%20produk',
+      'https://wa.me/6285754777068?text=Halo%20Konveksi%20Industry,%20saya%20ingin%20konsultasi%20untuk%20pemesanan%20produk',
       '_blank'
     );
   };

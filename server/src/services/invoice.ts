@@ -43,10 +43,10 @@ function getChromiumPath(): string {
 }
 
 const COMPANY_INFO = {
-  name: 'Sekala Industry',
+  name: 'Konveksi Industry',
   tagline: 'Konveksi & Apparel Professional',
   phone: '0857-5477-7068',
-  email: 'sekalaindustry@gmail.com',
+  email: 'konveksiindustry@gmail.com',
   address: 'Jl. Maccini Sawah No 48, Maccini, Kota Makassar, Sulawesi Selatan',
 };
 
@@ -253,8 +253,8 @@ export function generateInvoiceHTML(data: InvoiceData): string {
     </div>
 
     <div class="footer">
-      <p>Terima kasih atas kepercayaan Anda kepada Sekala Industry</p>
-      <p style="margin-top: 4px;">Invoice ini dibuat secara otomatis oleh sistem Sekala Industry</p>
+      <p>Terima kasih atas kepercayaan Anda kepada Konveksi Industry</p>
+      <p style="margin-top: 4px;">Invoice ini dibuat secara otomatis oleh sistem Konveksi Industry</p>
     </div>
   </div>
 </body>
@@ -492,7 +492,7 @@ export function generatePaymentInvoiceHTML(data: PaymentInvoiceData): string {
       <div style="text-align: center; width: 150px;">
         <p style="color: #6b7280; font-size: 10px; margin-bottom: 40px;">Hormat Kami,</p>
         <div style="border-top: 1px solid #9ca3af; padding-top: 6px;">
-          <p style="font-weight: 600; font-size: 11px;">Sekala Industry</p>
+          <p style="font-weight: 600; font-size: 11px;">Konveksi Industry</p>
         </div>
       </div>
     </div>
@@ -515,7 +515,7 @@ export function generatePaymentInvoiceHTML(data: PaymentInvoiceData): string {
 
     <div class="footer">
       <p>Terima kasih atas pembayaran Anda</p>
-      <p style="margin-top: 4px;">Kwitansi ini dibuat secara otomatis oleh sistem Sekala Industry</p>
+      <p style="margin-top: 4px;">Kwitansi ini dibuat secara otomatis oleh sistem Konveksi Industry</p>
       <p style="margin-top: 2px; font-size: 8px; color: #9ca3af;">Simpan kwitansi ini sebagai bukti pembayaran yang sah</p>
     </div>
   </div>
@@ -778,7 +778,7 @@ export function generateBillingInvoiceHTML(data: BillingInvoiceData): string {
       <div style="text-align: center; width: 150px;">
         <p style="color: #6b7280; font-size: 10px; margin-bottom: 40px;">Hormat Kami,</p>
         <div style="border-top: 1px solid #9ca3af; padding-top: 6px;">
-          <p style="font-weight: 600; font-size: 11px;">Sekala Industry</p>
+          <p style="font-weight: 600; font-size: 11px;">Konveksi Industry</p>
         </div>
       </div>
     </div>
@@ -796,8 +796,8 @@ export function generateBillingInvoiceHTML(data: BillingInvoiceData): string {
     ` : ''}
 
     <div class="footer">
-      <p>Terima kasih atas kepercayaan Anda kepada Sekala Industry</p>
-      <p style="margin-top: 4px;">Invoice tagihan ini dibuat secara otomatis oleh sistem Sekala Industry</p>
+      <p>Terima kasih atas kepercayaan Anda kepada Konveksi Industry</p>
+      <p style="margin-top: 4px;">Invoice tagihan ini dibuat secara otomatis oleh sistem Konveksi Industry</p>
     </div>
   </div>
 </body>

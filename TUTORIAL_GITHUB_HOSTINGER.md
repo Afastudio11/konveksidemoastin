@@ -399,7 +399,7 @@ Setiap kali update:
 
 ## 🎉 Selesai!
 
-Website Sekala Industry sudah update dengan versi terbaru dari GitHub!
+Website Konveksi Industry sudah update dengan versi terbaru dari GitHub!
 
 **Update Terbaru:** Masalah gambar galeri customer sudah FIXED! 🎊
 

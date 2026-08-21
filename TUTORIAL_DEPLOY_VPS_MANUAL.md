@@ -1,7 +1,7 @@
-# Tutorial Deploy Sekala Industry ke VPS (Upload Manual dari Laptop)
+# Tutorial Deploy Konveksi Industry ke VPS (Upload Manual dari Laptop)
 
 ## Informasi Server
-- **Domain**: sekalaindustry.com
+- **Domain**: konveksiindustry.com
 - **IP Server**: 72.60.76.117
 - **SSH Access**: `ssh root@72.60.76.117`
 
@@ -29,10 +29,10 @@ Buat file zip yang berisi semua file yang diperlukan:
 
 ```bash
 # Di Windows (PowerShell):
-Compress-Archive -Path dist, server, package.json, package-lock.json, drizzle.config.ts, drizzle -DestinationPath sekala-industry.zip
+Compress-Archive -Path dist, server, package.json, package-lock.json, drizzle.config.ts, drizzle -DestinationPath konveksi-industry.zip
 
 # Di Mac/Linux:
-zip -r sekala-industry.zip dist server package.json package-lock.json drizzle.config.ts drizzle
+zip -r konveksi-industry.zip dist server package.json package-lock.json drizzle.config.ts drizzle
 ```
 
 ---
@@ -99,11 +99,11 @@ systemctl enable postgresql
 sudo -u postgres psql
 
 # Di dalam PostgreSQL shell, jalankan:
-CREATE DATABASE sekala_industry;
-CREATE USER sekala_user WITH ENCRYPTED PASSWORD 'password_anda_disini';
-GRANT ALL PRIVILEGES ON DATABASE sekala_industry TO sekala_user;
-\c sekala_industry
-GRANT ALL ON SCHEMA public TO sekala_user;
+CREATE DATABASE konveksi_industry;
+CREATE USER konveksi_user WITH ENCRYPTED PASSWORD 'password_anda_disini';
+GRANT ALL PRIVILEGES ON DATABASE konveksi_industry TO konveksi_user;
+\c konveksi_industry
+GRANT ALL ON SCHEMA public TO konveksi_user;
 \q
 ```
 
@@ -112,7 +112,7 @@ GRANT ALL ON SCHEMA public TO sekala_user;
 ### Langkah 2.8: Buat Folder Aplikasi
 
 ```bash
-mkdir -p /var/www/sekala-industry
+mkdir -p /var/www/konveksi-industry
 ```
 
 ---
@@ -125,7 +125,7 @@ Buka terminal **BARU** di laptop Anda (jangan di VPS), lalu:
 
 ```bash
 # Upload file zip ke VPS
-scp sekala-industry.zip root@72.60.76.117:/var/www/sekala-industry/
+scp konveksi-industry.zip root@72.60.76.117:/var/www/konveksi-industry/
 ```
 
 ### Langkah 3.2: Extract File di VPS
@@ -133,16 +133,16 @@ scp sekala-industry.zip root@72.60.76.117:/var/www/sekala-industry/
 Kembali ke terminal VPS:
 
 ```bash
-cd /var/www/sekala-industry
+cd /var/www/konveksi-industry
 apt install -y unzip
-unzip sekala-industry.zip
-rm sekala-industry.zip
+unzip konveksi-industry.zip
+rm konveksi-industry.zip
 ```
 
 ### Langkah 3.3: Install Dependencies di VPS
 
 ```bash
-cd /var/www/sekala-industry
+cd /var/www/konveksi-industry
 npm install --production
 ```
 
@@ -153,14 +153,14 @@ npm install --production
 ### Langkah 4.1: Buat File .env
 
 ```bash
-nano /var/www/sekala-industry/.env
+nano /var/www/konveksi-industry/.env
 ```
 
 Isi dengan:
 
 ```env
 # Database
-DATABASE_URL=postgresql://sekala_user:password_anda_disini@localhost:5432/sekala_industry
+DATABASE_URL=postgresql://konveksi_user:password_anda_disini@localhost:5432/konveksi_industry
 
 # Server
 NODE_ENV=production
@@ -175,7 +175,7 @@ Tekan `Ctrl+X`, lalu `Y`, lalu `Enter` untuk menyimpan.
 ### Langkah 4.2: Setup Database Schema
 
 ```bash
-cd /var/www/sekala-industry
+cd /var/www/konveksi-industry
 npx drizzle-kit push
 ```
 
@@ -186,7 +186,7 @@ npx drizzle-kit push
 ### Langkah 5.1: Buat File Konfigurasi PM2
 
 ```bash
-nano /var/www/sekala-industry/ecosystem.config.cjs
+nano /var/www/konveksi-industry/ecosystem.config.cjs
 ```
 
 Isi dengan:
@@ -194,11 +194,11 @@ Isi dengan:
 ```javascript
 module.exports = {
   apps: [{
-    name: 'sekala-backend',
+    name: 'konveksi-backend',
     script: 'server/src/index.ts',
     interpreter: 'npx',
     interpreter_args: 'tsx',
-    cwd: '/var/www/sekala-industry',
+    cwd: '/var/www/konveksi-industry',
     env: {
       NODE_ENV: 'production',
       PORT: 3001
@@ -222,7 +222,7 @@ npm install -g tsx
 ### Langkah 5.3: Jalankan Backend dengan PM2
 
 ```bash
-cd /var/www/sekala-industry
+cd /var/www/konveksi-industry
 pm2 start ecosystem.config.cjs
 pm2 save
 pm2 startup
@@ -232,7 +232,7 @@ pm2 startup
 
 ```bash
 pm2 status
-pm2 logs sekala-backend
+pm2 logs konveksi-backend
 ```
 
 ---
@@ -248,7 +248,7 @@ rm /etc/nginx/sites-enabled/default
 ### Langkah 6.2: Buat Konfigurasi Baru
 
 ```bash
-nano /etc/nginx/sites-available/sekala-industry
+nano /etc/nginx/sites-available/konveksi-industry
 ```
 
 Isi dengan:
@@ -256,10 +256,10 @@ Isi dengan:
 ```nginx
 server {
     listen 80;
-    server_name sekalaindustry.com www.sekalaindustry.com;
+    server_name konveksiindustry.com www.konveksiindustry.com;
 
     # Frontend (React)
-    root /var/www/sekala-industry/dist;
+    root /var/www/konveksi-industry/dist;
     index index.html;
 
     # Handle React Router (SPA)
@@ -301,8 +301,8 @@ server {
     add_header X-XSS-Protection "1; mode=block" always;
 
     # Logs
-    access_log /var/log/nginx/sekala-industry_access.log;
-    error_log /var/log/nginx/sekala-industry_error.log;
+    access_log /var/log/nginx/konveksi-industry_access.log;
+    error_log /var/log/nginx/konveksi-industry_error.log;
 }
 ```
 
@@ -311,7 +311,7 @@ Simpan dengan `Ctrl+X`, `Y`, `Enter`.
 ### Langkah 6.3: Aktifkan Konfigurasi
 
 ```bash
-ln -s /etc/nginx/sites-available/sekala-industry /etc/nginx/sites-enabled/
+ln -s /etc/nginx/sites-available/konveksi-industry /etc/nginx/sites-enabled/
 
 # Test konfigurasi
 nginx -t
@@ -333,7 +333,7 @@ apt install -y certbot python3-certbot-nginx
 ### Langkah 7.2: Dapatkan Sertifikat SSL
 
 ```bash
-certbot --nginx -d sekalaindustry.com -d www.sekalaindustry.com
+certbot --nginx -d konveksiindustry.com -d www.konveksiindustry.com
 ```
 
 Ikuti instruksi yang muncul:
@@ -385,12 +385,12 @@ ufw status
 
 ### Restart Backend
 ```bash
-pm2 restart sekala-backend
+pm2 restart konveksi-backend
 ```
 
 ### Lihat Log Backend
 ```bash
-pm2 logs sekala-backend
+pm2 logs konveksi-backend
 ```
 
 ### Restart Nginx
@@ -400,13 +400,13 @@ systemctl restart nginx
 
 ### Lihat Log Nginx
 ```bash
-tail -f /var/log/nginx/sekala-industry_error.log
+tail -f /var/log/nginx/konveksi-industry_error.log
 ```
 
 ### Update Aplikasi (setelah upload file baru)
 ```bash
-cd /var/www/sekala-industry
-pm2 restart sekala-backend
+cd /var/www/konveksi-industry
+pm2 restart konveksi-backend
 systemctl restart nginx
 ```
 
@@ -418,13 +418,13 @@ systemctl restart nginx
 Backend tidak berjalan. Cek dengan:
 ```bash
 pm2 status
-pm2 logs sekala-backend
+pm2 logs konveksi-backend
 ```
 
 ### Error: "Connection refused" di API
 Pastikan backend berjalan di port 3001:
 ```bash
-pm2 restart sekala-backend
+pm2 restart konveksi-backend
 ```
 
 ### Error: Database connection
@@ -461,12 +461,12 @@ Clear cache browser atau buka di incognito mode.
 ## KONTAK SUPPORT
 
 Jika ada masalah, cek:
-1. `pm2 logs sekala-backend` - untuk error backend
-2. `tail -f /var/log/nginx/sekala-industry_error.log` - untuk error Nginx
+1. `pm2 logs konveksi-backend` - untuk error backend
+2. `tail -f /var/log/nginx/konveksi-industry_error.log` - untuk error Nginx
 3. `journalctl -u nginx` - untuk log sistem Nginx
 
 ---
 
-**Tutorial dibuat untuk Sekala Industry**
-**Domain: sekalaindustry.com**
+**Tutorial dibuat untuk Konveksi Industry**
+**Domain: konveksiindustry.com**
 **Server: 72.60.76.117**

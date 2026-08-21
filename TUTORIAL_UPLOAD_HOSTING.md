@@ -1,4 +1,4 @@
-# 📘 Tutorial Upload Website Sekala Industry ke Web Hosting
+# 📘 Tutorial Upload Website Konveksi Industry ke Web Hosting
 
 Panduan lengkap untuk mengupload website React + Vite ke web hosting pribadi Anda (cPanel/Shared Hosting).
 
@@ -216,7 +216,7 @@ AddDefaultCharset UTF-8
 
 1. Buka browser
 2. Akses `https://domainanda.com`
-3. Website Sekala Industry harus muncul
+3. Website Konveksi Industry harus muncul
 
 ### 🔍 Test Checklist:
 
@@ -390,7 +390,7 @@ Sebelum selesai, pastikan:
 
 ## 🎉 Selamat!
 
-Website Sekala Industry Anda sudah online dan bisa diakses publik!
+Website Konveksi Industry Anda sudah online dan bisa diakses publik!
 
 **URL Website:** `https://domainanda.com`
 
@@ -402,7 +402,7 @@ Untuk update konten di masa depan:
 
 ---
 
-**Dibuat untuk:** Sekala Industry  
+**Dibuat untuk:** Konveksi Industry  
 **Tanggal:** 8 Oktober 2025  
 **Platform:** React + Vite + Tailwind CSS  
 **Hosting:** cPanel/Shared Hosting  

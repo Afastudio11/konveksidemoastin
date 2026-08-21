@@ -36,7 +36,7 @@ git push origin master
 ### A. Buka Panel Hostinger
 
 1. Login ke **Hostinger** (hpanel.hostinger.com)
-2. Pilih website: **sekalaindustry.com**
+2. Pilih website: **konveksiindustry.com**
 3. Klik menu **"Tingkat lanjut"** (Advanced)
 4. Pilih **"GIT"**
 
@@ -79,7 +79,7 @@ Setelah repository ter-clone, Anda perlu setup agar file dari folder `dist/` yan
 
 ```bash
 # Copy file dari dist ke public_html
-cp -r dist/* /home/u123456789/domains/sekalaindustry.com/public_html/
+cp -r dist/* /home/u123456789/domains/konveksiindustry.com/public_html/
 ```
 
 **ATAU lebih simple, set Repository path langsung ke:**
@@ -95,7 +95,7 @@ mv dist/* .
 
 Jika tidak ada opsi post-deployment script:
 
-1. Clone ke folder custom: `/domains/sekalaindustry.com/git-repo`
+1. Clone ke folder custom: `/domains/konveksiindustry.com/git-repo`
 2. Setelah clone selesai, akses via **SSH** atau **File Manager**
 3. Copy manual file dari `/git-repo/dist/*` ke `/public_html/`
 
@@ -112,7 +112,7 @@ Jika tidak ada opsi post-deployment script:
 ### B. Test Website
 
 1. Buka browser
-2. Akses: **https://sekalaindustry.com**
+2. Akses: **https://konveksiindustry.com**
 3. Website Anda seharusnya sudah live! 🎉
 
 ---
@@ -182,7 +182,7 @@ Tambahkan file `.htaccess` di public_html:
 
 - **GitHub Repository**: https://github.com/Afastudio11/stylish-konveksi-craft
 - **Hostinger Support**: https://www.hostinger.co.id/bantuan
-- **Domain**: sekalaindustry.com
+- **Domain**: konveksiindustry.com
 
 ---
 

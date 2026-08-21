@@ -1,4 +1,3 @@
-import logo from "@/assets/logo.png";
 import { Phone, Mail, MapPin } from "lucide-react";
 
 const Footer = () => {
@@ -20,9 +19,18 @@ const Footer = () => {
           {/* Brand */}
           <div className="animate-fade-in">
             <div className="flex items-center gap-3 mb-4 group cursor-pointer" onClick={() => scrollToSection("home")}>
-              <div className="relative">
-                <img src={logo} alt="Sekala Industry" className="h-12 w-auto transition-transform duration-300 group-hover:scale-110" />
-                <div className="absolute inset-0 bg-accent/30 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="flex items-center gap-2.5">
+                <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-400 flex items-center justify-center text-slate-950 font-black text-2xl shadow-lg transition-transform duration-300 group-hover:scale-105">
+                  KI
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-extrabold text-lg tracking-tight text-white group-hover:text-amber-400 transition-colors">
+                    KONVEKSI INDUSTRY
+                  </span>
+                  <span className="text-[10px] tracking-widest uppercase font-semibold text-gray-300">
+                    Custom Apparel & Garment
+                  </span>
+                </div>
               </div>
             </div>
             <p className="text-white/70 leading-relaxed mb-4 font-medium">
@@ -87,8 +95,8 @@ const Footer = () => {
                 <div className="p-2 bg-white rounded-lg group-hover:bg-white/90 transition-colors">
                   <Mail className="w-4 h-4 flex-shrink-0 text-primary" />
                 </div>
-                <a href="mailto:sekalaindustry@gmail.com" className="hover:text-accent transition-colors font-medium" data-testid="footer-email">
-                  sekalaindustry@gmail.com
+                <a href="mailto:konveksiindustry@gmail.com" className="hover:text-accent transition-colors font-medium" data-testid="footer-email">
+                  konveksiindustry@gmail.com
                 </a>
               </li>
               <li className="flex items-start gap-3 text-white/70 group">
@@ -104,7 +112,7 @@ const Footer = () => {
         {/* Bottom */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-center items-center gap-4 animate-fade-in" style={{ animationDelay: '0.4s' }}>
           <p className="text-white/60 text-sm font-medium">
-            © 2024 Sekala Industry. All rights reserved.
+            © 2024 Konveksi Industry. All rights reserved.
           </p>
         </div>
       </div>

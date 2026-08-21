@@ -28,9 +28,9 @@ const About = () => {
               </h2>
               
               <p className="text-base text-muted-foreground leading-relaxed">
-                Sekala Industry adalah One Stop Convection yang memudahkan setiap kebutuhan konveksi perusahaan Anda. 
+                Konveksi Industry adalah One Stop Convection yang memudahkan setiap kebutuhan konveksi perusahaan Anda. 
                 Dari desain hingga hasil jadi, semua kami tangani dalam satu alur terpadu yang efisien dan presisi. 
-                Sebagai konveksi terpercaya di Indonesia Timur, Sekala hadir menghadirkan solusi produksi dari seragam kerja, PDH, PDL, 
+                Sebagai konveksi terpercaya di Indonesia Timur, Konveksi hadir menghadirkan solusi produksi dari seragam kerja, PDH, PDL, 
                 hingga apparel custom dengan berbagai gaya terbaru dan kualitas yang menjahit kepercayaan di setiap detailnya.
               </p>
             </div>

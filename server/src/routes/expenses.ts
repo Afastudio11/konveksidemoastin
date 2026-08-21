@@ -405,7 +405,7 @@ router.get('/export/pdf', async (req: AuthRequest, res) => {
   <div class="container">
     <div class="header">
       <div>
-        ${logoBase64 ? `<img src="${logoBase64}" alt="Sekala Industry" class="logo-img" />` : '<div style="font-size: 18px; font-weight: bold;">Sekala Industry</div>'}
+        ${logoBase64 ? `<img src="${logoBase64}" alt="Konveksi Industry" class="logo-img" />` : '<div style="font-size: 18px; font-weight: bold;">Konveksi Industry</div>'}
         <p style="color: #6b7280; font-size: 10px; margin-top: 4px;">Konveksi & Apparel Professional</p>
       </div>
       <div style="text-align: right;">
@@ -437,7 +437,7 @@ router.get('/export/pdf', async (req: AuthRequest, res) => {
     ${projectsHTML}
 
     <div style="margin-top: 30px; text-align: center; color: #9ca3af; font-size: 9px;">
-      <p>Laporan ini dibuat secara otomatis oleh sistem Sekala Industry</p>
+      <p>Laporan ini dibuat secara otomatis oleh sistem Konveksi Industry</p>
       <p>Dicetak pada: ${today}</p>
     </div>
   </div>

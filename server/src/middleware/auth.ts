@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'sekala-strack-secret-key-2025';
+const JWT_SECRET = process.env.JWT_SECRET || 'konveksi-strack-secret-key-2025';
 
 export interface AuthRequest extends Request {
   user?: {

@@ -147,7 +147,7 @@ const OrderSystem = () => {
         {/* CTA Button */}
         <div className="text-center">
           <a
-            href="https://wa.me/6285754777068?text=Halo%20Sekala%20Industry,%20saya%20ingin%20konsultasi%20untuk%20pemesanan%20produk"
+            href="https://wa.me/6285754777068?text=Halo%20Konveksi%20Industry,%20saya%20ingin%20konsultasi%20untuk%20pemesanan%20produk"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 px-10 py-5 text-black font-black text-lg md:text-xl rounded-full shadow-2xl hover:shadow-xl transition-all duration-500 ease-out hover:scale-105 hover:-translate-y-1"

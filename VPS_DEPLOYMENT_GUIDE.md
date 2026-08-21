@@ -1,17 +1,17 @@
-# Panduan Deploy Sekala Industry ke VPS
+# Panduan Deploy Konveksi Industry ke VPS
 
 ## Persiapan
 
 ### File yang Perlu Diupload
-- `sekala-deploy.tar.gz` - File aplikasi terkompresi
+- `konveksi-deploy.tar.gz` - File aplikasi terkompresi
 
 ### Struktur File dalam tar.gz
 ```
-sekala-deploy.tar.gz
+konveksi-deploy.tar.gz
 ├── dist/              # Frontend build (React)
 ├── server/            # Backend (Express.js)
 ├── database/          # Database backup
-│   └── sekala_full_backup.sql
+│   └── konveksi_full_backup.sql
 ├── package.json
 ├── package-lock.json
 └── drizzle.config.ts
@@ -23,7 +23,7 @@ sekala-deploy.tar.gz
 
 Dari komputer lokal, jalankan:
 ```bash
-scp sekala-deploy.tar.gz root@72.60.76.117:/var/www/sekala-industry/
+scp konveksi-deploy.tar.gz root@72.60.76.117:/var/www/konveksi-industry/
 ```
 
 ---
@@ -40,8 +40,8 @@ ssh root@72.60.76.117
 
 Sebelum mengganti database, backup dulu yang lama:
 ```bash
-cd /var/www/sekala-industry
-pg_dump -U postgres -d sekala_industry > backup_sebelum_update_$(date +%Y%m%d_%H%M%S).sql
+cd /var/www/konveksi-industry
+pg_dump -U postgres -d konveksi_industry > backup_sebelum_update_$(date +%Y%m%d_%H%M%S).sql
 ```
 
 ---
@@ -49,16 +49,16 @@ pg_dump -U postgres -d sekala_industry > backup_sebelum_update_$(date +%Y%m%d_%H
 ## Langkah 4: Extract dan Update Aplikasi
 
 ```bash
-cd /var/www/sekala-industry
+cd /var/www/konveksi-industry
 
 # Hapus folder lama
 rm -rf dist server database
 
 # Extract file baru
-tar -xzvf sekala-deploy.tar.gz
+tar -xzvf konveksi-deploy.tar.gz
 
 # Hapus file tar.gz
-rm sekala-deploy.tar.gz
+rm konveksi-deploy.tar.gz
 
 # Install dependencies
 npm install --production
@@ -76,14 +76,14 @@ Gunakan opsi ini jika ingin database sama persis dengan Replit.
 sudo -u postgres psql
 
 # Hapus database lama dan buat baru
-DROP DATABASE IF EXISTS sekala_industry;
-CREATE DATABASE sekala_industry;
+DROP DATABASE IF EXISTS konveksi_industry;
+CREATE DATABASE konveksi_industry;
 
 # Keluar dari psql
 \q
 
 # Import database baru
-sudo -u postgres psql -d sekala_industry < database/sekala_full_backup.sql
+sudo -u postgres psql -d konveksi_industry < database/konveksi_full_backup.sql
 ```
 
 ### Opsi B: Update Schema Saja (Pertahankan Data Produksi)
@@ -91,7 +91,7 @@ Gunakan opsi ini jika ada data produksi yang tidak boleh hilang.
 
 ```bash
 # Hanya update schema (struktur tabel) menggunakan Drizzle
-export DATABASE_URL="postgresql://postgres:PASSWORD@localhost:5432/sekala_industry"
+export DATABASE_URL="postgresql://postgres:PASSWORD@localhost:5432/konveksi_industry"
 npx drizzle-kit push --force
 ```
 
@@ -101,7 +101,7 @@ npx drizzle-kit push --force
 
 ```bash
 # Restart backend dengan PM2
-pm2 restart sekala-backend
+pm2 restart konveksi-backend
 
 # Atau restart semua proses PM2
 pm2 restart all
@@ -110,7 +110,7 @@ pm2 restart all
 pm2 status
 
 # Lihat log untuk memastikan tidak ada error
-pm2 logs sekala-backend --lines 50
+pm2 logs konveksi-backend --lines 50
 ```
 
 ---
@@ -134,7 +134,7 @@ systemctl status nginx
 
 1. Buka website di browser
 2. Login ke admin panel dengan:
-   - Email: `superadmin@sekala.id`
+   - Email: `superadmin@konveksi.id`
    - Password: `super123`
 3. Cek halaman Dashboard, Orders, Customers, Expenses, Activity Logs
 
@@ -144,31 +144,31 @@ systemctl status nginx
 
 ### Dari Komputer Lokal:
 ```bash
-scp sekala-deploy.tar.gz root@72.60.76.117:/var/www/sekala-industry/
+scp konveksi-deploy.tar.gz root@72.60.76.117:/var/www/konveksi-industry/
 ```
 
 ### Di VPS:
 ```bash
 ssh root@72.60.76.117
 
-cd /var/www/sekala-industry
+cd /var/www/konveksi-industry
 
 # Backup database lama
-pg_dump -U postgres -d sekala_industry > backup_$(date +%Y%m%d).sql
+pg_dump -U postgres -d konveksi_industry > backup_$(date +%Y%m%d).sql
 
 # Update aplikasi
 rm -rf dist server database
-tar -xzvf sekala-deploy.tar.gz
-rm sekala-deploy.tar.gz
+tar -xzvf konveksi-deploy.tar.gz
+rm konveksi-deploy.tar.gz
 npm install --production
 
 # Reset dan import database baru (jika mau data sama dengan Replit)
-sudo -u postgres psql -c "DROP DATABASE IF EXISTS sekala_industry;"
-sudo -u postgres psql -c "CREATE DATABASE sekala_industry;"
-sudo -u postgres psql -d sekala_industry < database/sekala_full_backup.sql
+sudo -u postgres psql -c "DROP DATABASE IF EXISTS konveksi_industry;"
+sudo -u postgres psql -c "CREATE DATABASE konveksi_industry;"
+sudo -u postgres psql -d konveksi_industry < database/konveksi_full_backup.sql
 
 # Restart aplikasi
-pm2 restart sekala-backend
+pm2 restart konveksi-backend
 systemctl restart nginx
 ```
 
@@ -178,14 +178,14 @@ systemctl restart nginx
 
 ### Error: Permission denied
 ```bash
-chmod -R 755 /var/www/sekala-industry
-chown -R www-data:www-data /var/www/sekala-industry
+chmod -R 755 /var/www/konveksi-industry
+chown -R www-data:www-data /var/www/konveksi-industry
 ```
 
 ### Error: Database connection failed
 Pastikan DATABASE_URL di environment sudah benar:
 ```bash
-export DATABASE_URL="postgresql://postgres:YOUR_PASSWORD@localhost:5432/sekala_industry"
+export DATABASE_URL="postgresql://postgres:YOUR_PASSWORD@localhost:5432/konveksi_industry"
 ```
 
 ### Error: PM2 not found
@@ -207,8 +207,8 @@ kill -9 <PID>
 
 | Role | Email | Password |
 |------|-------|----------|
-| Super Admin | superadmin@sekala.id | super123 |
-| Admin | admin@sekala.id | admin123 |
+| Super Admin | superadmin@konveksi.id | super123 |
+| Admin | admin@konveksi.id | admin123 |
 
 ---
 

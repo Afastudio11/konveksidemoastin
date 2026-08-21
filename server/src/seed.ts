@@ -7,8 +7,8 @@ import { eq } from 'drizzle-orm';
 async function seed() {
   console.log('Seeding database...');
 
-  const superAdminEmail = 'superadmin@sekala.id';
-  const adminEmail = 'admin@sekala.id';
+  const superAdminEmail = 'superadmin@konveksi.id';
+  const adminEmail = 'admin@konveksi.id';
   
   const [existingSuperAdmin] = await db
     .select()
@@ -27,7 +27,7 @@ async function seed() {
     });
     
     console.log('Super Admin user created:');
-    console.log('  Email: superadmin@sekala.id');
+    console.log('  Email: superadmin@konveksi.id');
     console.log('  Password: super123');
   } else {
     console.log('Super Admin user already exists');
@@ -50,7 +50,7 @@ async function seed() {
     });
     
     console.log('Admin user created:');
-    console.log('  Email: admin@sekala.id');
+    console.log('  Email: admin@konveksi.id');
     console.log('  Password: admin123');
   } else {
     console.log('Admin user already exists');

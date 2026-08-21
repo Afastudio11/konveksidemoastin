@@ -1,7 +1,7 @@
-# Sekala Industry - Order Tracking & Payment System
+# Konveksi Industry - Order Tracking & Payment System
 
 ## Overview
-Sekala Industry Order Tracking System adalah sistem Order Tracking & Payment untuk Sekala Industry, sebuah perusahaan konveksi. Sistem ini memungkinkan:
+Konveksi Industry Order Tracking System adalah sistem Order Tracking & Payment untuk Konveksi Industry, sebuah perusahaan konveksi. Sistem ini memungkinkan:
 - Admin untuk mengelola order, pelanggan, dan status produksi
 - Customer untuk melacak status pesanan secara real-time
 - Pembayaran online dengan berbagai metode (VA, QRIS, E-Wallet) - Mock Midtrans
@@ -14,7 +14,7 @@ Sekala Industry Order Tracking System adalah sistem Order Tracking & Payment unt
   - Endpoint baru: GET /api/customers/export/pdf (superadmin only)
   - PUT /api/customers/:id untuk update customer dengan audit logging
   - DELETE /api/customers/:id untuk hapus customer dengan audit logging
-  - Deployment package diperbaharui: sekala-deploy-complete.tar.gz
+  - Deployment package diperbaharui: konveksi-deploy-complete.tar.gz
 - **10 Desember 2025**: Permission System & User Management
   - Role sistem disederhanakan: hanya 'superadmin' dan 'admin' (production/viewer dihapus)
   - Super Admin dapat membuat akun Admin dengan permission menu yang disesuaikan
@@ -101,7 +101,7 @@ Sekala Industry Order Tracking System adalah sistem Order Tracking & Payment unt
   - Invoice menggunakan logo asli dengan format base64 untuk PDF
   - Informasi kontak invoice diperbarui dengan data yang benar:
     - Telp: 0857-5477-7068
-    - Email: sekalaindustry@gmail.com
+    - Email: konveksiindustry@gmail.com
     - Alamat: Jl. Maccini Sawah No 48, Maccini, Kota Makassar, Sulawesi Selatan
   - PDF generation diperbaiki dengan menambahkan chromium system package
 - **2 Desember 2025**: Perbaikan Alur Pembayaran
@@ -209,7 +209,7 @@ Sekala Industry Order Tracking System adalah sistem Order Tracking & Payment unt
 ## Default Credentials
 
 ### Super Admin (Master)
-- Email: superadmin@sekala.id
+- Email: superadmin@konveksi.id
 - Password: super123
 - Hak akses: Dapat menambah, edit, dan hapus admin lain
 

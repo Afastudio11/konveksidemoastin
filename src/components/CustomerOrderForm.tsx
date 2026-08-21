@@ -311,7 +311,7 @@ const CustomerOrderForm = () => {
       })
       .join("\n\n");
 
-    const message = `Halo Sekala Industry, saya ingin memesan:
+    const message = `Halo Konveksi Industry, saya ingin memesan:
 
 *Data Pelanggan:*
 Nama: ${formData.name}
@@ -649,7 +649,7 @@ Mohon info harga dan estimasi waktu pengerjaan. Terima kasih!`;
                 </Button>
 
                 <p className="text-center text-sm text-muted-foreground">
-                  Dengan mengirim pesanan, Anda menyetujui untuk dihubungi via WhatsApp oleh tim Sekala Industry
+                  Dengan mengirim pesanan, Anda menyetujui untuk dihubungi via WhatsApp oleh tim Konveksi Industry
                 </p>
               </form>
             </CardContent>
