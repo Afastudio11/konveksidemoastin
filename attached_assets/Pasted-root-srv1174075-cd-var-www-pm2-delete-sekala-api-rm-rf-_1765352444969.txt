@@ -1,0 +1,209 @@
+root@srv1174075:~# cd /var/www
+pm2 delete sekala-api
+rm -rf sekala-industry
+mkdir -p sekala-industry
+tar xzvf sekala-deploy-complete.tar.gz -C sekala-industry
+cd sekala-industry
+cat > .env << 'EOF'
+DATABASE_URL=postgresql://sekala_user:SekalaPass123@localhost:5432/sekala_industry
+JWT_SECRET=sekala-production-secret-key-2025
+NODE_ENV=production
+PORT=5000
+EOF
+npm install --production
+pm2 start npm --name "sekala-api" -- run start
+pm2 save
+pm2 logs sekala-api --lines 20
+[PM2] Applying action deleteProcessId on app [sekala-api](ids: [ 0 ])
+[PM2] [sekala-api](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+dist/
+dist/bantaeng.png
+dist/bpjs.png
+dist/favicon.png
+dist/galeri-customer/
+dist/galeri-customer/IMG-20251008-WA0002_1759894910497.jpg
+dist/galeri-customer/IMG-20251008-WA0003_1759894910497.jpg
+dist/galeri-customer/IMG-20251008-WA0004_1759894910498.jpg
+dist/galeri-customer/IMG-20251008-WA0005_1759894910498.jpg
+dist/galeri-customer/IMG-20251008-WA0006_1759894910499.jpg
+dist/galeri-customer/IMG-20251008-WA0007_1759894910499.jpg
+dist/galeri-customer/IMG-20251008-WA0008_1759894910499.jpg
+dist/galeri-customer/IMG-20251008-WA0009_1759894910500.jpg
+dist/galeri-customer/IMG-20251008-WA0010_1759894910500.jpg
+dist/galeri-customer/IMG-20251008-WA0011_1759894910500.jpg
+dist/galeri-customer/IMG-20251008-WA0012_1759894910501.jpg
+dist/galeri-customer/IMG-20251008-WA0013_1759894910501.jpg
+dist/galeri-customer/IMG-20251008-WA0014_1759894910501.jpg
+dist/galeri-customer/IMG-20251008-WA0015_1759894910502.jpg
+dist/galeri-customer/IMG-20251008-WA0016_1759894910502.jpg
+dist/galeri-customer/IMG-20251008-WA0017_1759894910502.jpg
+dist/galeri-customer/IMG-20251008-WA0018_1759894910502.jpg
+dist/galeri-customer/IMG-20251008-WA0020_1759894910497.jpg
+dist/hero-background.png
+dist/hero-products.png
+dist/icons/
+dist/icons/icon-activity.png
+dist/icons/icon-expense.png
+dist/icons/icon-order.png
+dist/icons/icon-user.png
+dist/knpi.png
+dist/kota-makassar.png
+dist/logo-og.png
+dist/mandiri.png
+dist/patterns/
+dist/patterns/aesthetic.png
+dist/patterns/connection.png
+dist/patterns/innovation.png
+dist/patterns/quality.png
+dist/placeholder.svg
+dist/pln.png
+dist/products/
+dist/products/SEKALA PRICELIST KONVEKSI_page-0004_1759645213702.jpg
+dist/products/SEKALA PRICELIST KONVEKSI_page-0006_1759645213702.jpg
+dist/products/SEKALA PRICELIST KONVEKSI_page-0008_1759645213703.jpg
+dist/products/SEKALA PRICELIST KONVEKSI_page-0010_1759645213703.jpg
+dist/products/SEKALA PRICELIST KONVEKSI_page-0012_1759645213700.jpg
+dist/products/SEKALA PRICELIST KONVEKSI_page-0014_1759648130420.jpg
+dist/products/SEKALA PRICELIST KONVEKSI_page-0016_1759648130417.jpg
+dist/products/SEKALA PRICELIST KONVEKSI_page-0018_1759648130418.jpg
+dist/products/SEKALA PRICELIST KONVEKSI_page-0020_1759645213702.jpg
+dist/products/SEKALA PRICELIST KONVEKSI_page-0022_1759645213702.jpg
+dist/products/SEKALA PRICELIST KONVEKSI_page-0024_1759648130419.jpg
+dist/products/SEKALA PRICELIST KONVEKSI_page-0026_1759648130419.jpg
+dist/products/SEKALA PRICELIST KONVEKSI_page-0028_1759648130419.jpg
+dist/products/SEKALA PRICELIST KONVEKSI_page-0030_1759648130420.jpg
+dist/products/jaket-planologi.png
+dist/products/jersey-knpi.png
+dist/products/rompi-tiga-rasa.png
+dist/robots.txt
+dist/sd-telkom.png
+dist/sitemap.xml
+dist/tiga-rasa.png
+dist/uc.png
+dist/umi.png
+dist/unhas.png
+dist/unismuh.png
+dist/untad.png
+dist/assets/
+dist/assets/logo-dark-u2-0k-vB.png
+dist/assets/icon-warna-terlaris-BJu6YhZs.png
+dist/assets/icon-tipe-produk-CAPulpGo.png
+dist/assets/index-C3cdhDcY.css
+dist/assets/icon-produk-terlaris-Jn_NK4Un.png
+dist/assets/logo-DIj_RbdJ.png
+dist/assets/index-D5F5QIC1.js
+dist/index.html
+server/
+server/src/
+server/src/assets/
+server/src/assets/logo-dark.png
+server/src/db/
+server/src/db/index.ts
+server/src/db/schema.ts
+server/src/middleware/
+server/src/middleware/auth.ts
+server/src/routes/
+server/src/routes/auditLogs.ts
+server/src/routes/auth.ts
+server/src/routes/customers.ts
+server/src/routes/dashboard.ts
+server/src/routes/expenses.ts
+server/src/routes/invoice.ts
+server/src/routes/orders.ts
+server/src/routes/payments.ts
+server/src/routes/testimonials.ts
+server/src/routes/tracking.ts
+server/src/seed-sample-data.ts
+server/src/seed.ts
+server/src/services/
+server/src/services/auditLog.ts
+server/src/services/invoice.ts
+server/src/services/midtrans.ts
+server/src/services/whatsapp.ts
+server/src/utils/
+server/src/utils/invoice.ts
+server/src/index.ts
+package.json
+package-lock.json
+drizzle.config.ts
+tsconfig.json
+tsconfig.node.json
+npm warn config production Use `--omit=dev` instead.
+npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
+npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+
+added 480 packages, and audited 481 packages in 7s
+
+65 packages are looking for funding
+  run `npm fund` for details
+
+8 vulnerabilities (5 moderate, 3 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues possible (including breaking changes), run:
+  npm audit fix --force
+
+Some issues need review, and may require choosing
+a different dependency.
+
+Run `npm audit` for details.
+[PM2] Starting /usr/bin/npm in fork_mode (1 instance)
+[PM2] Done.
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ sekala-api         │ fork     │ 0    │ online    │ 0%       │ 10.9mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Saving current process list...
+[PM2] Successfully saved in /root/.pm2/dump.pm2
+[TAILING] Tailing last 20 lines for [sekala-api] process (change the value with --lines option)
+/root/.pm2/logs/sekala-api-error.log last 20 lines:
+0|sekala-a | /var/www/sekala-industry/node_modules/path-to-regexp/src/index.ts:225
+0|sekala-a |       throw new PathError(`Missing parameter name at index ${index}`, str);
+0|sekala-a |             ^
+0|sekala-a |
+0|sekala-a |
+0|sekala-a | PathError [TypeError]: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+0|sekala-a |     at name (/var/www/sekala-industry/node_modules/path-to-regexp/src/index.ts:225:13)
+0|sekala-a |     at parse (/var/www/sekala-industry/node_modules/path-to-regexp/src/index.ts:242:62)
+0|sekala-a |     at pathToRegexp (/var/www/sekala-industry/node_modules/path-to-regexp/src/index.ts:480:54)
+0|sekala-a |     at Object.match (/var/www/sekala-industry/node_modules/path-to-regexp/src/index.ts:438:28)
+0|sekala-a |     at matcher (/var/www/sekala-industry/node_modules/router/lib/layer.js:86:23)
+0|sekala-a |     at new Layer (/var/www/sekala-industry/node_modules/router/lib/layer.js:93:62)
+0|sekala-a |     at Function.route (/var/www/sekala-industry/node_modules/router/index.js:428:17)
+0|sekala-a |     at Function.route (/var/www/sekala-industry/node_modules/express/lib/application.js:257:22)
+0|sekala-a |     at app.<computed> [as get] (/var/www/sekala-industry/node_modules/express/lib/application.js:478:22)
+0|sekala-a |     at <anonymous> (/var/www/sekala-industry/server/src/index.ts:48:7) {
+0|sekala-a |   originalPath: '*'
+0|sekala-a | }
+0|sekala-a |
+0|sekala-a | Node.js v20.19.6
+
+/root/.pm2/logs/sekala-api-out.log last 20 lines:
+0|sekala-a | Sekala Industry Server running on port 5000 (production)
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+0|sekala-a | Sekala Industry Server running on port 3001 (production)
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+0|sekala-a | Sekala Industry Server running on port 5000 (production)
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+0|sekala-a | Sekala Industry Server running on port 5000 (production)
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+
+0|sekala-api  | Sekala Industry Server running on port 5000 (p

@@ -1,0 +1,492 @@
+dist/assets/logo-DIj_RbdJ.png
+dist/assets/index-DacbHvvb.js
+dist/index.html
+server/
+server/src/
+server/src/assets/
+server/src/assets/logo-dark.png
+server/src/db/
+server/src/db/index.ts
+server/src/db/schema.ts
+server/src/middleware/
+server/src/middleware/auth.ts
+server/src/routes/
+server/src/routes/auditLogs.ts
+server/src/routes/auth.ts
+server/src/routes/customers.ts
+server/src/routes/expenses.ts
+server/src/routes/orders.ts
+server/src/routes/payments.ts
+server/src/routes/testimonials.ts
+server/src/routes/tracking.ts
+server/src/routes/invoice.ts
+server/src/routes/dashboard.ts
+server/src/seed-sample-data.ts
+server/src/seed.ts
+server/src/services/
+server/src/services/auditLog.ts
+server/src/services/midtrans.ts
+server/src/services/whatsapp.ts
+server/src/services/invoice.ts
+server/src/utils/
+server/src/utils/invoice.ts
+server/src/index.ts
+src/
+src/App.css
+src/App.tsx
+src/assets/
+src/assets/hero-bg.jpg
+src/assets/icon-produk-terlaris.png
+src/assets/icon-tipe-produk.png
+src/assets/icon-warna-terlaris.png
+src/assets/logo-dark.png
+src/assets/logo.png
+src/assets/product-jackets.jpg
+src/assets/product-tshirts.jpg
+src/assets/product-uniforms.jpg
+src/components/
+src/components/About.tsx
+src/components/ClientLogos.tsx
+src/components/Contact.tsx
+src/components/CustomerOrderForm.tsx
+src/components/FloatingWhatsApp.tsx
+src/components/Footer.tsx
+src/components/Hero.tsx
+src/components/HeroGallery.tsx
+src/components/OrderSystem.tsx
+src/components/ProductGallery.tsx
+src/components/Products.tsx
+src/components/Testimonials.tsx
+src/components/admin/
+src/components/admin/AdminLayout.tsx
+src/components/ui/
+src/components/ui/accordion.tsx
+src/components/ui/alert-dialog.tsx
+src/components/ui/alert.tsx
+src/components/ui/aspect-ratio.tsx
+src/components/ui/avatar.tsx
+src/components/ui/badge.tsx
+src/components/ui/breadcrumb.tsx
+src/components/ui/button.tsx
+src/components/ui/calendar.tsx
+src/components/ui/card.tsx
+src/components/ui/carousel.tsx
+src/components/ui/chart.tsx
+src/components/ui/checkbox.tsx
+src/components/ui/collapsible.tsx
+src/components/ui/command.tsx
+src/components/ui/context-menu.tsx
+src/components/ui/dialog.tsx
+src/components/ui/drawer.tsx
+src/components/ui/dropdown-menu.tsx
+src/components/ui/form.tsx
+src/components/ui/hover-card.tsx
+src/components/ui/input-otp.tsx
+src/components/ui/input.tsx
+src/components/ui/label.tsx
+src/components/ui/menubar.tsx
+src/components/ui/navigation-menu.tsx
+src/components/ui/pagination.tsx
+src/components/ui/popover.tsx
+src/components/ui/progress.tsx
+src/components/ui/radio-group.tsx
+src/components/ui/resizable.tsx
+src/components/ui/scroll-area.tsx
+src/components/ui/select.tsx
+src/components/ui/separator.tsx
+src/components/ui/sheet.tsx
+src/components/ui/sidebar.tsx
+src/components/ui/skeleton.tsx
+src/components/ui/slider.tsx
+src/components/ui/sonner.tsx
+src/components/ui/switch.tsx
+src/components/ui/table.tsx
+src/components/ui/tabs.tsx
+src/components/ui/textarea.tsx
+src/components/ui/toast.tsx
+src/components/ui/toaster.tsx
+src/components/ui/toggle-group.tsx
+src/components/ui/toggle.tsx
+src/components/ui/tooltip.tsx
+src/components/ui/use-toast.ts
+src/components/Header.tsx
+src/hooks/
+src/hooks/use-mobile.tsx
+src/hooks/use-toast.ts
+src/index.css
+src/lib/
+src/lib/api.ts
+src/lib/auth.tsx
+src/lib/utils.ts
+src/main.tsx
+src/pages/
+src/pages/Index.tsx
+src/pages/NotFound.tsx
+src/pages/Order.tsx
+src/pages/Payment.tsx
+src/pages/Tracking.tsx
+src/pages/admin/
+src/pages/admin/ActivityLogs.tsx
+src/pages/admin/Customers.tsx
+src/pages/admin/Dashboard.tsx
+src/pages/admin/Expenses.tsx
+src/pages/admin/Login.tsx
+src/pages/admin/NewOrder.tsx
+src/pages/admin/OrderDetail.tsx
+src/pages/admin/Orders.tsx
+src/pages/admin/Settings.tsx
+src/vite-env.d.ts
+public/
+public/bantaeng.png
+public/bpjs.png
+public/favicon.png
+public/galeri-customer/
+public/galeri-customer/IMG-20251008-WA0002_1759894910497.jpg
+public/galeri-customer/IMG-20251008-WA0003_1759894910497.jpg
+public/galeri-customer/IMG-20251008-WA0004_1759894910498.jpg
+public/galeri-customer/IMG-20251008-WA0005_1759894910498.jpg
+public/galeri-customer/IMG-20251008-WA0006_1759894910499.jpg
+public/galeri-customer/IMG-20251008-WA0007_1759894910499.jpg
+public/galeri-customer/IMG-20251008-WA0008_1759894910499.jpg
+public/galeri-customer/IMG-20251008-WA0009_1759894910500.jpg
+public/galeri-customer/IMG-20251008-WA0010_1759894910500.jpg
+public/galeri-customer/IMG-20251008-WA0011_1759894910500.jpg
+public/galeri-customer/IMG-20251008-WA0012_1759894910501.jpg
+public/galeri-customer/IMG-20251008-WA0013_1759894910501.jpg
+public/galeri-customer/IMG-20251008-WA0014_1759894910501.jpg
+public/galeri-customer/IMG-20251008-WA0015_1759894910502.jpg
+public/galeri-customer/IMG-20251008-WA0016_1759894910502.jpg
+public/galeri-customer/IMG-20251008-WA0017_1759894910502.jpg
+public/galeri-customer/IMG-20251008-WA0018_1759894910502.jpg
+public/galeri-customer/IMG-20251008-WA0020_1759894910497.jpg
+public/hero-background.png
+public/hero-products.png
+public/icons/
+public/icons/icon-activity.png
+public/icons/icon-expense.png
+public/icons/icon-order.png
+public/icons/icon-user.png
+public/knpi.png
+public/kota-makassar.png
+public/logo-og.png
+public/mandiri.png
+public/patterns/
+public/patterns/aesthetic.png
+public/patterns/connection.png
+public/patterns/innovation.png
+public/patterns/quality.png
+public/placeholder.svg
+public/pln.png
+public/products/
+public/products/SEKALA PRICELIST KONVEKSI_page-0004_1759645213702.jpg
+public/products/SEKALA PRICELIST KONVEKSI_page-0006_1759645213702.jpg
+public/products/SEKALA PRICELIST KONVEKSI_page-0008_1759645213703.jpg
+public/products/SEKALA PRICELIST KONVEKSI_page-0010_1759645213703.jpg
+public/products/SEKALA PRICELIST KONVEKSI_page-0012_1759645213700.jpg
+public/products/SEKALA PRICELIST KONVEKSI_page-0014_1759648130420.jpg
+public/products/SEKALA PRICELIST KONVEKSI_page-0016_1759648130417.jpg
+public/products/SEKALA PRICELIST KONVEKSI_page-0018_1759648130418.jpg
+public/products/SEKALA PRICELIST KONVEKSI_page-0020_1759645213702.jpg
+public/products/SEKALA PRICELIST KONVEKSI_page-0022_1759645213702.jpg
+public/products/SEKALA PRICELIST KONVEKSI_page-0024_1759648130419.jpg
+public/products/SEKALA PRICELIST KONVEKSI_page-0026_1759648130419.jpg
+public/products/SEKALA PRICELIST KONVEKSI_page-0028_1759648130419.jpg
+public/products/SEKALA PRICELIST KONVEKSI_page-0030_1759648130420.jpg
+public/products/jaket-planologi.png
+public/products/jersey-knpi.png
+public/products/rompi-tiga-rasa.png
+public/robots.txt
+public/sd-telkom.png
+public/sitemap.xml
+public/tiga-rasa.png
+public/uc.png
+public/umi.png
+public/unhas.png
+public/unismuh.png
+public/untad.png
+database/
+database/sekala_full_backup.sql
+drizzle/
+drizzle/0000_giant_slayback.sql
+drizzle/meta/
+drizzle/meta/0000_snapshot.json
+drizzle/meta/_journal.json
+package.json
+package-lock.json
+tsconfig.json
+tsconfig.app.json
+tsconfig.node.json
+vite.config.ts
+tailwind.config.ts
+postcss.config.js
+drizzle.config.ts
+components.json
+index.html
+eslint.config.js
+npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
+npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+
+added 592 packages, and audited 593 packages in 8s
+
+105 packages are looking for funding
+  run `npm fund` for details
+
+8 vulnerabilities (6 moderate, 2 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues possible (including breaking changes), run:
+  npm audit fix --force
+
+Some issues need review, and may require choosing
+a different dependency.
+
+Run `npm audit` for details.
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [sekala-api](ids: [ 0, 1 ])
+[PM2] [sekala-api](0) ✓
+[PM2] [sekala-api](1) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ sekala-api         │ fork     │ 44   │ online    │ 0%       │ 26.0mb   │
+│ 1  │ sekala-api         │ fork     │ 15   │ online    │ 0%       │ 18.4mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[TAILING] Tailing last 20 lines for [sekala-api] process (change the value with --lines option)
+/root/.pm2/logs/sekala-api-out.log last 20 lines:
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+
+/root/.pm2/logs/sekala-api-error.log last 20 lines:
+0|sekala-a | npm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open '/var/www/sekala-industry/package.json'
+0|sekala-a | npm error enoent This is related to npm not being able to find a file.
+0|sekala-a | npm error enoent
+0|sekala-a | npm error A complete log of this run can be found in: /root/.npm/_logs/2025-12-04T08_52_40_721Z-debug-0.log
+0|sekala-a | npm error code ENOENT
+0|sekala-a | npm error syscall open
+0|sekala-a | npm error path /var/www/sekala-industry/package.json
+0|sekala-a | npm error errno -2
+0|sekala-a | npm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open '/var/www/sekala-industry/package.json'
+0|sekala-a | npm error enoent This is related to npm not being able to find a file.
+0|sekala-a | npm error enoent
+0|sekala-a | npm error A complete log of this run can be found in: /root/.npm/_logs/2025-12-04T08_52_40_886Z-debug-0.log
+0|sekala-a | npm error code ENOENT
+0|sekala-a | npm error syscall open
+0|sekala-a | npm error path /var/www/sekala-industry/package.json
+0|sekala-a | npm error errno -2
+0|sekala-a | npm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open '/var/www/sekala-industry/package.json'
+0|sekala-a | npm error enoent This is related to npm not being able to find a file.
+0|sekala-a | npm error enoent
+0|sekala-a | npm error A complete log of this run can be found in: /root/.npm/_logs/2025-12-04T08_52_41_056Z-debug-0.log
+
+1|sekala-api  | > vite_react_shadcn_ts@0.0.0 start
+1|sekala-api  | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-api  | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-api  | > NODE_ENV=production tsx server/src/index.ts
+1|sekala-api  | Sekala Industry Server running on port 5000 (production)
+0|sekala-api  | Sekala Industry Server running on port 5000 (production)
+0|sekala-api  | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-api  | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-api  | Sekala Industry Server running on port 5000 (production)
+0|sekala-api  | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-api  | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-api  | Sekala Industry Server running on port 5000 (production)
+0|sekala-api  | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-api  | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-api  | Sekala Industry Server running on port 5000 (production)
+0|sekala-api  | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-api  | > NODE_ENV=production tsx server/src/index.ts
+^C
+root@srv1174075:/var/www/sekala-industry# # Hapus proses duplikat
+pm2 delete 0
+pm2 delete 1
+
+# Start ulang dengan benar
+cd /var/www/sekala-industry
+pm2 start npm --name "sekala-api" -- run start
+pm2 save
+
+# Cek status
+pm2 status
+[PM2] Applying action deleteProcessId on app [0](ids: [ '0' ])
+[PM2] [sekala-api](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 1  │ sekala-api         │ fork     │ 15   │ online    │ 0%       │ 56.3mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Applying action deleteProcessId on app [1](ids: [ '1' ])
+[PM2] [sekala-api](1) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Starting /usr/bin/npm in fork_mode (1 instance)
+[PM2] Done.
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ sekala-api         │ fork     │ 0    │ online    │ 0%       │ 12.1mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Saving current process list...
+[PM2] Successfully saved in /root/.pm2/dump.pm2
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ sekala-api         │ fork     │ 0    │ online    │ 0%       │ 59.9mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+root@srv1174075:/var/www/sekala-industry# cd /var/www/sekala-industry
+npm run db:seed
+
+> vite_react_shadcn_ts@0.0.0 db:seed
+> tsx server/src/seed.ts
+
+Seeding database...
+Super Admin user already exists
+Admin user created:
+  Email: admin@sekala.id
+  Password: admin123
+Seeding completed!
+root@srv1174075:/var/www/sekala-industry# # Cek konfigurasi nginx
+cat /etc/nginx/sites-available/sekalaindustry.com
+cat: /etc/nginx/sites-available/sekalaindustry.com: No such file or directory
+root@srv1174075:/var/www/sekala-industry# pm2 logs sekala-api --lines 10
+curl http://localhost:5000/api/health
+[TAILING] Tailing last 10 lines for [sekala-api] process (change the value with --lines option)
+/root/.pm2/logs/sekala-api-error.log last 10 lines:
+0|sekala-a | npm error enoent
+0|sekala-a | npm error A complete log of this run can be found in: /root/.npm/_logs/2025-12-04T08_52_40_886Z-debug-0.log
+0|sekala-a | npm error code ENOENT
+0|sekala-a | npm error syscall open
+0|sekala-a | npm error path /var/www/sekala-industry/package.json
+0|sekala-a | npm error errno -2
+0|sekala-a | npm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open '/var/www/sekala-industry/package.json'
+0|sekala-a | npm error enoent This is related to npm not being able to find a file.
+0|sekala-a | npm error enoent
+0|sekala-a | npm error A complete log of this run can be found in: /root/.npm/_logs/2025-12-04T08_52_41_056Z-debug-0.log
+
+/root/.pm2/logs/sekala-api-out.log last 10 lines:
+0|sekala-a | Sekala Industry Server running on port 5000 (production)
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+0|sekala-a | Sekala Industry Server running on port 5000 (production)
+
+^C
+{"status":"ok","timestamp":"2025-12-04T08:57:43.324Z"}root@srv1174075:/var/www/sekala-iroot@srv1174075:/var/www/sekala-industry# # Cek file nginx yang ada
+ls /etc/nginx/sites-available/
+
+# Lihat konfigurasi default atau yang aktif
+ls /etc/nginx/sites-enabled/
+cat /etc/nginx/sites-enabled/
+default  sekala-industry
+sekala-industry
+cat: /etc/nginx/sites-enabled/: Is a directory
+root@srv1174075:/var/www/sekala-industry# ^C
+root@srv1174075:/var/www/sekala-industry# # Cek file nginx yang ada
+ls /etc/nginx/sites-available/
+
+# Lihat konfigurasi default atau yang aktif
+ls /etc/nginx/sites-enabled/
+cat /etc/nginx/sites-enabled/*
+default  sekala-industry
+sekala-industry
+server {
+    server_name sekalaindustry.com www.sekalaindustry.com 72.60.76.117;
+
+    root /var/www/sekala-industry/dist;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /api/ {
+        proxy_pass http://localhost:3001/api/;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/sekalaindustry.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/sekalaindustry.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+server {
+    if ($host = www.sekalaindustry.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = sekalaindustry.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    listen 80;
+    server_name sekalaindustry.com www.sekalaindustry.com 72.60.76.117;
+    return 404; # managed by Certbot
+
+
+
+
+root@srv1174075:/var/www/sekala-industry# # Buat file konfigurasi nginxx
+cat > /etc/nginx/sites-available/sekalaindustry.com << 'EOF'
+server {
+    listen 80;
+    server_name sekalaindustry.com www.sekalaindustry.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+EOF
+
+# Aktifkan site
+ln -sf /etc/nginx/sites-available/sekalaindustry.com /etc/nginx/sites-enabled/
+
+# Test konfigurasi
+nginx -t
+
+# Reload nginx
+systemctl reload nginx
+2025/12/04 08:57:54 [warn] 121383#121383: conflicting server name "sekalaindustry.com" on 0.0.0.0:80, ignored
+2025/12/04 08:57:54 [warn] 121383#121383: conflicting server name "www.sekalaindustry.com" on 0.0.0.0:80, ignored
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+root@srv1174075:/var/www/sekala-industry#

@@ -1,0 +1,188 @@
+1. Nama Project
+
+SEKALA ORDER TRACKING & PAYMENT SYSTEM (S-TRACK)
+
+2. Tujuan Sistem (Objective)
+	1.	Mempermudah pelanggan untuk:
+	•	melakukan pembayaran (VA/transfer/QRIS),
+	•	menerima invoice otomatis + deadline,
+	•	melacak status order secara real-time,
+	•	memberi testimoni & masukan setelah pesanan selesai.
+	2.	Merapikan operasional internal:
+	•	semua order punya nomor invoice / tracking yang jelas,
+	•	status produksi bisa di-update oleh tim,
+	•	semua notifikasi ke pelanggan otomatis via WhatsApp.
+	3.	Menyiapkan fondasi scale up:
+	•	data order, payment, progress, dan feedback terdokumentasi,
+	•	bisa ditarik ke laporan harian/mingguan untuk kontrol kapasitas.
+
+⸻
+
+3. Aktor Utama
+	1.	Customer
+	•	Terima link pembayaran
+	•	Bayar via VA/transfer/QRIS
+	•	Lihat invoice + tracking
+	•	Lihat status produksi
+	•	Isi testimoni & masukan
+	2.	Admin Sekala
+	•	Input data order (hasil negosiasi dari WA/DM)
+	•	Generate link pembayaran
+	•	Lihat status payment (paid/unpaid)
+	•	Monitor status produksi
+	3.	Tim Produksi
+	•	Update status produksi (Design / Cutting / Print / Sewing / QC / Packing / Delivered)
+	4.	Sistem
+	•	Generate invoice & nomor tracking
+	•	Kirim pesan WhatsApp otomatis (payment, status, selesai, minta feedback)
+	•	Integrasi dengan payment gateway & WhatsApp API
+
+⸻
+
+4. Alur Kerja Utama (User Flow)
+
+4.1 Order & Payment
+	1.	Customer chat admin (WA/DM) → deal harga & spesifikasi.
+	2.	Admin masuk ke Dashboard S-Track → klik “Buat Order Baru”:
+	•	Nama pelanggan
+	•	Nomor WA
+	•	Produk (jenis, jumlah, harga)
+	•	Total + DP / lunas
+	•	Deadline produksi
+	3.	Sistem:
+	•	Generate Nomor Invoice & Nomor Tracking (misal: SKL-2025-08-0001).
+	•	Hit API payment gateway (Midtrans/Xendit/Tripay dll) → buat payment link:
+	•	VA (BCA, BRI, Mandiri, dll)
+	•	QRIS
+	•	Transfer bank
+	•	Simpan data order + payment status = “Waiting Payment”.
+	4.	Sistem kirim WA otomatis ke customer:
+	•	“Halo [Nama], ini invoice Sekala untuk pesanan kamu. Total: Rp…, batas bayar: …”
+	•	Sertakan link pembayaran + nomor invoice.
+	5.	Setelah customer bayar:
+	•	Payment gateway call webhook → sistem update status jadi PAID.
+	•	Sistem kirim WA otomatis:
+“Pembayaran kamu sudah kami terima. Nomor tracking: SKL-2025-08-0001. Produksi akan mulai dalam 24 jam. Kamu bisa cek progres di link ini: [link tracking].”
+
+⸻
+
+4.2 Tracking Produksi
+
+Customer-side:
+	•	Halaman tracking berisi:
+	•	Nomor tracking, nama, produk, jumlah.
+	•	Status:
+	1.	Design
+      2.    Beli bahan
+	2.	potong/printing
+	3.	Jahit
+	4.	bordir/sablon
+	5.	QC
+	6.	Packing
+	7.	Selesai / Dikirim
+	•	Progress bar (0–100%) + timeline tanggal.
+	•	Catatan khusus (misal: revisi desain, delay karena approval).
+
+Internal (Admin/Produksi):
+	•	Dashboard “Order List” berisi:
+	•	Nomor tracking
+	•	Customer
+	•	Status payment (paid/unpaid)
+	•	Status produksi (dropdown)
+	•	Deadline
+	•	Setiap kali status diubah (misal dari “Cutting” ke “Printing”), sistem:
+	•	Update progress
+	•	Opsional: kirim WA otomatis (bisa diaktif/nonaktif per status) contoh:
+“Update pesanan SKL-2025-08-0001: sekarang sudah masuk tahap Printing.”
+
+⸻
+
+4.3 Penyelesaian & Feedback
+	1.	Saat status diubah menjadi “Selesai / Siap Diambil / Dikirim”:
+	•	Sistem kirim WA:
+“Pesanan SKL-2025-08-0001 sudah selesai. Terima kasih sudah order di Sekala 😊.”
+	2.	Setelah X jam / 1 hari:
+	•	Sistem kirim WA follow-up:
+“Kami ingin dengar pendapatmu tentang hasil pesanan kemarin. Boleh isi form singkat di sini: [link form testimoni].”
+	3.	Form testimoni berisi:
+	•	Rating (1–5)
+	•	Kualitas produk
+	•	Kecepatan
+	•	Kritik & saran
+	•	Persetujuan gunakan foto/testimoni untuk konten (ya/tidak)
+
+⸻
+
+5. Fitur yang Wajib Ada (MVP)
+	1.	Dashboard Admin (Web)
+	•	Login simple (email + password)
+	•	Buat order baru
+	•	Lihat list order + filter by:
+	•	status payment
+	•	status produksi
+	•	tanggal
+	•	Update status produksi (dropdown)
+	•	Lihat detail order
+	2.	Integrasi Payment Gateway
+	•	Generate payment link otomatis
+	•	Support VA + QRIS
+	•	Webhook untuk update status paid
+	3.	WhatsApp Automation
+	•	Official WhatsApp API / provider (Qontak, Fonnte, dll)
+	•	Template pesan:
+	•	Invoice & payment
+	•	Payment success
+	•	Progres (opsional)
+	•	Order selesai
+	•	Minta testimoni
+	4.	Customer Tracking Page
+	•	Diakses lewat link + nomor tracking
+	•	Mobile friendly
+	•	Progress bar + timeline
+	•	Info dasar pesanan
+	5.	Auto Invoice
+	•	Nomor invoice unik
+	•	PDF/HTML sederhana:
+	•	logo Sekala
+	•	detail pesanan
+	•	total bayar + metode
+	•	deadline bayar
+
+⸻
+
+6. Enhancement / Saran Tambahan (Nice to Have)
+
+Ini opsional, tapi kalau developer-nya kuat, sekalian dipikirkan:
+	1.	Payment Reminder
+	•	Kalau belum bayar sampai H-6 jam sebelum deadline → kirim WA reminder otomatis.
+	2.	Internal Capacity View
+	•	Di dashboard, tampilkan:
+	•	jumlah order aktif
+	•	total pcs yang lagi diproduksi
+	•	estimasi beban kerja per hari
+→ Biar kamu bisa putuskan: terima/nggak ketika order besar masuk.
+	3.	Upload File Desain
+	•	Customer bisa upload mockup / referensi di tracking page
+	•	File tersimpan ke satu folder yang gampang diakses designer.
+	4.	Role Management
+	•	Admin full akses
+	•	Operator produksi: hanya bisa edit status, nggak bisa ubah harga/lihat keuangan.
+	5.	Export Laporan
+	•	Export Excel: order per bulan, paid/unpaid, rata-rata lead time.
+
+⸻
+
+7. Catatan Teknis (Untuk Developer)
+	•	Platform: Web-based (responsive, bisa diakses HP).
+	•	Tech stack (saran):
+	•	Backend: Node.js / Laravel (bebas, tergantung tim dev)
+	•	Frontend: React / Vue atau Blade sederhana
+	•	DB: MySQL / PostgreSQL
+	•	Integrasi:
+	•	Payment gateway lokal (Midtrans/Xendit/Tripay, etc)
+	•	WhatsApp API (Meta Cloud API atau provider lokal)
+	•	Security Basic:
+	•	Login admin
+	•	Link tracking hanya bisa diakses via kombinasi nomor tracking + nomor WA (opsional)
+	•	Scalability:
+	•	Sistem harus mudah ditambah cabang (nanti kalau Sekala buka workshop baru, tinggal tambahkan lokasi di master data).

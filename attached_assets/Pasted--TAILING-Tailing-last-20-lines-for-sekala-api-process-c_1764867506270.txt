@@ -1,0 +1,46 @@
+[TAILING] Tailing last 20 lines for [sekala-api] process (change the value with --lines option)
+/root/.pm2/logs/sekala-api-error.log last 20 lines:
+0|sekala-a | /var/www/sekala-industry/node_modules/path-to-regexp/src/index.ts:225
+0|sekala-a |       throw new PathError(`Missing parameter name at index ${index}`, str);
+0|sekala-a |             ^
+0|sekala-a |
+0|sekala-a |
+0|sekala-a | PathError [TypeError]: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+0|sekala-a |     at name (/var/www/sekala-industry/node_modules/path-to-regexp/src/index.ts:225:13)
+0|sekala-a |     at parse (/var/www/sekala-industry/node_modules/path-to-regexp/src/index.ts:242:62)
+0|sekala-a |     at pathToRegexp (/var/www/sekala-industry/node_modules/path-to-regexp/src/index.ts:480:54)
+0|sekala-a |     at Object.match (/var/www/sekala-industry/node_modules/path-to-regexp/src/index.ts:438:28)
+0|sekala-a |     at matcher (/var/www/sekala-industry/node_modules/router/lib/layer.js:86:23)
+0|sekala-a |     at new Layer (/var/www/sekala-industry/node_modules/router/lib/layer.js:93:62)
+0|sekala-a |     at Function.route (/var/www/sekala-industry/node_modules/router/index.js:428:17)
+0|sekala-a |     at Function.route (/var/www/sekala-industry/node_modules/express/lib/application.js:257:22)
+0|sekala-a |     at app.<computed> [as get] (/var/www/sekala-industry/node_modules/express/lib/application.js:478:22)
+0|sekala-a |     at <anonymous> (/var/www/sekala-industry/server/src/index.ts:48:7) {
+0|sekala-a |   originalPath: '*'
+0|sekala-a | }
+0|sekala-a |
+0|sekala-a | Node.js v20.19.6
+
+/root/.pm2/logs/sekala-api-out.log last 20 lines:
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+
+2|sekala-api  | Sekala Industry Server running on port 5000 (production)

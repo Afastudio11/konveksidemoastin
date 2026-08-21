@@ -1,0 +1,31 @@
+/root/.pm2/logs/sekala-api-error.log last 30 lines:
+0|sekala-a | /var/www/sekala-industry/server/src/routes/dashboard.ts:158:11: ERROR: The symbol "paidDpResult" has already been declared
+0|sekala-a |     at failureErrorWithLog (/var/www/sekala-industry/node_modules/tsx/node_modules/esbuild/lib/main.js:1467:15)
+0|sekala-a |     at /var/www/sekala-industry/node_modules/tsx/node_modules/esbuild/lib/main.js:736:50
+0|sekala-a |     at responseCallbacks.<computed> (/var/www/sekala-industry/node_modules/tsx/node_modules/esbuild/lib/main.js:603:9)
+0|sekala-a |     at handleIncomingPacket (/var/www/sekala-industry/node_modules/tsx/node_modules/esbuild/lib/main.js:658:12)
+0|sekala-a |     at Socket.readFromStdout (/var/www/sekala-industry/node_modules/tsx/node_modules/esbuild/lib/main.js:581:7)
+0|sekala-a |     at Socket.emit (node:events:524:28)
+0|sekala-a |     at addChunk (node:internal/streams/readable:561:12)
+0|sekala-a |     at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+0|sekala-a |     at Readable.push (node:internal/streams/readable:392:5)
+0|sekala-a |     at Pipe.onStreamRead (node:internal/stream_base_commons:191:23)
+0|sekala-a |
+0|sekala-a | Node.js v20.19.6
+0|sekala-a | sh: 1: vite: not found
+0|sekala-a | sh: 1: vite: not found
+0|sekala-a | sh: 1: vite: not found
+0|sekala-a | sh: 1: vite: not found
+0|sekala-a | sh: 1: vite: not found
+0|sekala-a | sh: 1: vite: not found
+0|sekala-a | sh: 1: vite: not found
+0|sekala-a | sh: 1: vite: not found
+0|sekala-a | sh: 1: vite: not found
+0|sekala-a | sh: 1: vite: not found
+0|sekala-a | sh: 1: vite: not found
+0|sekala-a | sh: 1: vite: not found
+0|sekala-a | sh: 1: vite: not found
+0|sekala-a | sh: 1: vite: not found
+0|sekala-a | sh: 1: vite: not found
+0|sekala-a | sh: 1: vite: not found
+0|sekala-a | NODE_ENV=production is not supported in the .env file. Only NODE_ENV=development is supported to create a development build of your project. If you need to set process.env.NODE_ENV, you can set it in the Vite config instead.

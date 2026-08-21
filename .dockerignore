@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+.env
+.env.local
+.git
+.gitignore
+.DS_Store
+attached_assets
+*.md
+!README.md
+dist/.DS_Store

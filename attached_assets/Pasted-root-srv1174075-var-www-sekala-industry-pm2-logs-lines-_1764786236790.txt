@@ -1,0 +1,166 @@
+root@srv1174075:/var/www/sekala-industry# pm2 logs --lines 50
+[TAILING] Tailing last 50 lines for [all] processes (change the value with --lines option)
+/root/.pm2/pm2.log last 50 lines:
+PM2        | 2025-12-03T18:22:15: PM2 log: App [sekala-backend:1] online
+PM2        | 2025-12-03T18:22:18: PM2 log: App [sekala-backend:1] exited with code [0] via signal [SIGINT]
+PM2        | 2025-12-03T18:22:18: PM2 log: App [sekala-backend:1] starting in -fork mode-
+PM2        | 2025-12-03T18:22:18: PM2 log: App [sekala-backend:1] online
+PM2        | 2025-12-03T18:22:22: PM2 log: App [sekala-backend:1] exited with code [0] via signal [SIGINT]
+PM2        | 2025-12-03T18:22:22: PM2 log: App [sekala-backend:1] starting in -fork mode-
+PM2        | 2025-12-03T18:22:22: PM2 log: App [sekala-backend:1] online
+PM2        | 2025-12-03T18:22:26: PM2 log: App [sekala-backend:1] exited with code [0] via signal [SIGINT]
+PM2        | 2025-12-03T18:22:26: PM2 log: App [sekala-backend:1] starting in -fork mode-
+PM2        | 2025-12-03T18:22:26: PM2 log: App [sekala-backend:1] online
+PM2        | 2025-12-03T18:22:30: PM2 log: App [sekala-backend:1] exited with code [0] via signal [SIGINT]
+PM2        | 2025-12-03T18:22:30: PM2 log: App [sekala-backend:1] starting in -fork mode-
+PM2        | 2025-12-03T18:22:30: PM2 log: App [sekala-backend:1] online
+PM2        | 2025-12-03T18:22:33: PM2 log: App [sekala-backend:1] exited with code [0] via signal [SIGINT]
+PM2        | 2025-12-03T18:22:33: PM2 log: App [sekala-backend:1] starting in -fork mode-
+PM2        | 2025-12-03T18:22:33: PM2 log: App [sekala-backend:1] online
+PM2        | 2025-12-03T18:22:37: PM2 log: App [sekala-backend:1] exited with code [0] via signal [SIGINT]
+PM2        | 2025-12-03T18:22:37: PM2 log: App [sekala-backend:1] starting in -fork mode-
+PM2        | 2025-12-03T18:22:37: PM2 log: App [sekala-backend:1] online
+PM2        | 2025-12-03T18:22:40: PM2 log: App [sekala-backend:1] exited with code [0] via signal [SIGINT]
+PM2        | 2025-12-03T18:22:40: PM2 log: App [sekala-backend:1] starting in -fork mode-
+PM2        | 2025-12-03T18:22:40: PM2 log: App [sekala-backend:1] online
+PM2        | 2025-12-03T18:22:44: PM2 log: App [sekala-backend:1] exited with code [0] via signal [SIGINT]
+PM2        | 2025-12-03T18:22:44: PM2 log: App [sekala-backend:1] starting in -fork mode-
+PM2        | 2025-12-03T18:22:44: PM2 log: App [sekala-backend:1] online
+PM2        | 2025-12-03T18:22:47: PM2 log: App [sekala-backend:1] exited with code [0] via signal [SIGINT]
+PM2        | 2025-12-03T18:22:47: PM2 log: App [sekala-backend:1] starting in -fork mode-
+PM2        | 2025-12-03T18:22:47: PM2 log: App [sekala-backend:1] online
+PM2        | 2025-12-03T18:22:53: PM2 log: App [sekala-backend:1] exited with code [0] via signal [SIGINT]
+PM2        | 2025-12-03T18:22:53: PM2 log: App [sekala-backend:1] starting in -fork mode-
+PM2        | 2025-12-03T18:22:53: PM2 log: App [sekala-backend:1] online
+PM2        | 2025-12-03T18:23:00: PM2 log: App [sekala-backend:1] exited with code [0] via signal [SIGINT]
+PM2        | 2025-12-03T18:23:00: PM2 log: App [sekala-backend:1] starting in -fork mode-
+PM2        | 2025-12-03T18:23:00: PM2 log: App [sekala-backend:1] online
+PM2        | 2025-12-03T18:23:06: PM2 log: App [sekala-backend:1] exited with code [0] via signal [SIGINT]
+PM2        | 2025-12-03T18:23:06: PM2 log: App [sekala-backend:1] starting in -fork mode-
+PM2        | 2025-12-03T18:23:06: PM2 log: App [sekala-backend:1] online
+PM2        | 2025-12-03T18:23:06: PM2 log: Stopping app:sekala-backend id:0
+PM2        | 2025-12-03T18:23:07: PM2 log: App [sekala-backend:0] exited with code [0] via signal [SIGINT]
+PM2        | 2025-12-03T18:23:07: PM2 log: pid=31678 msg=process killed
+PM2        | 2025-12-03T18:23:07: PM2 log: App [sekala-backend:0] starting in -fork mode-
+PM2        | 2025-12-03T18:23:07: PM2 log: App [sekala-backend:0] online
+PM2        | 2025-12-03T18:23:07: PM2 log: Stopping app:sekala-backend id:1
+PM2        | 2025-12-03T18:23:07: PM2 log: App [sekala-backend:1] exited with code [0] via signal [SIGINT]
+PM2        | 2025-12-03T18:23:07: PM2 log: pid=54277 msg=process killed
+PM2        | 2025-12-03T18:23:07: PM2 log: App [sekala-backend:1] starting in -fork mode-
+PM2        | 2025-12-03T18:23:07: PM2 log: App [sekala-backend:1] online
+PM2        | 2025-12-03T18:23:14: PM2 log: App [sekala-backend:1] exited with code [0] via signal [SIGINT]
+PM2        | 2025-12-03T18:23:14: PM2 log: App [sekala-backend:1] starting in -fork mode-
+PM2        | 2025-12-03T18:23:14: PM2 log: App [sekala-backend:1] online
+
+/root/.pm2/logs/sekala-backend-error.log last 50 lines:
+0|sekala-b |     at nextResolve (node:internal/modules/esm/hooks:864:28)
+0|sekala-b |     at resolveBase (file:///usr/lib/node_modules/tsx/dist/esm/index.mjs?1764786115703:2:3744)
+0|sekala-b |     at resolveDirectory (file:///usr/lib/node_modules/tsx/dist/esm/index.mjs?1764786115703:2:4243)
+0|sekala-b |     at resolveTsPaths (file:///usr/lib/node_modules/tsx/dist/esm/index.mjs?1764786115703:2:4984)
+0|sekala-b |     at async resolve (file:///usr/lib/node_modules/tsx/dist/esm/index.mjs?1764786115703:2:5355)
+0|sekala-b |     at async nextResolve (node:internal/modules/esm/hooks:864:22) {
+0|sekala-b |   code: 'ERR_MODULE_NOT_FOUND'
+0|sekala-b | }
+0|sekala-b |
+0|sekala-b | Node.js v20.19.6
+0|sekala-b |
+0|sekala-b | node:internal/modules/run_main:123
+0|sekala-b |     triggerUncaughtException(
+0|sekala-b |     ^
+0|sekala-b | Error: Cannot find package '/var/www/sekala-industry/node_modules/drizzle-orm/index.js' imported from /var/www/sekala-industry/server/src/routes/auth.ts
+0|sekala-b |     at legacyMainResolve (node:internal/modules/esm/resolve:215:26)
+0|sekala-b |     at packageResolve (node:internal/modules/esm/resolve:860:14)
+0|sekala-b |     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+0|sekala-b |     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+0|sekala-b |     at nextResolve (node:internal/modules/esm/hooks:864:28)
+0|sekala-b |     at resolveBase (file:///usr/lib/node_modules/tsx/dist/esm/index.mjs?1764786117177:2:3744)
+0|sekala-b |     at resolveDirectory (file:///usr/lib/node_modules/tsx/dist/esm/index.mjs?1764786117177:2:4243)
+0|sekala-b |     at resolveTsPaths (file:///usr/lib/node_modules/tsx/dist/esm/index.mjs?1764786117177:2:4984)
+0|sekala-b |     at async resolve (file:///usr/lib/node_modules/tsx/dist/esm/index.mjs?1764786117177:2:5355)
+0|sekala-b |     at async nextResolve (node:internal/modules/esm/hooks:864:22) {
+0|sekala-b |   code: 'ERR_MODULE_NOT_FOUND'
+0|sekala-b | }
+0|sekala-b |
+0|sekala-b | Node.js v20.19.6
+0|sekala-b |
+0|sekala-b | node:internal/modules/run_main:123
+0|sekala-b |     triggerUncaughtException(
+0|sekala-b |     ^
+0|sekala-b | Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/var/www/sekala-industry/node_modules/date-fns/index.mjs' imported from /var/www/sekala-industry/server/src/routes/expenses.ts
+0|sekala-b | Did you mean to import "date-fns/index.js"?
+0|sekala-b |     at finalizeResolution (node:internal/modules/esm/resolve:283:11)
+0|sekala-b |     at moduleResolve (node:internal/modules/esm/resolve:952:10)
+0|sekala-b |     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+0|sekala-b |     at nextResolve (node:internal/modules/esm/hooks:864:28)
+0|sekala-b |     at resolveBase (file:///usr/lib/node_modules/tsx/dist/esm/index.mjs?1764786118670:2:3744)
+0|sekala-b |     at resolveDirectory (file:///usr/lib/node_modules/tsx/dist/esm/index.mjs?1764786118670:2:4243)
+0|sekala-b |     at resolveTsPaths (file:///usr/lib/node_modules/tsx/dist/esm/index.mjs?1764786118670:2:4984)
+0|sekala-b |     at async resolve (file:///usr/lib/node_modules/tsx/dist/esm/index.mjs?1764786118670:2:5355)
+0|sekala-b |     at async nextResolve (node:internal/modules/esm/hooks:864:22)
+0|sekala-b |     at async Hooks.resolve (node:internal/modules/esm/hooks:306:24) {
+0|sekala-b |   code: 'ERR_MODULE_NOT_FOUND',
+0|sekala-b |   url: 'file:///var/www/sekala-industry/node_modules/date-fns/index.mjs'
+0|sekala-b | }
+0|sekala-b |
+0|sekala-b | Node.js v20.19.6
+
+/root/.pm2/logs/sekala-backend-out.log last 50 lines:
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+0|sekala-b | Sekala Industry API Server running on port 3001
+
+1|sekala-backend  | Sekala Industry API Server running on port 3001
+PM2               | App [sekala-backend:1] exited with code [0] via signal [SIGINT]
+PM2               | App [sekala-backend:1] starting in -fork mode-
+PM2               | App [sekala-backend:1] online
+1|sekala-backend  | Sekala Industry API Server running on port 3001
+PM2               | App [sekala-backend:1] exited with code [0] via signal [SIGINT]
+PM2               | App [sekala-backend:1] starting in -fork mode-
+PM2               | App [sekala-backend:1] online

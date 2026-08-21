@@ -1,0 +1,52 @@
+Saya ingin melakukan dua perubahan besar pada Dashboard Admin dengan detail sebagai berikut:
+1. Perubahan Alur Pembayaran (Manual Payment & Invoicing)
+
+Saya ingin menghapus integrasi Payment Gateway otomatis. Semua status pembayaran akan diubah menjadi Manual Input oleh Admin.
+
+Alur kerja yang diinginkan:
+
+    Input Data: Saat Admin menginput data pesanan pelanggan, Admin akan memasukkan nominal transaksi.
+
+    Sistem DP & Pelunasan: Sistem harus membagi tagihan menjadi dua tahap: DP (Down Payment) dan Pelunasan.
+
+    Status Pembayaran: Sediakan tombol/toggle manual bagi Admin untuk mengubah status:
+
+        Menunggu DP -> Admin klik konfirmasi -> DP Lunas.
+
+        Menunggu Pelunasan -> Admin klik konfirmasi -> Lunas.
+
+    Fitur Invoice:
+
+        Sistem harus bisa men-generate Invoice Tagihan (saat belum bayar) dan Kwitansi/Invoice Lunas (setelah Admin konfirmasi pembayaran).
+
+        Ini berlaku untuk tahap DP maupun Pelunasan.
+
+        Wajib: Cantumkan detail rekening perusahaan berikut secara otomatis (statis) di dalam footer atau bagian pembayaran setiap Invoice:
+
+            Bank BRI A/n: PT Virotek Karya Kreasi No. Rek: 024001000578560
+
+2. Penambahan Modul "Beban Pengeluaran Produksi" (Expense Tracking)
+
+Tambahkan menu baru di sidebar khusus untuk mencatat pengeluaran operasional/produksi.
+
+Referensi Desain: (Lihat lampiran gambar Excel). Fitur ini harus memiliki logika Project-Based, artinya pengeluaran bisa dikelompokkan berdasarkan nama Pelanggan/Project.
+
+Kolom Data yang Wajib Ada:
+
+    Tanggal: Tanggal pengeluaran.
+
+    Nama Pelanggan/Project: Dropdown atau input text (untuk mengaitkan biaya ini ke pesanan siapa).
+
+    Nama Barang/Jasa: Item pengeluaran (misal: Kain, Kancing, Ongkos Potong).
+
+    Nama Vendor: Pihak penyedia barang/jasa (misal: Toko A, Penjahit B).
+
+    Jumlah (Qty): Jumlah barang.
+
+    Harga Satuan: Harga per item.
+
+    Nilai Order (Total): Rumus otomatis (Qty x Harga Satuan).
+
+    Status Pengerjaan: (Contoh: Selesai / Proses).
+
+    Status Pembayaran ke Vendor: (Contoh: Lunas / Belum).

@@ -1,0 +1,64 @@
+Run `npm audit` for details.
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [sekala-api](ids: [ 0, 1 ])
+[PM2] [sekala-api](0) ✓
+[PM2] [sekala-api](1) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ sekala-api         │ fork     │ 44   │ online    │ 0%       │ 26.0mb   │
+│ 1  │ sekala-api         │ fork     │ 15   │ online    │ 0%       │ 18.4mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[TAILING] Tailing last 20 lines for [sekala-api] process (change the value with --lines option)
+/root/.pm2/logs/sekala-api-out.log last 20 lines:
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+
+/root/.pm2/logs/sekala-api-error.log last 20 lines:
+0|sekala-a | npm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open '/var/www/sekala-industry/package.json'
+0|sekala-a | npm error enoent This is related to npm not being able to find a file.
+0|sekala-a | npm error enoent
+0|sekala-a | npm error A complete log of this run can be found in: /root/.npm/_logs/2025-12-04T08_52_40_721Z-debug-0.log
+0|sekala-a | npm error code ENOENT
+0|sekala-a | npm error syscall open
+0|sekala-a | npm error path /var/www/sekala-industry/package.json
+0|sekala-a | npm error errno -2
+0|sekala-a | npm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open '/var/www/sekala-industry/package.json'
+0|sekala-a | npm error enoent This is related to npm not being able to find a file.
+0|sekala-a | npm error enoent
+0|sekala-a | npm error A complete log of this run can be found in: /root/.npm/_logs/2025-12-04T08_52_40_886Z-debug-0.log
+0|sekala-a | npm error code ENOENT
+0|sekala-a | npm error syscall open
+0|sekala-a | npm error path /var/www/sekala-industry/package.json
+0|sekala-a | npm error errno -2
+0|sekala-a | npm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open '/var/www/sekala-industry/package.json'
+0|sekala-a | npm error enoent This is related to npm not being able to find a file.
+0|sekala-a | npm error enoent
+0|sekala-a | npm error A complete log of this run can be found in: /root/.npm/_logs/2025-12-04T08_52_41_056Z-debug-0.log
+
+1|sekala-api  | > vite_react_shadcn_ts@0.0.0 start
+1|sekala-api  | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-api  | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-api  | > NODE_ENV=production tsx server/src/index.ts
+1|sekala-api  | Sekala Industry Server running on port 5000 (production)
+0|sekala-api  | Sekala Industry Server running on port 5000 (production)
+0|sekala-api  | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-api  | > NODE_ENV=production tsx server/src/index.ts

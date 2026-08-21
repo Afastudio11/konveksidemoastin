@@ -1,0 +1,68 @@
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ sekala-api         │ fork     │ 0    │ stopped   │ 0%       │ 0b       │
+│ 1  │ sekala-api         │ fork     │ 0    │ online    │ 0%       │ 59.9mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[TAILING] Tailing last 20 lines for [sekala-api] process (change the value with --lines option)
+/root/.pm2/logs/sekala-api-error.log last 20 lines:
+/root/.pm2/logs/sekala-api-out.log last 20 lines:
+0|sekala-a |
+0|sekala-a | > vite_react_shadcn_ts@0.0.0 start
+0|sekala-a | > NODE_ENV=production tsx server/src/index.ts
+0|sekala-a |
+
+1|sekala-api  | Sekala Industry Server running on port 3001 (production)
+^C
+root@srv1174075:/var/www/sekala-industry# # Cek konfigurasi nginx
+cat /etc/nginx/sites-available/sekala-industry
+
+# Restart nginx
+sudo systemctl restart nginx
+server {
+    server_name sekalaindustry.com www.sekalaindustry.com 72.60.76.117;
+
+    root /var/www/sekala-industry/dist;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /api/ {
+    proxy_pass http://localhost:5000/api/;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+}
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/sekalaindustry.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/sekalaindustry.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+server {
+    if ($host = www.sekalaindustry.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = sekalaindustry.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    listen 80;
+    server_name sekalaindustry.com www.sekalaindustry.com 72.60.76.117;
+    return 404; # managed by Certbot
+
+
+
+
+}
+root@srv1174075:/var/www/sekala-industry#

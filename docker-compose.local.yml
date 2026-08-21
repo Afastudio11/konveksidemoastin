@@ -1,0 +1,53 @@
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:16-alpine
+    container_name: sekala-db-local
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Sekala123
+      POSTGRES_DB: sekaladb
+    volumes:
+      - postgres_data_local:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - sekala-local
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d sekaladb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Sekala Industry App
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sekala-app-local
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3001:5000"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://postgres:Sekala123@db:5432/sekaladb
+      PGHOST: db
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: Sekala123
+      PGDATABASE: sekaladb
+      JWT_SECRET: sekala-local-dev-secret
+    networks:
+      - sekala-local
+
+volumes:
+  postgres_data_local:
+    driver: local
+
+networks:
+  sekala-local:
+    driver: bridge

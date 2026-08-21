@@ -1,0 +1,756 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\ahmad> ssh -p 65002 u306213468@145.79.14.45
+u306213468@145.79.14.45's password:
+Last failed login: Wed Oct  8 08:40:58 UTC 2025 from 180.252.167.114 on ssh:notty
+There was 1 failed login attempt since the last successful login.
+
+   HHHH               HHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHHHHHHHHHHHHHH  HHHHH
+   HHHHHHHHHHHHHHHHHHHHHHHHH
+     HHHHHHHHHHHHHHHHHHHHHHHHH
+   HHHH  HHHHHHHHHHHHHHHHHHHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHH           HHHHHHHH
+       HHHH               HHHH
+
+Welcome back! The time now is 08:50 UTC
+Server load: 10.31, 10.85, 10.95
+
+Link to hPanel:
+https://hpanel.hostinger.com/
+
+[u306213468@id-dci-web1981 ~]$ # Masuk ke folder repo
+cd ~/public_html/repo/
+
+# Install Bun (package manager yang lebih cepat)
+curl -fsSL https://bun.sh/install | bash
+
+# Reload shell
+source ~/.bashrc
+
+# Install dependencies
+bun install
+
+# Build project
+bun run build
+
+# Copy hasil build ke public_html
+cp -rf dist/* ~/public_html/
+
+# Keluar
+exit
+-bash: cd: /home/u306213468/public_html/repo/: No such file or directory
+######################################################################## 100.0%
+bun was installed successfully to ~/.bun/bin/bun
+
+Manually add the directory to ~/.bashrc (or similar):
+  export BUN_INSTALL="$HOME/.bun"
+  export PATH="$BUN_INSTALL/bin:$PATH"
+
+To get started, run:
+
+  bun --help
+-bash: /home/u306213468/.bashrc: No such file or directory
+-bash: bun: command not found
+-bash: bun: command not found
+cp: cannot stat 'dist/*': No such file or directory
+logout
+Connection to 145.79.14.45 closed.
+PS C:\Users\ahmad> # Cari folder git repository
+PS C:\Users\ahmad> find ~/public_html -name ".git" -type d
+FIND: Parameter format not correct
+PS C:\Users\ahmad>
+PS C:\Users\ahmad> # Atau lihat semua folder di public_html
+PS C:\Users\ahmad> ls -la ~/public_html/
+Get-ChildItem : A parameter cannot be found that matches parameter name 'la'.
+At line:1 char:4
++ ls -la ~/public_html/
++    ~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-ChildItem], ParameterBindingException
+    + FullyQualifiedErrorId : NamedParameterNotFound,Microsoft.PowerShell.Commands.GetChildItemCommand
+
+PS C:\Users\ahmad>
+PS C:\Users\ahmad> # Lihat semua folder di domains
+PS C:\Users\ahmad> ls -la ~/domains/sekalaindustry.com/
+Get-ChildItem : A parameter cannot be found that matches parameter name 'la'.
+At line:1 char:4
++ ls -la ~/domains/sekalaindustry.com/
++    ~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-ChildItem], ParameterBindingException
+    + FullyQualifiedErrorId : NamedParameterNotFound,Microsoft.PowerShell.Commands.GetChildItemCommand
+
+PS C:\Users\ahmad> ssh -p 65002 u306213468@145.79.14.45
+u306213468@145.79.14.45's password:
+Last failed login: Wed Oct  8 08:40:58 UTC 2025 from 180.252.167.114 on ssh:notty
+There was 1 failed login attempt since the last successful login.
+
+   HHHH               HHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHHHHHHHHHHHHHH  HHHHH
+   HHHHHHHHHHHHHHHHHHHHHHHHH
+     HHHHHHHHHHHHHHHHHHHHHHHHH
+   HHHH  HHHHHHHHHHHHHHHHHHHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHH           HHHHHHHH
+       HHHH               HHHH
+
+Welcome back! The time now is 08:52 UTC
+Server load: 11.90, 11.36, 11.14
+
+Link to hPanel:
+https://hpanel.hostinger.com/
+
+[u306213468@id-dci-web1981 ~]$ # Lihat semua folder di domains
+ls -la ~/domains/sekalaindustry.com/
+total 12
+drwxr-xr-x 3 u306213468 o1007987579 4096 Oct  8 08:09 .
+drwxr-xr-x 3 u306213468 o1007987579 4096 Oct  8 08:24 ..
+-rw-r--r-- 1 u306213468 o1007987579    0 Oct  8 08:09 DO_NOT_UPLOAD_HERE
+drwxr-xr-x 7 u306213468 o1007987579 4096 Oct  8 08:30 public_html
+[u306213468@id-dci-web1981 ~]$ # Lihat isi folder public_html
+ls -la ~/domains/sekalaindustry.com/public_html/
+total 476
+drwxr-xr-x 7 u306213468 o1007987579   4096 Oct  8 08:30 .
+drwxr-xr-x 3 u306213468 o1007987579   4096 Oct  8 08:09 ..
+drwxr-xr-x 2 u306213468 o1007987579  20480 Oct  8 08:18 attached_assets
+-rw-r--r-- 1 u306213468 o1007987579 126319 Oct  8 08:18 bun.lock
+-rw-r--r-- 1 u306213468 o1007987579    414 Oct  8 08:18 components.json
+-rw-r--r-- 1 u306213468 o1007987579    765 Oct  8 08:18 eslint.config.js
+drwxr-xr-x 8 u306213468 o1007987579   4096 Oct  8 08:18 .git
+-rw-r--r-- 1 u306213468 o1007987579    253 Oct  8 08:18 .gitignore
+-rw-r--r-- 1 u306213468 o1007987579   4731 Oct  8 08:18 index.html
+-rw-r--r-- 1 u306213468 o1007987579   2813 Oct  8 08:18 package.json
+-rw-r--r-- 1 u306213468 o1007987579 241562 Oct  8 08:18 package-lock.json
+-rw-r--r-- 1 u306213468 o1007987579     81 Oct  8 08:18 postcss.config.js
+drwxr-xr-x 4 u306213468 o1007987579   4096 Oct  8 08:18 public
+drwxr-xr-x 8 u306213468 o1007987579   4096 Oct  8 08:35 public_html
+-rw-r--r-- 1 u306213468 o1007987579   2141 Oct  8 08:18 README.md
+-rw-r--r-- 1 u306213468 o1007987579   1399 Oct  8 08:18 .replit
+-rw-r--r-- 1 u306213468 o1007987579   4019 Oct  8 08:18 replit.md
+drwxr-xr-x 7 u306213468 o1007987579   4096 Oct  8 08:18 src
+-rw-r--r-- 1 u306213468 o1007987579   3241 Oct  8 08:18 tailwind.config.ts
+-rw-r--r-- 1 u306213468 o1007987579    652 Oct  8 08:18 tsconfig.app.json
+-rw-r--r-- 1 u306213468 o1007987579    369 Oct  8 08:18 tsconfig.json
+-rw-r--r-- 1 u306213468 o1007987579    481 Oct  8 08:18 tsconfig.node.json
+-rw-r--r-- 1 u306213468 o1007987579  11204 Oct  8 08:18 TUTORIAL_UPLOAD_HOSTING.md
+-rw-r--r-- 1 u306213468 o1007987579    566 Oct  8 08:18 vite.config.ts
+[u306213468@id-dci-web1981 ~]$ # 1. Cek apakah bun sudah terinstall
+which bun
+
+# 2. Jika belum, install bun
+curl -fsSL https://bun.sh/install | bash
+source ~/.bashrc
+
+# 3. Install dependencies (di folder public_html yang sekarang)
+cd ~/domains/sekalaindustry.com/public_html/
+bun install
+
+# 4. Build project
+bun run build
+
+# 5. Lihat hasil - folder dist harusnya sudah ada
+ls -la dist/
+
+# 6. Copy semua file dari dist ke public_html (replace semua)
+cp -rf dist/* .
+
+# 7. Hapus file development yang tidak perlu
+rm -rf src node_modules package.json vite.config.ts
+
+# 8. Cek hasil final
+ls -la
+/usr/bin/which: no bun in (/usr/share/Modules/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/golang/1.22.0/bin:/opt/go/bin)
+######################################################################## 100.0%
+bun was installed successfully to ~/.bun/bin/bun
+
+Manually add the directory to ~/.bashrc (or similar):
+  export BUN_INSTALL="$HOME/.bun"
+  export PATH="$BUN_INSTALL/bin:$PATH"
+
+To get started, run:
+
+  bun --help
+-bash: /home/u306213468/.bashrc: No such file or directory
+-bash: bun: command not found
+-bash: bun: command not found
+ls: cannot access 'dist/': No such file or directory
+cp: cannot stat 'dist/*': No such file or directory
+total 464
+drwxr-xr-x 6 u306213468 o1007987579   4096 Oct  8 08:53 .
+drwxr-xr-x 3 u306213468 o1007987579   4096 Oct  8 08:09 ..
+drwxr-xr-x 2 u306213468 o1007987579  20480 Oct  8 08:18 attached_assets
+-rw-r--r-- 1 u306213468 o1007987579 126319 Oct  8 08:18 bun.lock
+-rw-r--r-- 1 u306213468 o1007987579    414 Oct  8 08:18 components.json
+-rw-r--r-- 1 u306213468 o1007987579    765 Oct  8 08:18 eslint.config.js
+drwxr-xr-x 8 u306213468 o1007987579   4096 Oct  8 08:18 .git
+-rw-r--r-- 1 u306213468 o1007987579    253 Oct  8 08:18 .gitignore
+-rw-r--r-- 1 u306213468 o1007987579   4731 Oct  8 08:18 index.html
+-rw-r--r-- 1 u306213468 o1007987579 241562 Oct  8 08:18 package-lock.json
+-rw-r--r-- 1 u306213468 o1007987579     81 Oct  8 08:18 postcss.config.js
+drwxr-xr-x 4 u306213468 o1007987579   4096 Oct  8 08:18 public
+drwxr-xr-x 8 u306213468 o1007987579   4096 Oct  8 08:35 public_html
+-rw-r--r-- 1 u306213468 o1007987579   2141 Oct  8 08:18 README.md
+-rw-r--r-- 1 u306213468 o1007987579   1399 Oct  8 08:18 .replit
+-rw-r--r-- 1 u306213468 o1007987579   4019 Oct  8 08:18 replit.md
+-rw-r--r-- 1 u306213468 o1007987579   3241 Oct  8 08:18 tailwind.config.ts
+-rw-r--r-- 1 u306213468 o1007987579    652 Oct  8 08:18 tsconfig.app.json
+-rw-r--r-- 1 u306213468 o1007987579    369 Oct  8 08:18 tsconfig.json
+-rw-r--r-- 1 u306213468 o1007987579    481 Oct  8 08:18 tsconfig.node.json
+-rw-r--r-- 1 u306213468 o1007987579  11204 Oct  8 08:18 TUTORIAL_UPLOAD_HOSTING.md
+[u306213468@id-dci-web1981 public_html]$ # 1. Masuk ke folder public_html
+cd ~/domains/sekalaindustry.com/public_html/
+
+# 2. Install dependencies pakai npm
+npm install
+
+# 3. Build project
+npm run build
+
+# 4. Copy file dari dist ke root
+cp -rf dist/* .
+
+# 5. Cek hasil
+ls -la | grep index.html
+-bash: npm: command not found
+-bash: npm: command not found
+cp: cannot stat 'dist/*': No such file or directory
+-rw-r--r-- 1 u306213468 o1007987579   4731 Oct  8 08:18 index.html
+[u306213468@id-dci-web1981 public_html]$ cd ~/domains/sekalaindustry.com/public_html/
+[u306213468@id-dci-web1981 public_html]$ npm install
+-bash: npm: command not found
+[u306213468@id-dci-web1981 public_html]$ # 1. Install dependencies dengan bun (full path)
+~/.bun/bin/bun install
+
+# 2. Build project
+~/.bun/bin/bun run build
+
+# 3. Copy file dari dist ke root
+cp -rf dist/* .
+
+#
+error: Bun could not find a package.json file to install from
+note: Run "bun init" to initialize a project
+error: Script not found "build"
+cp: cannot stat 'dist/*': No such file or directory
+[u306213468@id-dci-web1981 public_html]$ # Lihat apakah package.json ada
+ls -la | grep package
+
+# Lihat semua file
+ls -la
+-rw-r--r-- 1 u306213468 o1007987579 241562 Oct  8 08:18 package-lock.json
+total 464
+drwxr-xr-x 6 u306213468 o1007987579   4096 Oct  8 08:53 .
+drwxr-xr-x 3 u306213468 o1007987579   4096 Oct  8 08:09 ..
+drwxr-xr-x 2 u306213468 o1007987579  20480 Oct  8 08:18 attached_assets
+-rw-r--r-- 1 u306213468 o1007987579 126319 Oct  8 08:18 bun.lock
+-rw-r--r-- 1 u306213468 o1007987579    414 Oct  8 08:18 components.json
+-rw-r--r-- 1 u306213468 o1007987579    765 Oct  8 08:18 eslint.config.js
+drwxr-xr-x 8 u306213468 o1007987579   4096 Oct  8 08:18 .git
+-rw-r--r-- 1 u306213468 o1007987579    253 Oct  8 08:18 .gitignore
+-rw-r--r-- 1 u306213468 o1007987579   4731 Oct  8 08:18 index.html
+-rw-r--r-- 1 u306213468 o1007987579 241562 Oct  8 08:18 package-lock.json
+-rw-r--r-- 1 u306213468 o1007987579     81 Oct  8 08:18 postcss.config.js
+drwxr-xr-x 4 u306213468 o1007987579   4096 Oct  8 08:18 public
+drwxr-xr-x 8 u306213468 o1007987579   4096 Oct  8 08:35 public_html
+-rw-r--r-- 1 u306213468 o1007987579   2141 Oct  8 08:18 README.md
+-rw-r--r-- 1 u306213468 o1007987579   1399 Oct  8 08:18 .replit
+-rw-r--r-- 1 u306213468 o1007987579   4019 Oct  8 08:18 replit.md
+-rw-r--r-- 1 u306213468 o1007987579   3241 Oct  8 08:18 tailwind.config.ts
+-rw-r--r-- 1 u306213468 o1007987579    652 Oct  8 08:18 tsconfig.app.json
+-rw-r--r-- 1 u306213468 o1007987579    369 Oct  8 08:18 tsconfig.json
+-rw-r--r-- 1 u306213468 o1007987579    481 Oct  8 08:18 tsconfig.node.json
+-rw-r--r-- 1 u306213468 o1007987579  11204 Oct  8 08:18 TUTORIAL_UPLOAD_HOSTING.md
+[u306213468@id-dci-web1981 public_html]$ # 1. Masuk ke folder public_html
+cd ~/domains/sekalaindustry.com/public_html/
+
+# 2. Buat file build script
+cat > deploy.sh << 'EOF'
+#!/bin/bash
+echo "🚀 Starting deployment..."
+
+# Pull latest code from GitHub
+git pull origin main
+
+# Install bun if not exists
+if ! command -v ~/.bun/bin/bun &> /dev/null; then
+    curl -fsSL https://bun.sh/install | bash
+fi
+
+# Install dependencies
+~/.bun/bin/bun install
+
+# Build project
+~/.bun/bin/bun run build
+
+# Copy dist to public_html
+cp -rf dist/* .
+
+# Set correct permissions
+chmod -R 755 .
+find . -type f -exec chmod 644 {} \;
+
+echo "✅ Deployment complete!"
+./deploy.shan script pertama kali
+🚀 Starting deployment...
+remote: Enumerating objects: 129, done.
+remote: Counting objects: 100% (129/129), done.
+remote: Compressing objects: 100% (59/59), done.
+remote: Total 125 (delta 73), reused 118 (delta 66), pack-reused 0 (from 0)
+Receiving objects: 100% (125/125), 27.67 MiB | 14.72 MiB/s, done.
+Resolving deltas: 100% (73/73), completed with 4 local objects.
+From https://github.com/Afastudio11/stylish-konveksi-craft
+ * branch            main       -> FETCH_HEAD
+   232ceff..d3be7c7  main       -> origin/main
+Updating 232ceff..d3be7c7
+Fast-forward
+ .gitignore                                                          |   2 +-
+ TUTORIAL_UPLOAD_HOSTINGER.md                                        | 200 +++++++++++++++++++++++++++++++
+ attached_assets/image_1759911780531.png                             | Bin 0 -> 4193 bytes
+ attached_assets/image_1759912078747.png                             | Bin 0 -> 70526 bytes
+ attached_assets/image_1759912286600.png                             | Bin 0 -> 43511 bytes
+ attached_assets/image_1759912373487.png                             | Bin 0 -> 186313 bytes
+ attached_assets/image_1759912474267.png                             | Bin 0 -> 75558 bytes
+ attached_assets/image_1759912575544.png                             | Bin 0 -> 108969 bytes
+ attached_assets/image_1759912662389.png                             | Bin 0 -> 147872 bytes
+ attached_assets/image_1759912731180.png                             | Bin 0 -> 101994 bytes
+ attached_assets/image_1759912746216.png                             | Bin 0 -> 30137 bytes
+ attached_assets/image_1759912942106.png                             | Bin 0 -> 40082 bytes
+ attached_assets/image_1759912984375.png                             | Bin 0 -> 215142 bytes
+ attached_assets/image_1759913008380.png                             | Bin 0 -> 215142 bytes
+ attached_assets/image_1759913065560.png                             | Bin 0 -> 208968 bytes
+ attached_assets/image_1759913193242.png                             | Bin 0 -> 96444 bytes
+ attached_assets/image_1759913253300.png                             | Bin 0 -> 199902 bytes
+ attached_assets/image_1759913293225.png                             | Bin 0 -> 22415 bytes
+ attached_assets/image_1759913300509.png                             | Bin 0 -> 77183 bytes
+ attached_assets/image_1759913472788.png                             | Bin 0 -> 82905 bytes
+ attached_assets/image_1759913510574.png                             | Bin 0 -> 117529 bytes
+ attached_assets/image_1759913574376.png                             | Bin 0 -> 62748 bytes
+ attached_assets/image_1759913598111.png                             | Bin 0 -> 201562 bytes
+ attached_assets/image_1759913654193.png                             | Bin 0 -> 46197 bytes
+ attached_assets/image_1759913661326.png                             | Bin 0 -> 134535 bytes
+ attached_assets/image_1759913709846.png                             | Bin 0 -> 43493 bytes
+ attached_assets/image_1759913741883.png                             | Bin 0 -> 94570 bytes
+ attached_assets/image_1759913768248.png                             | Bin 0 -> 185604 bytes
+ dist.tar.gz                                                         | Bin 0 -> 26277351 bytes
+ dist/assets/index-CiuxmPVo.js                                       | 278 ++++++++++++++++++++++++++++++++++++++++++++
+ dist/assets/index-Ckhgwl8t.css                                      |   1 +
+ dist/assets/logo-DIj_RbdJ.png                                       | Bin 0 -> 36882 bytes
+ dist/bantaeng.png                                                   | Bin 0 -> 18428 bytes
+ dist/bpjs.png                                                       | Bin 0 -> 10941 bytes
+ dist/favicon.ico                                                    | Bin 0 -> 7645 bytes
+ dist/favicon.png                                                    | Bin 0 -> 13055 bytes
+ dist/hero-background.png                                            | Bin 0 -> 564994 bytes
+ dist/hero-products.png                                              | Bin 0 -> 564994 bytes
+ dist/index.html                                                     | 111 ++++++++++++++++++
+ dist/knpi.png                                                       | Bin 0 -> 17023 bytes
+ dist/kota-makassar.png                                              | Bin 0 -> 22478 bytes
+ dist/logo-og.png                                                    | Bin 0 -> 13055 bytes
+ dist/mandiri.png                                                    | Bin 0 -> 7739 bytes
+ dist/patterns/aesthetic.png                                         | Bin 0 -> 62367 bytes
+ dist/patterns/connection.png                                        | Bin 0 -> 62852 bytes
+ dist/patterns/innovation.png                                        | Bin 0 -> 62269 bytes
+ dist/patterns/quality.png                                           | Bin 0 -> 66584 bytes
+ dist/placeholder.svg                                                |   1 +
+ dist/pln.png                                                        | Bin 0 -> 5505 bytes
+ dist/products/SEKALA PRICELIST KONVEKSI_page-0004_1759645213702.jpg | Bin 0 -> 1390870 bytes
+ dist/products/SEKALA PRICELIST KONVEKSI_page-0006_1759645213702.jpg | Bin 0 -> 1234758 bytes
+ dist/products/SEKALA PRICELIST KONVEKSI_page-0008_1759645213703.jpg | Bin 0 -> 1136939 bytes
+ dist/products/SEKALA PRICELIST KONVEKSI_page-0010_1759645213703.jpg | Bin 0 -> 1000017 bytes
+ dist/products/SEKALA PRICELIST KONVEKSI_page-0012_1759645213700.jpg | Bin 0 -> 1509114 bytes
+ dist/products/SEKALA PRICELIST KONVEKSI_page-0014_1759648130420.jpg | Bin 0 -> 664638 bytes
+ dist/products/SEKALA PRICELIST KONVEKSI_page-0016_1759648130417.jpg | Bin 0 -> 1256914 bytes
+ dist/products/SEKALA PRICELIST KONVEKSI_page-0018_1759648130418.jpg | Bin 0 -> 1277160 bytes
+ dist/products/SEKALA PRICELIST KONVEKSI_page-0020_1759645213702.jpg | Bin 0 -> 924188 bytes
+ dist/products/SEKALA PRICELIST KONVEKSI_page-0022_1759645213702.jpg | Bin 0 -> 1165273 bytes
+ dist/products/SEKALA PRICELIST KONVEKSI_page-0024_1759648130419.jpg | Bin 0 -> 1245233 bytes
+ dist/products/SEKALA PRICELIST KONVEKSI_page-0026_1759648130419.jpg | Bin 0 -> 1299670 bytes
+ dist/products/SEKALA PRICELIST KONVEKSI_page-0028_1759648130419.jpg | Bin 0 -> 1072857 bytes
+ dist/products/SEKALA PRICELIST KONVEKSI_page-0030_1759648130420.jpg | Bin 0 -> 599632 bytes
+ dist/products/jaket-planologi.png                                   | Bin 0 -> 2876519 bytes
+ dist/products/jersey-knpi.png                                       | Bin 0 -> 3184747 bytes
+ dist/products/rompi-tiga-rasa.png                                   | Bin 0 -> 2727396 bytes
+ dist/robots.txt                                                     |  17 +++
+ dist/sd-telkom.png                                                  | Bin 0 -> 29418 bytes
+ dist/sitemap.xml                                                    |  33 ++++++
+ dist/tiga-rasa.png                                                  | Bin 0 -> 18053 bytes
+ dist/uc.png                                                         | Bin 0 -> 28817 bytes
+ dist/umi.png                                                        | Bin 0 -> 16185 bytes
+ dist/unhas.png                                                      | Bin 0 -> 26444 bytes
+ dist/unismuh.png                                                    | Bin 0 -> 39690 bytes
+ dist/untad.png                                                      | Bin 0 -> 39141 bytes
+ index.html                                                          |   2 +-
+ 76 files changed, 643 insertions(+), 2 deletions(-)
+ create mode 100644 TUTORIAL_UPLOAD_HOSTINGER.md
+ create mode 100644 attached_assets/image_1759911780531.png
+ create mode 100644 attached_assets/image_1759912078747.png
+ create mode 100644 attached_assets/image_1759912286600.png
+ create mode 100644 attached_assets/image_1759912373487.png
+ create mode 100644 attached_assets/image_1759912474267.png
+ create mode 100644 attached_assets/image_1759912575544.png
+ create mode 100644 attached_assets/image_1759912662389.png
+ create mode 100644 attached_assets/image_1759912731180.png
+ create mode 100644 attached_assets/image_1759912746216.png
+ create mode 100644 attached_assets/image_1759912942106.png
+ create mode 100644 attached_assets/image_1759912984375.png
+ create mode 100644 attached_assets/image_1759913008380.png
+ create mode 100644 attached_assets/image_1759913065560.png
+ create mode 100644 attached_assets/image_1759913193242.png
+ create mode 100644 attached_assets/image_1759913253300.png
+ create mode 100644 attached_assets/image_1759913293225.png
+ create mode 100644 attached_assets/image_1759913300509.png
+ create mode 100644 attached_assets/image_1759913472788.png
+ create mode 100644 attached_assets/image_1759913510574.png
+ create mode 100644 attached_assets/image_1759913574376.png
+ create mode 100644 attached_assets/image_1759913598111.png
+ create mode 100644 attached_assets/image_1759913654193.png
+ create mode 100644 attached_assets/image_1759913661326.png
+ create mode 100644 attached_assets/image_1759913709846.png
+ create mode 100644 attached_assets/image_1759913741883.png
+ create mode 100644 attached_assets/image_1759913768248.png
+ create mode 100644 dist.tar.gz
+ create mode 100644 dist/assets/index-CiuxmPVo.js
+ create mode 100644 dist/assets/index-Ckhgwl8t.css
+ create mode 100644 dist/assets/logo-DIj_RbdJ.png
+ create mode 100644 dist/bantaeng.png
+ create mode 100644 dist/bpjs.png
+ create mode 100644 dist/favicon.ico
+ create mode 100644 dist/favicon.png
+ create mode 100644 dist/hero-background.png
+ create mode 100644 dist/hero-products.png
+ create mode 100644 dist/index.html
+ create mode 100644 dist/knpi.png
+ create mode 100644 dist/kota-makassar.png
+ create mode 100644 dist/logo-og.png
+ create mode 100644 dist/mandiri.png
+ create mode 100644 dist/patterns/aesthetic.png
+ create mode 100644 dist/patterns/connection.png
+ create mode 100644 dist/patterns/innovation.png
+ create mode 100644 dist/patterns/quality.png
+ create mode 100644 dist/placeholder.svg
+ create mode 100644 dist/pln.png
+ create mode 100644 dist/products/SEKALA PRICELIST KONVEKSI_page-0004_1759645213702.jpg
+ create mode 100644 dist/products/SEKALA PRICELIST KONVEKSI_page-0006_1759645213702.jpg
+ create mode 100644 dist/products/SEKALA PRICELIST KONVEKSI_page-0008_1759645213703.jpg
+ create mode 100644 dist/products/SEKALA PRICELIST KONVEKSI_page-0010_1759645213703.jpg
+ create mode 100644 dist/products/SEKALA PRICELIST KONVEKSI_page-0012_1759645213700.jpg
+ create mode 100644 dist/products/SEKALA PRICELIST KONVEKSI_page-0014_1759648130420.jpg
+ create mode 100644 dist/products/SEKALA PRICELIST KONVEKSI_page-0016_1759648130417.jpg
+ create mode 100644 dist/products/SEKALA PRICELIST KONVEKSI_page-0018_1759648130418.jpg
+ create mode 100644 dist/products/SEKALA PRICELIST KONVEKSI_page-0020_1759645213702.jpg
+ create mode 100644 dist/products/SEKALA PRICELIST KONVEKSI_page-0022_1759645213702.jpg
+ create mode 100644 dist/products/SEKALA PRICELIST KONVEKSI_page-0024_1759648130419.jpg
+ create mode 100644 dist/products/SEKALA PRICELIST KONVEKSI_page-0026_1759648130419.jpg
+ create mode 100644 dist/products/SEKALA PRICELIST KONVEKSI_page-0028_1759648130419.jpg
+ create mode 100644 dist/products/SEKALA PRICELIST KONVEKSI_page-0030_1759648130420.jpg
+ create mode 100644 dist/products/jaket-planologi.png
+ create mode 100644 dist/products/jersey-knpi.png
+ create mode 100644 dist/products/rompi-tiga-rasa.png
+ create mode 100644 dist/robots.txt
+ create mode 100644 dist/sd-telkom.png
+ create mode 100644 dist/sitemap.xml
+ create mode 100644 dist/tiga-rasa.png
+ create mode 100644 dist/uc.png
+ create mode 100644 dist/umi.png
+ create mode 100644 dist/unhas.png
+ create mode 100644 dist/unismuh.png
+ create mode 100644 dist/untad.png
+error: Bun could not find a package.json file to install from
+note: Run "bun init" to initialize a project
+error: Script not found "build"
+✅ Deployment complete!
+[u306213468@id-dci-web1981 public_html]$ # 1. Cek apakah folder dist ada dan berisi file
+ls -la dist/ | head -20
+
+# 2. Copy semua file dari dist ke public_html (root)
+cp -rf dist/* .
+
+# 3. Set permission yang benar
+chmod -R 755 .
+find . -type f -exec chmod 644 {} \;
+
+# 4. Verifikasi - cek apakah index.html ada di root
+ls -la index.html
+
+# 5. Lihat file apa saja yang ada di root sekarang
+ls -la | grep -E '\.html|\.js|\.css|assets'
+
+# 6. Exit
+exit
+total 1484
+drwxr-xr-x  5 u306213468 o1007987579   4096 Oct  8 08:58 .
+drwxr-xr-x 10 u306213468 o1007987579   4096 Oct  8 08:58 ..
+drwxr-xr-x  2 u306213468 o1007987579   4096 Oct  8 08:58 assets
+-rw-r--r--  1 u306213468 o1007987579  18428 Oct  8 08:58 bantaeng.png
+-rw-r--r--  1 u306213468 o1007987579  10941 Oct  8 08:58 bpjs.png
+-rw-r--r--  1 u306213468 o1007987579   7645 Oct  8 08:58 favicon.ico
+-rw-r--r--  1 u306213468 o1007987579  13055 Oct  8 08:58 favicon.png
+-rw-r--r--  1 u306213468 o1007987579 564994 Oct  8 08:58 hero-background.png
+-rw-r--r--  1 u306213468 o1007987579 564994 Oct  8 08:58 hero-products.png
+-rw-r--r--  1 u306213468 o1007987579   4763 Oct  8 08:58 index.html
+-rw-r--r--  1 u306213468 o1007987579  17023 Oct  8 08:58 knpi.png
+-rw-r--r--  1 u306213468 o1007987579  22478 Oct  8 08:58 kota-makassar.png
+-rw-r--r--  1 u306213468 o1007987579  13055 Oct  8 08:58 logo-og.png
+-rw-r--r--  1 u306213468 o1007987579   7739 Oct  8 08:58 mandiri.png
+drwxr-xr-x  2 u306213468 o1007987579   4096 Oct  8 08:58 patterns
+-rw-r--r--  1 u306213468 o1007987579   3253 Oct  8 08:58 placeholder.svg
+-rw-r--r--  1 u306213468 o1007987579   5505 Oct  8 08:58 pln.png
+drwxr-xr-x  2 u306213468 o1007987579   4096 Oct  8 08:58 products
+-rw-r--r--  1 u306213468 o1007987579    219 Oct  8 08:58 robots.txt
+-rw-r--r-- 1 u306213468 o1007987579 4763 Oct  8 08:59 index.html
+drwxr-xr-x  2 u306213468 o1007987579     4096 Oct  8 08:58 assets
+drwxr-xr-x  2 u306213468 o1007987579    20480 Oct  8 08:58 attached_assets
+-rw-r--r--  1 u306213468 o1007987579      414 Oct  8 08:18 components.json
+-rw-r--r--  1 u306213468 o1007987579      765 Oct  8 08:18 eslint.config.js
+-rw-r--r--  1 u306213468 o1007987579     4763 Oct  8 08:59 index.html
+-rw-r--r--  1 u306213468 o1007987579   241562 Oct  8 08:18 package-lock.json
+-rw-r--r--  1 u306213468 o1007987579       81 Oct  8 08:18 postcss.config.js
+-rw-r--r--  1 u306213468 o1007987579      652 Oct  8 08:18 tsconfig.app.json
+-rw-r--r--  1 u306213468 o1007987579      369 Oct  8 08:18 tsconfig.json
+-rw-r--r--  1 u306213468 o1007987579      481 Oct  8 08:18 tsconfig.node.json
+logout
+Connection to 145.79.14.45 closed.
+PS C:\Users\ahmad> ssh -p 65002 u306213468@145.79.14.45
+u306213468@145.79.14.45's password:
+Last failed login: Wed Oct  8 08:40:58 UTC 2025 from 180.252.167.114 on ssh:notty
+There was 1 failed login attempt since the last successful login.
+
+   HHHH               HHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHHHHHHHHHHHHHH  HHHHH
+   HHHHHHHHHHHHHHHHHHHHHHHHH
+     HHHHHHHHHHHHHHHHHHHHHHHHH
+   HHHH  HHHHHHHHHHHHHHHHHHHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHH           HHHHHHHH
+       HHHH               HHHH
+
+Welcome back! The time now is 09:00 UTC
+Server load: 11.64, 11.82, 11.50
+
+Link to hPanel:
+https://hpanel.hostinger.com/
+
+[u306213468@id-dci-web1981 ~]$ # Cek apakah favicon ada di public_html
+ls -la ~/domains/sekalaindustry.com/public_html/favicon.png
+
+# Jika tidak ada, copy dari hasil build
+cp -f ~/domains/sekalaindustry.com/public_html/dist/favicon.* ~/domains/sekalaindustry.com/public_html/
+
+# Atau jika ada di folder lain, cari dulu
+find ~/domains/sekalaindustry.com/public_html -name "favicon*"
+
+exit
+-rw-r--r-- 1 u306213468 o1007987579 13055 Oct  8 08:59 /home/u306213468/domains/sekalaindustry.com/public_html/favicon.png
+/home/u306213468/domains/sekalaindustry.com/public_html/dist/favicon.png
+/home/u306213468/domains/sekalaindustry.com/public_html/dist/favicon.ico
+/home/u306213468/domains/sekalaindustry.com/public_html/public_html/dist/favicon.png
+/home/u306213468/domains/sekalaindustry.com/public_html/public_html/dist/favicon.ico
+/home/u306213468/domains/sekalaindustry.com/public_html/public_html/public/favicon.png
+/home/u306213468/domains/sekalaindustry.com/public_html/public_html/public/favicon.ico
+/home/u306213468/domains/sekalaindustry.com/public_html/public_html/repo/dist/favicon.png
+/home/u306213468/domains/sekalaindustry.com/public_html/public_html/repo/dist/favicon.ico
+/home/u306213468/domains/sekalaindustry.com/public_html/public_html/repo/public/favicon.png
+/home/u306213468/domains/sekalaindustry.com/public_html/public_html/repo/public/favicon.ico
+/home/u306213468/domains/sekalaindustry.com/public_html/favicon.png
+/home/u306213468/domains/sekalaindustry.com/public_html/public/favicon.png
+/home/u306213468/domains/sekalaindustry.com/public_html/public/favicon.ico
+/home/u306213468/domains/sekalaindustry.com/public_html/favicon.ico
+logout
+Connection to 145.79.14.45 closed.
+PS C:\Users\ahmad> ssh -p 65002 u306213468@145.79.14.45
+u306213468@145.79.14.45's password:
+Last failed login: Wed Oct  8 08:40:58 UTC 2025 from 180.252.167.114 on ssh:notty
+There was 1 failed login attempt since the last successful login.
+
+   HHHH               HHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHHHHHHHHHHHHHH  HHHHH
+   HHHHHHHHHHHHHHHHHHHHHHHHH
+     HHHHHHHHHHHHHHHHHHHHHHHHH
+   HHHH  HHHHHHHHHHHHHHHHHHHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHH           HHHHHHHH
+   HHHHHHHH           HHHHHHHH
+       HHHH               HHHH
+
+Welcome back! The time now is 09:41 UTC
+Server load: 14.34, 14.10, 13.69
+
+Link to hPanel:
+https://hpanel.hostinger.com/
+
+[u306213468@id-dci-web1981 ~]$ git add .
+git commit -m "🚀 Final optimasi: seamless logo marquee + carousel gallery"
+git push origin main
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+git: 'push origin main' is not a git command. See 'git --help'.
+[u306213468@id-dci-web1981 ~]$ npm run build
+-bash: npm: command not found
+[u306213468@id-dci-web1981 ~]$ cd website-update
+git pull origin main
+-bash: cd: website-update: No such file or directory
+fatal: not a git repository (or any of the parent directories): .git
+[u306213468@id-dci-web1981 ~]$ git clone https://github.com/Afastudio11/stylish-konveksi-craft.git website-update
+Cloning into 'website-update'...
+remote: Enumerating objects: 1495, done.
+remote: Counting objects: 100% (46/46), done.
+remote: Compressing objects: 100% (28/28), done.
+remote: Total 1495 (delta 22), reused 35 (delta 18), pack-reused 1449 (from 1)
+Receiving objects: 100% (1495/1495), 143.11 MiB | 16.88 MiB/s, done.
+Resolving deltas: 100% (982/982), done.
+Updating files: 100% (537/537), done.
+[u306213468@id-dci-web1981 ~]$ # Masuk ke folder yang baru di-clone/pull
+cd ~/website-update
+
+# Backup file lama (opsional tapi disarankan)
+mkdir -p ~/backup-$(date +%Y%m%d)
+cp -r ~/domains/sekalaindustry.com/public_html/* ~/backup-$(date +%Y%m%d)/ 2>/dev/null || true
+
+# Hapus file lama di public_html (kecuali .htaccess)
+cd ~/domains/sekalaindustry.com/public_html/
+find . -mindepth 1 -not -name '.htaccess' -delete
+
+# Copy semua file dari dist ke public_html
+cp -r ~/website-update/dist/* ~/domains/sekalaindustry.com/public_html/
+
+# Cek hasilnya
+ls -la ~/domains/sekalaindustry.com/public_html/
+total 1484
+drwxr-xr-x 5 u306213468 o1007987579   4096 Oct  8 09:45 .
+drwxr-xr-x 3 u306213468 o1007987579   4096 Oct  8 08:09 ..
+drwxr-xr-x 2 u306213468 o1007987579   4096 Oct  8 09:45 assets
+-rw-r--r-- 1 u306213468 o1007987579  18428 Oct  8 09:45 bantaeng.png
+-rw-r--r-- 1 u306213468 o1007987579  10941 Oct  8 09:45 bpjs.png
+-rw-r--r-- 1 u306213468 o1007987579   7645 Oct  8 09:45 favicon.ico
+-rw-r--r-- 1 u306213468 o1007987579  13055 Oct  8 09:45 favicon.png
+-rw-r--r-- 1 u306213468 o1007987579 564994 Oct  8 09:45 hero-background.png
+-rw-r--r-- 1 u306213468 o1007987579 564994 Oct  8 09:45 hero-products.png
+-rw-r--r-- 1 u306213468 o1007987579   4763 Oct  8 09:45 index.html
+-rw-r--r-- 1 u306213468 o1007987579  17023 Oct  8 09:45 knpi.png
+-rw-r--r-- 1 u306213468 o1007987579  22478 Oct  8 09:45 kota-makassar.png
+-rw-r--r-- 1 u306213468 o1007987579  13055 Oct  8 09:45 logo-og.png
+-rw-r--r-- 1 u306213468 o1007987579   7739 Oct  8 09:45 mandiri.png
+drwxr-xr-x 2 u306213468 o1007987579   4096 Oct  8 09:45 patterns
+-rw-r--r-- 1 u306213468 o1007987579   3253 Oct  8 09:45 placeholder.svg
+-rw-r--r-- 1 u306213468 o1007987579   5505 Oct  8 09:45 pln.png
+drwxr-xr-x 2 u306213468 o1007987579   4096 Oct  8 09:45 products
+-rw-r--r-- 1 u306213468 o1007987579    219 Oct  8 09:45 robots.txt
+-rw-r--r-- 1 u306213468 o1007987579  29418 Oct  8 09:45 sd-telkom.png
+-rw-r--r-- 1 u306213468 o1007987579    939 Oct  8 09:45 sitemap.xml
+-rw-r--r-- 1 u306213468 o1007987579  18053 Oct  8 09:45 tiga-rasa.png
+-rw-r--r-- 1 u306213468 o1007987579  28817 Oct  8 09:45 uc.png
+-rw-r--r-- 1 u306213468 o1007987579  16185 Oct  8 09:45 umi.png
+-rw-r--r-- 1 u306213468 o1007987579  26444 Oct  8 09:45 unhas.png
+-rw-r--r-- 1 u306213468 o1007987579  39690 Oct  8 09:45 unismuh.png
+-rw-r--r-- 1 u306213468 o1007987579  39141 Oct  8 09:45 untad.png
+[u306213468@id-dci-web1981 public_html]$ # Set permission yang benar
+cd ~/domains/sekalaindustry.com/public_html/
+find . -type f -exec chmod 644 {} \;
+find . -type d -exec chmod 755 {} \;
+chmod 644 .htaccess
+chmod: cannot access '.htaccess': No such file or directory
+[u306213468@id-dci-web1981 public_html]$ # Cek struktur file
+ls -la
+
+# Harus ada:
+# - index.html
+# - assets/
+# - attached_assets/
+# - .htaccess
+total 1484
+drwxr-xr-x 5 u306213468 o1007987579   4096 Oct  8 09:45 .
+drwxr-xr-x 3 u306213468 o1007987579   4096 Oct  8 08:09 ..
+drwxr-xr-x 2 u306213468 o1007987579   4096 Oct  8 09:45 assets
+-rw-r--r-- 1 u306213468 o1007987579  18428 Oct  8 09:45 bantaeng.png
+-rw-r--r-- 1 u306213468 o1007987579  10941 Oct  8 09:45 bpjs.png
+-rw-r--r-- 1 u306213468 o1007987579   7645 Oct  8 09:45 favicon.ico
+-rw-r--r-- 1 u306213468 o1007987579  13055 Oct  8 09:45 favicon.png
+-rw-r--r-- 1 u306213468 o1007987579 564994 Oct  8 09:45 hero-background.png
+-rw-r--r-- 1 u306213468 o1007987579 564994 Oct  8 09:45 hero-products.png
+-rw-r--r-- 1 u306213468 o1007987579   4763 Oct  8 09:45 index.html
+-rw-r--r-- 1 u306213468 o1007987579  17023 Oct  8 09:45 knpi.png
+-rw-r--r-- 1 u306213468 o1007987579  22478 Oct  8 09:45 kota-makassar.png
+-rw-r--r-- 1 u306213468 o1007987579  13055 Oct  8 09:45 logo-og.png
+-rw-r--r-- 1 u306213468 o1007987579   7739 Oct  8 09:45 mandiri.png
+drwxr-xr-x 2 u306213468 o1007987579   4096 Oct  8 09:45 patterns
+-rw-r--r-- 1 u306213468 o1007987579   3253 Oct  8 09:45 placeholder.svg
+-rw-r--r-- 1 u306213468 o1007987579   5505 Oct  8 09:45 pln.png
+drwxr-xr-x 2 u306213468 o1007987579   4096 Oct  8 09:45 products
+-rw-r--r-- 1 u306213468 o1007987579    219 Oct  8 09:45 robots.txt
+-rw-r--r-- 1 u306213468 o1007987579  29418 Oct  8 09:45 sd-telkom.png
+-rw-r--r-- 1 u306213468 o1007987579    939 Oct  8 09:45 sitemap.xml
+-rw-r--r-- 1 u306213468 o1007987579  18053 Oct  8 09:45 tiga-rasa.png
+-rw-r--r-- 1 u306213468 o1007987579  28817 Oct  8 09:45 uc.png
+-rw-r--r-- 1 u306213468 o1007987579  16185 Oct  8 09:45 umi.png
+-rw-r--r-- 1 u306213468 o1007987579  26444 Oct  8 09:45 unhas.png
+-rw-r--r-- 1 u306213468 o1007987579  39690 Oct  8 09:45 unismuh.png
+-rw-r--r-- 1 u306213468 o1007987579  39141 Oct  8 09:45 untad.png
+[u306213468@id-dci-web1981 public_html]$ # Cek struktur file
+ls -la
+
+# Harus ada:
+# - index.html
+# - assets/
+# - attached_assets/
+# - .htaccess^C
+[u306213468@id-dci-web1981 public_html]$ git add dist/
+git commit -m "Add production build"
+git push origin main
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[u306213468@id-dci-web1981 public_html]$ npm run build
+git add .
+git commit -m "Update website"
+git push origin main
+-bash: npm: command not found
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[u306213468@id-dci-web1981 public_html]$ cd ~/website-update
+git pull origin main
+cp -r dist/* ~/domains/sekalaindustry.com/public_html/
+remote: Enumerating objects: 14, done.
+remote: Counting objects: 100% (14/14), done.
+remote: Compressing objects: 100% (5/5), done.
+remote: Total 9 (delta 4), reused 9 (delta 4), pack-reused 0 (from 0)
+Unpacking objects: 100% (9/9), 25.24 MiB | 9.72 MiB/s, done.
+From https://github.com/Afastudio11/stylish-konveksi-craft
+ * branch            main       -> FETCH_HEAD
+   55b85f8..69418f1  main       -> origin/main
+Updating 55b85f8..69418f1
+Fast-forward
+ attached_assets/image_1759916548581.png | Bin 0 -> 46134 bytes
+ dist-production.tar.gz                  | Bin 0 -> 26277776 bytes
+ dist/assets/index-BNWOSsAk.js           | 278 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ dist/assets/index-DtwlyZ4D.js           | 278 ------------------------------------------------------------------------
+ dist/index.html                         |   2 +-
+ 5 files changed, 279 insertions(+), 279 deletions(-)
+ create mode 100644 attached_assets/image_1759916548581.png
+ create mode 100644 dist-production.tar.gz
+ create mode 100644 dist/assets/index-BNWOSsAk.js
+ delete mode 100644 dist/assets/index-DtwlyZ4D.js
+[u306213468@id-dci-web1981 website-update]$ npm run build
+-bash: npm: command not found
+[u306213468@id-dci-web1981 website-update]$ client_loop: send disconnect: Connection reset
+PS C:\Users\ahmad> ssh -p 65002 u306213468@145.79.14.45
+u306213468@145.79.14.45's password:
+Last failed login: Wed Oct  8 08:40:58 UTC 2025 from 180.252.167.114 on ssh:notty
+There was 1 failed login attempt since the last successful login.

@@ -1,0 +1,32 @@
+
+/root/.pm2/logs/sekala-backend-error.log last 30 lines:
+0|sekala-b |     at processParams (/var/www/sekala-industry/node_modules/router/index.js:582:12)
+0|sekala-b |     at next (/var/www/sekala-industry/node_modules/router/index.js:291:5)
+0|sekala-b | Export PDF error: Error: Browser was not found at the configured executablePath (/nix/store/qa9cnw4v5xkxyip6mb9kxqfq1z4x2dx1-chromium-138.0.7204.100/bin/chromium)
+0|sekala-b |     at ChromeLauncher.launch (/var/www/sekala-industry/node_modules/puppeteer-core/lib/esm/puppeteer/node/BrowserLauncher.js:54:19)
+0|sekala-b |     at async <anonymous> (/var/www/sekala-industry/server/src/routes/dashboard.ts:604:21)
+0|sekala-b | Export PDF error: Error: Browser was not found at the configured executablePath (/nix/store/qa9cnw4v5xkxyip6mb9kxqfq1z4x2dx1-chromium-138.0.7204.100/bin/chromium)
+0|sekala-b |     at ChromeLauncher.launch (/var/www/sekala-industry/node_modules/puppeteer-core/lib/esm/puppeteer/node/BrowserLauncher.js:54:19)
+0|sekala-b |     at async <anonymous> (/var/www/sekala-industry/server/src/routes/dashboard.ts:604:21)
+0|sekala-b | Get users error: JsonWebTokenError: jwt malformed
+0|sekala-b |     at module.exports [as verify] (/var/www/sekala-industry/node_modules/jsonwebtoken/verify.js:70:17)
+0|sekala-b |     at <anonymous> (/var/www/sekala-industry/server/src/routes/auth.ts:218:25)
+0|sekala-b |     at Layer.handleRequest (/var/www/sekala-industry/node_modules/router/lib/layer.js:152:17)
+0|sekala-b |     at next (/var/www/sekala-industry/node_modules/router/lib/route.js:157:13)
+0|sekala-b |     at Route.dispatch (/var/www/sekala-industry/node_modules/router/lib/route.js:117:3)
+0|sekala-b |     at handle (/var/www/sekala-industry/node_modules/router/index.js:435:11)
+0|sekala-b |     at Layer.handleRequest (/var/www/sekala-industry/node_modules/router/lib/layer.js:152:17)
+0|sekala-b |     at /var/www/sekala-industry/node_modules/router/index.js:295:15
+0|sekala-b |     at processParams (/var/www/sekala-industry/node_modules/router/index.js:582:12)
+0|sekala-b |     at next (/var/www/sekala-industry/node_modules/router/index.js:291:5)
+0|sekala-b | Register error: JsonWebTokenError: jwt malformed
+0|sekala-b |     at module.exports [as verify] (/var/www/sekala-industry/node_modules/jsonwebtoken/verify.js:70:17)
+0|sekala-b |     at <anonymous> (/var/www/sekala-industry/server/src/routes/auth.ts:82:25)
+0|sekala-b |     at Layer.handleRequest (/var/www/sekala-industry/node_modules/router/lib/layer.js:152:17)
+0|sekala-b |     at next (/var/www/sekala-industry/node_modules/router/lib/route.js:157:13)
+0|sekala-b |     at Route.dispatch (/var/www/sekala-industry/node_modules/router/lib/route.js:117:3)
+0|sekala-b |     at handle (/var/www/sekala-industry/node_modules/router/index.js:435:11)
+0|sekala-b |     at Layer.handleRequest (/var/www/sekala-industry/node_modules/router/lib/layer.js:152:17)
+0|sekala-b |     at /var/www/sekala-industry/node_modules/router/index.js:295:15
+0|sekala-b |     at processParams (/var/www/sekala-industry/node_modules/router/index.js:582:12)
+0|sekala-b |     at next (/var/www/sekala-industry/node_modules/router/index.js:291:5)

@@ -1,0 +1,72 @@
+services:
+  # ============================================
+  # PostgreSQL Database
+  # ============================================
+  db:
+    image: postgres:16-alpine
+    container_name: sekala-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-Sekala123}
+      POSTGRES_DB: sekaladb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - sekala-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d sekaladb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================
+  # Sekala Industry App (Express + React)
+  # ============================================
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sekala-app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://postgres:${DB_PASSWORD:-Sekala123}@db:5432/sekaladb
+      PGHOST: db
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: ${DB_PASSWORD:-Sekala123}
+      PGDATABASE: sekaladb
+      JWT_SECRET: ${JWT_SECRET:-sekala-industry-secret-key-2024}
+    networks:
+      - sekala-network
+      - traefik-network
+    labels:
+      # ============================================
+      # Traefik Labels (untuk HTTPS otomatis)
+      # ============================================
+      - "traefik.enable=true"
+      - "traefik.http.routers.sekala.rule=Host(`demokonveksi.astintech.id`)"
+      - "traefik.http.routers.sekala.entrypoints=websecure"
+      - "traefik.http.routers.sekala.tls=true"
+      - "traefik.http.routers.sekala.tls.certresolver=letsencrypt"
+      - "traefik.http.services.sekala.loadbalancer.server.port=5000"
+      # HTTP to HTTPS redirect
+      - "traefik.http.routers.sekala-http.rule=Host(`demokonveksi.astintech.id`)"
+      - "traefik.http.routers.sekala-http.entrypoints=web"
+      - "traefik.http.routers.sekala-http.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  sekala-network:
+    driver: bridge
+  traefik-network:
+    external: true
