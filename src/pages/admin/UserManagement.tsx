@@ -49,6 +49,7 @@ const PERMISSION_LABELS: Record<string, string> = {
   orders: 'Orders',
   customers: 'Pelanggan',
   expenses: 'Pengeluaran',
+  inventory: 'Stok Bahan Baku',
   activity_logs: 'Log Aktivitas',
   settings: 'Pengaturan',
   user_management: 'Manajemen User',

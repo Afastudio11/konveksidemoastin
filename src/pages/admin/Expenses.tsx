@@ -41,8 +41,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { Plus, Pencil, Trash2, Search, ArrowLeft, FolderOpen, AlertCircle, CheckCircle2, X, FileDown, Loader2, ChevronLeft, ChevronRight, Lock, Eye } from 'lucide-react';
-import { format, startOfMonth, endOfMonth, subMonths, isAfter, isBefore, isEqual } from 'date-fns';
+import { Plus, Pencil, Trash2, Search, ArrowLeft, FolderOpen, AlertCircle, CheckCircle2, X, FileDown, Loader2, ChevronLeft, ChevronRight, Lock, Eye, CalendarRange } from 'lucide-react';
+import { format, startOfMonth, endOfMonth, subMonths, isBefore, startOfDay, endOfDay } from 'date-fns';
 import { id as idLocale } from 'date-fns/locale';
 import { toast } from 'sonner';
 
@@ -114,6 +114,9 @@ export default function Expenses() {
   const [filterPaymentStatus, setFilterPaymentStatus] = useState('');
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [isExporting, setIsExporting] = useState(false);
+  const [dateFilterType, setDateFilterType] = useState<'month' | 'range'>('month');
+  const [rangeStart, setRangeStart] = useState(format(startOfMonth(new Date()), 'yyyy-MM-dd'));
+  const [rangeEnd, setRangeEnd] = useState(format(new Date(), 'yyyy-MM-dd'));
   
   const [selectedMonth, setSelectedMonth] = useState<Date>(new Date());
   
@@ -132,6 +135,43 @@ export default function Expenses() {
 
   const monthStart = useMemo(() => startOfMonth(selectedMonth), [selectedMonth]);
   const monthEnd = useMemo(() => endOfMonth(selectedMonth), [selectedMonth]);
+
+  const periodStart = useMemo(() => {
+    if (dateFilterType === 'range') {
+      return startOfDay(new Date(`${rangeStart}T00:00:00`));
+    }
+    return monthStart;
+  }, [dateFilterType, rangeStart, monthStart]);
+
+  const periodEnd = useMemo(() => {
+    if (dateFilterType === 'range') {
+      return endOfDay(new Date(`${rangeEnd}T00:00:00`));
+    }
+    return monthEnd;
+  }, [dateFilterType, rangeEnd, monthEnd]);
+
+  const periodLabel = useMemo(() => {
+    if (dateFilterType === 'range') {
+      return `${format(periodStart, 'dd MMM yyyy', { locale: idLocale })} - ${format(periodEnd, 'dd MMM yyyy', { locale: idLocale })}`;
+    }
+    return format(selectedMonth, 'MMMM yyyy', { locale: idLocale });
+  }, [dateFilterType, periodStart, periodEnd, selectedMonth]);
+
+  const isViewLocked = dateFilterType === 'range' || isMonthLocked;
+
+  const handleRangeStartChange = (value: string) => {
+    if (!value) return;
+    setRangeStart(value);
+    if (value > rangeEnd) setRangeEnd(value);
+    setSelectedProject(null);
+  };
+
+  const handleRangeEndChange = (value: string) => {
+    if (!value) return;
+    setRangeEnd(value);
+    if (value < rangeStart) setRangeStart(value);
+    setSelectedProject(null);
+  };
 
   const handlePreviousMonth = () => {
     if (isCurrentMonth) {
@@ -159,11 +199,11 @@ export default function Expenses() {
     setIsExporting(true);
     try {
       const params: Record<string, string> = {
-        startDate: monthStart.toISOString(),
-        endDate: monthEnd.toISOString(),
+        startDate: periodStart.toISOString(),
+        endDate: periodEnd.toISOString(),
       };
       await api.expenses.exportPdf(token, params);
-      toast.success(`Laporan ${format(selectedMonth, 'MMMM yyyy', { locale: idLocale })} berhasil diexport ke PDF`);
+      toast.success(`Laporan ${periodLabel} berhasil diexport ke PDF`);
     } catch (error) {
       toast.error('Gagal mengexport laporan ke PDF');
     } finally {
@@ -172,16 +212,16 @@ export default function Expenses() {
   };
 
   const { data, isLoading } = useQuery({
-    queryKey: ['expenses', searchTerm, filterWorkStatus, filterPaymentStatus, monthStart.toISOString(), monthEnd.toISOString()],
+    queryKey: ['expenses', searchTerm, filterWorkStatus, filterPaymentStatus, periodStart.toISOString(), periodEnd.toISOString()],
     queryFn: () => {
       const params: Record<string, string> = { 
         limit: '500',
-        startDate: monthStart.toISOString(),
-        endDate: monthEnd.toISOString(),
+        startDate: periodStart.toISOString(),
+        endDate: periodEnd.toISOString(),
       };
       if (searchTerm) params.search = searchTerm;
-      if (filterWorkStatus) params.workStatus = filterWorkStatus;
-      if (filterPaymentStatus) params.vendorPaymentStatus = filterPaymentStatus;
+      if (filterWorkStatus && filterWorkStatus !== 'all') params.workStatus = filterWorkStatus;
+      if (filterPaymentStatus && filterPaymentStatus !== 'all') params.vendorPaymentStatus = filterPaymentStatus;
       return api.expenses.list(token!, params);
     },
     enabled: !!token,
@@ -255,7 +295,7 @@ export default function Expenses() {
 
   const handleDeleteProject = (e: React.MouseEvent, project: ProjectSummary) => {
     e.stopPropagation();
-    if (isMonthLocked) {
+    if (isViewLocked) {
       toast.error('Data bulan lalu tidak dapat dihapus');
       return;
     }
@@ -264,11 +304,11 @@ export default function Expenses() {
   };
 
   const handleOpenDialog = (expense?: any) => {
-    if (isMonthLocked && !expense) {
+    if (isViewLocked && !expense) {
       toast.error('Tidak dapat menambah pengeluaran ke bulan yang sudah terkunci');
       return;
     }
-    if (isMonthLocked && expense) {
+    if (isViewLocked && expense) {
       toast.error('Data bulan lalu tidak dapat diedit');
       return;
     }
@@ -411,7 +451,7 @@ export default function Expenses() {
               )}
               Export PDF
             </Button>
-            {!isMonthLocked && (
+            {!isViewLocked && (
               <Button onClick={() => handleOpenDialog()} className="bg-[#CCFF00] text-blue-900 hover:bg-[#b8e600]">
                 <Plus className="w-4 h-4 mr-2" />
                 Tambah Pengeluaran
@@ -420,24 +460,86 @@ export default function Expenses() {
           </div>
         </div>
 
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-end">
+              <div className="space-y-2">
+                <Label>Filter Periode</Label>
+                <Select
+                  value={dateFilterType}
+                  onValueChange={(value: 'month' | 'range') => {
+                    setDateFilterType(value);
+                    setSelectedProject(null);
+                  }}
+                >
+                  <SelectTrigger className="w-full sm:w-[190px]">
+                    <CalendarRange className="mr-2 h-4 w-4" />
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="month">Per Bulan</SelectItem>
+                    <SelectItem value="range">Rentang Tanggal</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {dateFilterType === 'range' && (
+                <div className="grid flex-1 gap-3 sm:grid-cols-[1fr_auto_1fr] sm:items-end lg:max-w-2xl">
+                  <div className="space-y-2">
+                    <Label htmlFor="expense-range-start">Dari Tanggal</Label>
+                    <Input
+                      id="expense-range-start"
+                      type="date"
+                      value={rangeStart}
+                      required
+                      max={format(new Date(), 'yyyy-MM-dd')}
+                      onChange={(event) => handleRangeStartChange(event.target.value)}
+                    />
+                  </div>
+                  <span className="hidden pb-2 text-muted-foreground sm:block">sampai</span>
+                  <div className="space-y-2">
+                    <Label htmlFor="expense-range-end">Sampai Tanggal</Label>
+                    <Input
+                      id="expense-range-end"
+                      type="date"
+                      value={rangeEnd}
+                      required
+                      min={rangeStart}
+                      max={format(new Date(), 'yyyy-MM-dd')}
+                      onChange={(event) => handleRangeEndChange(event.target.value)}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
         <Card className="bg-gradient-to-r from-blue-600 to-blue-800">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handlePreviousMonth}
-                disabled={!canGoPrevious}
-                className="text-white hover:bg-white/20 disabled:opacity-50"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </Button>
+              {dateFilterType === 'month' ? (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handlePreviousMonth}
+                  disabled={!canGoPrevious}
+                  className="text-white hover:bg-white/20 disabled:opacity-50"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </Button>
+              ) : <div className="w-9" />}
               
               <div className="flex items-center gap-3">
                 <h2 className="text-xl font-bold text-white">
-                  {format(selectedMonth, 'MMMM yyyy', { locale: idLocale })}
+                  {periodLabel}
                 </h2>
-                {isMonthLocked ? (
+                {dateFilterType === 'range' ? (
+                  <Badge className="bg-white/20 text-white flex items-center gap-1 hover:bg-white/20">
+                    <CalendarRange className="w-3 h-3" />
+                    Rentang
+                  </Badge>
+                ) : isMonthLocked ? (
                   <Badge className="bg-red-500 text-white flex items-center gap-1">
                     <Lock className="w-3 h-3" />
                     Terkunci
@@ -450,18 +552,24 @@ export default function Expenses() {
                 )}
               </div>
 
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleNextMonth}
-                disabled={isCurrentMonth}
-                className="text-white hover:bg-white/20 disabled:opacity-50"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </Button>
+              {dateFilterType === 'month' ? (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleNextMonth}
+                  disabled={isCurrentMonth}
+                  className="text-white hover:bg-white/20 disabled:opacity-50"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </Button>
+              ) : <div className="w-9" />}
             </div>
             
-            {isMonthLocked && (
+            {dateFilterType === 'range' ? (
+              <p className="text-center text-white/80 text-sm mt-2">
+                Mode rentang tanggal digunakan untuk melihat dan mengekspor laporan
+              </p>
+            ) : isMonthLocked && (
               <p className="text-center text-white/80 text-sm mt-2">
                 Data bulan ini telah dikunci secara otomatis dan hanya dapat dilihat atau didownload
               </p>
@@ -526,18 +634,16 @@ export default function Expenses() {
               ) : projectSummaries.length === 0 ? (
                 <div className="col-span-full text-center py-8 text-muted-foreground">
                   <FolderOpen className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                  <p>Belum ada data pengeluaran untuk bulan {format(selectedMonth, 'MMMM yyyy', { locale: idLocale })}</p>
+                  <p>Belum ada data pengeluaran untuk periode {periodLabel}</p>
                 </div>
               ) : (
                 projectSummaries.map((project) => (
                   <Card 
                     key={project.projectKey} 
-                    className={`cursor-pointer hover:shadow-lg transition-shadow border-l-4 relative group ${
-                      isMonthLocked ? 'border-l-gray-400' : 'border-l-blue-500'
-                    }`}
+                    className="relative cursor-pointer border border-gray-200 group transition-shadow hover:shadow-lg"
                     onClick={() => setSelectedProject(project.projectKey)}
                   >
-                    {!isMonthLocked && (
+                    {!isViewLocked && (
                       <button
                         onClick={(e) => handleDeleteProject(e, project)}
                         className="absolute top-2 right-2 w-6 h-6 rounded-full bg-red-100 hover:bg-red-500 hover:text-white text-red-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
@@ -546,7 +652,7 @@ export default function Expenses() {
                         <X className="w-4 h-4" />
                       </button>
                     )}
-                    {isMonthLocked && (
+                    {isViewLocked && (
                       <div className="absolute top-2 right-2">
                         <Lock className="w-4 h-4 text-gray-400" />
                       </div>
@@ -621,7 +727,7 @@ export default function Expenses() {
                   <h2 className="text-xl font-bold">
                     {selectedProjectSummary?.customerName || selectedProjectSummary?.projectName || 'Lainnya'}
                   </h2>
-                  {isMonthLocked && (
+                  {isViewLocked && (
                     <Badge className="bg-gray-500 flex items-center gap-1">
                       <Eye className="w-3 h-3" />
                       Hanya Lihat
@@ -690,7 +796,7 @@ export default function Expenses() {
                       <SelectItem value="lunas">Lunas</SelectItem>
                     </SelectContent>
                   </Select>
-                  {!isMonthLocked && (
+                  {!isViewLocked && (
                     <Button 
                       onClick={() => handleOpenDialog()} 
                       className="ml-auto bg-[#CCFF00] text-blue-900 hover:bg-[#b8e600]"
@@ -717,7 +823,7 @@ export default function Expenses() {
                         <TableHead className="text-white text-right">Total</TableHead>
                         <TableHead className="text-white text-center">Status</TableHead>
                         <TableHead className="text-white text-center">Pembayaran</TableHead>
-                        {!isMonthLocked && (
+                        {!isViewLocked && (
                           <TableHead className="text-white text-center">Aksi</TableHead>
                         )}
                       </TableRow>
@@ -725,7 +831,7 @@ export default function Expenses() {
                     <TableBody>
                       {filteredExpenses?.length === 0 ? (
                         <TableRow>
-                          <TableCell colSpan={isMonthLocked ? 8 : 9} className="text-center py-8 text-muted-foreground">
+                          <TableCell colSpan={isViewLocked ? 8 : 9} className="text-center py-8 text-muted-foreground">
                             Belum ada data pengeluaran untuk project ini
                           </TableCell>
                         </TableRow>
@@ -756,7 +862,7 @@ export default function Expenses() {
                                 {expense.vendorPaymentStatus === 'lunas' ? 'LUNAS' : 'BELUM'}
                               </Badge>
                             </TableCell>
-                            {!isMonthLocked && (
+                            {!isViewLocked && (
                               <TableCell>
                                 <div className="flex justify-center gap-1">
                                   <Button

@@ -41,6 +41,7 @@ import {
   Receipt,
   CreditCard,
   UserPlus,
+  Warehouse,
   AlertTriangle,
   ChevronLeft,
   ChevronRight,
@@ -66,6 +67,12 @@ const actionLabels: Record<string, string> = {
   user_create: 'Tambah User',
   user_update: 'Ubah User',
   user_delete: 'Hapus User',
+  material_create: 'Tambah Bahan Baku',
+  material_update: 'Ubah Bahan Baku',
+  material_delete: 'Nonaktifkan Bahan Baku',
+  stock_in: 'Stok Masuk',
+  stock_out: 'Stok Keluar',
+  stock_adjustment: 'Penyesuaian Stok',
   login: 'Login',
   logout: 'Logout',
 };
@@ -76,6 +83,7 @@ const entityLabels: Record<string, string> = {
   customer: 'Pelanggan',
   payment: 'Pembayaran',
   user: 'User',
+  raw_material: 'Bahan Baku',
   session: 'Sesi',
 };
 
@@ -98,6 +106,12 @@ const getActionBadge = (actionType: string) => {
     user_create: 'bg-green-500',
     user_update: 'bg-blue-500',
     user_delete: 'bg-red-500',
+    material_create: 'bg-green-500',
+    material_update: 'bg-blue-500',
+    material_delete: 'bg-red-500',
+    stock_in: 'bg-emerald-500',
+    stock_out: 'bg-orange-500',
+    stock_adjustment: 'bg-cyan-500',
     login: 'bg-gray-500',
     logout: 'bg-gray-400',
   };
@@ -143,6 +157,8 @@ const getEntityIcon = (entityType: string) => {
       return <CreditCard className="w-4 h-4" />;
     case 'user':
       return <UserPlus className="w-4 h-4" />;
+    case 'raw_material':
+      return <Warehouse className="w-4 h-4" />;
     default:
       return <Activity className="w-4 h-4" />;
   }
@@ -327,6 +343,12 @@ export default function ActivityLogs() {
                   <SelectItem value="user_create">Tambah User</SelectItem>
                   <SelectItem value="user_update">Ubah User</SelectItem>
                   <SelectItem value="user_delete">Hapus User</SelectItem>
+                  <SelectItem value="material_create">Tambah Bahan Baku</SelectItem>
+                  <SelectItem value="material_update">Ubah Bahan Baku</SelectItem>
+                  <SelectItem value="material_delete">Nonaktifkan Bahan Baku</SelectItem>
+                  <SelectItem value="stock_in">Stok Masuk</SelectItem>
+                  <SelectItem value="stock_out">Stok Keluar</SelectItem>
+                  <SelectItem value="stock_adjustment">Penyesuaian Stok</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -341,6 +363,7 @@ export default function ActivityLogs() {
                   <SelectItem value="customer">Pelanggan</SelectItem>
                   <SelectItem value="payment">Pembayaran</SelectItem>
                   <SelectItem value="user">User</SelectItem>
+                  <SelectItem value="raw_material">Bahan Baku</SelectItem>
                 </SelectContent>
               </Select>
 

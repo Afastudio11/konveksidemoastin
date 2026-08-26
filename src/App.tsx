@@ -20,6 +20,7 @@ import AdminExpenses from "./pages/admin/Expenses";
 import AdminSettings from "./pages/admin/Settings";
 import AdminActivityLogs from "./pages/admin/ActivityLogs";
 import AdminUserManagement from "./pages/admin/UserManagement";
+import AdminInventory from "./pages/admin/Inventory";
 
 const queryClient = new QueryClient();
 
@@ -106,6 +107,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <AdminExpenses />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/inventory"
+              element={
+                <ProtectedRoute>
+                  <AdminInventory />
                 </ProtectedRoute>
               }
             />

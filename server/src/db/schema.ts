@@ -29,9 +29,16 @@ export const menuPermissionEnum = pgEnum('menu_permission', [
   'orders',
   'customers',
   'expenses',
+  'inventory',
   'activity_logs',
   'settings',
   'user_management'
+]);
+
+export const stockMovementTypeEnum = pgEnum('stock_movement_type', [
+  'in',
+  'out',
+  'adjustment'
 ]);
 
 export const users = pgTable('users', {
@@ -296,6 +303,12 @@ export const auditActionTypeEnum = pgEnum('audit_action_type', [
   'user_create',
   'user_update',
   'user_delete',
+  'material_create',
+  'material_update',
+  'material_delete',
+  'stock_in',
+  'stock_out',
+  'stock_adjustment',
   'login',
   'logout'
 ]);
@@ -306,6 +319,7 @@ export const auditEntityTypeEnum = pgEnum('audit_entity_type', [
   'customer',
   'payment',
   'user',
+  'raw_material',
   'session'
 ]);
 
@@ -329,6 +343,57 @@ export const auditLogs = pgTable('audit_logs', {
 export const auditLogsRelations = relations(auditLogs, ({ one }) => ({
   actor: one(users, {
     fields: [auditLogs.actorId],
+    references: [users.id],
+  }),
+}));
+
+export const rawMaterials = pgTable('raw_materials', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  code: text('code').notNull().unique(),
+  name: text('name').notNull(),
+  category: text('category').notNull(),
+  unit: text('unit').notNull(),
+  currentStock: decimal('current_stock', { precision: 14, scale: 2 }).default('0').notNull(),
+  minimumStock: decimal('minimum_stock', { precision: 14, scale: 2 }).default('0').notNull(),
+  unitPrice: decimal('unit_price', { precision: 14, scale: 2 }).default('0').notNull(),
+  supplierName: text('supplier_name'),
+  storageLocation: text('storage_location'),
+  notes: text('notes'),
+  isActive: boolean('is_active').default(true).notNull(),
+  createdBy: uuid('created_by').references(() => users.id),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+export const stockMovements = pgTable('stock_movements', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  materialId: uuid('material_id').references(() => rawMaterials.id, { onDelete: 'cascade' }).notNull(),
+  type: stockMovementTypeEnum('type').notNull(),
+  quantity: decimal('quantity', { precision: 14, scale: 2 }).notNull(),
+  previousStock: decimal('previous_stock', { precision: 14, scale: 2 }).notNull(),
+  newStock: decimal('new_stock', { precision: 14, scale: 2 }).notNull(),
+  reference: text('reference'),
+  notes: text('notes'),
+  movementDate: timestamp('movement_date').defaultNow().notNull(),
+  createdBy: uuid('created_by').references(() => users.id),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+export const rawMaterialsRelations = relations(rawMaterials, ({ one, many }) => ({
+  createdByUser: one(users, {
+    fields: [rawMaterials.createdBy],
+    references: [users.id],
+  }),
+  movements: many(stockMovements),
+}));
+
+export const stockMovementsRelations = relations(stockMovements, ({ one }) => ({
+  material: one(rawMaterials, {
+    fields: [stockMovements.materialId],
+    references: [rawMaterials.id],
+  }),
+  createdByUser: one(users, {
+    fields: [stockMovements.createdBy],
     references: [users.id],
   }),
 }));

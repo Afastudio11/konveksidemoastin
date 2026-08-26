@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/auth';
 import { api } from '@/lib/api';
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -24,7 +24,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus, Eye, CalendarIcon, X } from 'lucide-react';
+import { Plus, CalendarIcon, X } from 'lucide-react';
 import { format } from 'date-fns';
 import { id as idLocale } from 'date-fns/locale';
 
@@ -121,6 +121,7 @@ const years = Array.from({ length: 5 }, (_, i) => ({
 
 export default function AdminOrders() {
   const { token } = useAuth();
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [paymentStatus, setPaymentStatus] = useState<string>('');
   const [productionStatus, setProductionStatus] = useState<string>('');
@@ -347,7 +348,20 @@ export default function AdminOrders() {
                     </TableHeader>
                     <TableBody>
                       {data.orders.map((order: any) => (
-                        <TableRow key={order.id}>
+                        <TableRow
+                          key={order.id}
+                          role="link"
+                          tabIndex={0}
+                          aria-label={`Cek detail order ${order.invoiceNumber}`}
+                          className="cursor-pointer transition-colors hover:bg-blue-50 focus-visible:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-500"
+                          onClick={() => navigate(`/admin/orders/${order.id}`)}
+                          onKeyDown={(event) => {
+                            if (event.key === 'Enter' || event.key === ' ') {
+                              event.preventDefault();
+                              navigate(`/admin/orders/${order.id}`);
+                            }
+                          }}
+                        >
                           <TableCell className="font-medium">
                             {order.invoiceNumber}
                           </TableCell>
@@ -375,11 +389,17 @@ export default function AdminOrders() {
                             {format(new Date(order.createdAt), 'dd MMM yyyy', { locale: idLocale })}
                           </TableCell>
                           <TableCell className="text-right">
-                            <Link to={`/admin/orders/${order.id}`}>
-                              <Button variant="outline" size="sm">
-                                <Eye className="w-4 h-4" />
-                              </Button>
-                            </Link>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="whitespace-nowrap border-blue-200 text-blue-700 hover:bg-blue-100 hover:text-blue-800"
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                navigate(`/admin/orders/${order.id}`);
+                              }}
+                            >
+                              Cek Detail
+                            </Button>
                           </TableCell>
                         </TableRow>
                       ))}

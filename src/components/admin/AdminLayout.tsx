@@ -13,6 +13,7 @@ import {
   Settings,
   Activity,
   Shield,
+  Warehouse,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -37,6 +38,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       { path: '/admin/orders', label: 'Orders', icon: Package, permission: 'orders' },
       { path: '/admin/customers', label: 'Pelanggan', icon: Users, permission: 'customers' },
       { path: '/admin/expenses', label: 'Pengeluaran', icon: Receipt, permission: 'expenses' },
+      { path: '/admin/inventory', label: 'Stok Bahan Baku', icon: Warehouse, permission: 'inventory' },
       { path: '/admin/activity-logs', label: 'Log Aktivitas', icon: Activity, permission: 'activity_logs' },
       { path: '/admin/settings', label: 'Pengaturan', icon: Settings, permission: 'settings' },
       { path: '/admin/users', label: 'Manajemen User', icon: Shield, permission: 'user_management' },
@@ -60,7 +62,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       </button>
 
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 bg-blue-900 text-white transform transition-transform lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col bg-blue-900 text-white transform transition-transform lg:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -85,7 +87,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           </Link>
         </div>
 
-        <nav className="p-4 space-y-2">
+        <nav className="flex-1 space-y-2 overflow-y-auto p-4">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname.startsWith(item.path);
@@ -107,7 +109,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           })}
         </nav>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-blue-800">
+        <div className="border-t border-blue-800 p-4">
           <div className="mb-4">
             <div className="font-medium">{user?.name}</div>
             <div className="text-sm text-blue-300">{user?.email}</div>

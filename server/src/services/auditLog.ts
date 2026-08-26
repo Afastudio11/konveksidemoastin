@@ -19,14 +19,20 @@ type ActionType =
   | 'user_create'
   | 'user_update'
   | 'user_delete'
+  | 'material_create'
+  | 'material_update'
+  | 'material_delete'
+  | 'stock_in'
+  | 'stock_out'
+  | 'stock_adjustment'
   | 'login'
   | 'logout';
 
-type EntityType = 'order' | 'expense' | 'customer' | 'payment' | 'user' | 'session';
+type EntityType = 'order' | 'expense' | 'customer' | 'payment' | 'user' | 'raw_material' | 'session';
 
 interface AuditLogParams {
   actorId: string;
-  actorRole: 'superadmin' | 'admin' | 'production' | 'viewer';
+  actorRole: 'superadmin' | 'admin';
   actorName: string;
   actionType: ActionType;
   entityType: EntityType;
@@ -79,6 +85,12 @@ export function getActionLabel(actionType: string): string {
     user_create: 'Menambah User',
     user_update: 'Mengubah User',
     user_delete: 'Menghapus User',
+    material_create: 'Menambah Bahan Baku',
+    material_update: 'Mengubah Bahan Baku',
+    material_delete: 'Menonaktifkan Bahan Baku',
+    stock_in: 'Stok Bahan Masuk',
+    stock_out: 'Stok Bahan Keluar',
+    stock_adjustment: 'Penyesuaian Stok',
     login: 'Login',
     logout: 'Logout',
   };
@@ -92,6 +104,7 @@ export function getEntityLabel(entityType: string): string {
     customer: 'Pelanggan',
     payment: 'Pembayaran',
     user: 'User',
+    raw_material: 'Bahan Baku',
     session: 'Sesi',
   };
   return labels[entityType] || entityType;

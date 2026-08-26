@@ -337,6 +337,38 @@ export const api = {
     },
   },
 
+  inventory: {
+    list: (token: string, params?: Record<string, string>) => {
+      const query = params ? '?' + new URLSearchParams(params).toString() : '';
+      return apiRequest<{ materials: any[]; categories: string[]; summary: any }>(`/inventory${query}`, { token });
+    },
+    create: (token: string, data: any) =>
+      apiRequest<any>('/inventory', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        token,
+      }),
+    update: (token: string, id: string, data: any) =>
+      apiRequest<any>(`/inventory/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(data),
+        token,
+      }),
+    delete: (token: string, id: string) =>
+      apiRequest<any>(`/inventory/${id}`, {
+        method: 'DELETE',
+        token,
+      }),
+    movements: (token: string, id: string) =>
+      apiRequest<{ movements: any[] }>(`/inventory/${id}/movements`, { token }),
+    createMovement: (token: string, id: string, data: any) =>
+      apiRequest<any>(`/inventory/${id}/movements`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        token,
+      }),
+  },
+
   auditLogs: {
     list: (token: string, params?: Record<string, string>) => {
       const query = params ? '?' + new URLSearchParams(params).toString() : '';

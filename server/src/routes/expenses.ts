@@ -145,7 +145,8 @@ router.get('/', async (req: AuthRequest, res) => {
         or(
           ilike(productionExpenses.itemName, `%${search}%`),
           ilike(productionExpenses.vendorName, `%${search}%`),
-          ilike(productionExpenses.projectName, `%${search}%`)
+          ilike(productionExpenses.projectName, `%${search}%`),
+          ilike(customers.name, `%${search}%`)
         )
       );
     }
