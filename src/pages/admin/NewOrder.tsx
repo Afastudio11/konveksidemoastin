@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/lib/auth';
 import { api } from '@/lib/api';
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ArrowLeft, Plus, Trash2 } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, Plus, Trash2, Warehouse } from 'lucide-react';
 import { toast } from 'sonner';
 import { Switch } from '@/components/ui/switch';
 
@@ -101,6 +101,12 @@ interface OrderItem {
   size: string;
   sizeQuantities: SizeQuantity;
   color: string;
+  notes: string;
+}
+
+interface MaterialUsageInput {
+  materialId: string;
+  quantity: number;
   notes: string;
 }
 
@@ -217,6 +223,12 @@ export default function NewOrder() {
   const navigate = useNavigate();
   const { token } = useAuth();
 
+  const { data: inventoryData, isLoading: inventoryLoading } = useQuery({
+    queryKey: ['inventory', 'order-form'],
+    queryFn: () => api.inventory.list(token!, {}),
+    enabled: !!token,
+  });
+
   const [customer, setCustomer] = useState({
     name: '',
     phone: '',
@@ -251,6 +263,7 @@ export default function NewOrder() {
   const [paymentDeadline, setPaymentDeadline] = useState('');
   const [productionDeadline, setProductionDeadline] = useState('');
   const [notes, setNotes] = useState('');
+  const [materials, setMaterials] = useState<MaterialUsageInput[]>([]);
 
   const createOrderMutation = useMutation({
     mutationFn: (data: any) => api.orders.create(token!, data),
@@ -286,6 +299,21 @@ export default function NewOrder() {
     if (items.length > 1) {
       setItems(items.filter((_, i) => i !== index));
     }
+  };
+
+  const addMaterial = () => setMaterials((current) => [
+    ...current,
+    { materialId: '', quantity: 0, notes: '' },
+  ]);
+
+  const updateMaterial = (index: number, field: keyof MaterialUsageInput, value: string | number) => {
+    setMaterials((current) => current.map((material, materialIndex) => (
+      materialIndex === index ? { ...material, [field]: value } : material
+    )));
+  };
+
+  const removeMaterial = (index: number) => {
+    setMaterials((current) => current.filter((_, materialIndex) => materialIndex !== index));
   };
 
   const updateItem = (index: number, field: keyof OrderItem, value: any) => {
@@ -380,9 +408,25 @@ export default function NewOrder() {
       return;
     }
 
+    if (materials.some((material) => !material.materialId || material.quantity <= 0)) {
+      toast.error('Setiap bahan baku harus dipilih dan jumlah pemakaiannya lebih dari 0');
+      return;
+    }
+
+    const insufficientMaterial = materials.find((usage) => {
+      const material = inventoryData?.materials?.find((item: any) => item.id === usage.materialId);
+      return material && usage.quantity > Number(material.currentStock);
+    });
+    if (insufficientMaterial) {
+      const material = inventoryData?.materials?.find((item: any) => item.id === insufficientMaterial.materialId);
+      toast.error(`Stok ${material?.name} tidak cukup`);
+      return;
+    }
+
     createOrderMutation.mutate({
       customer,
       items,
+      materials,
       discountAmount,
       dpAmount,
       includePPN,
@@ -627,6 +671,52 @@ export default function NewOrder() {
                 ))}
               </CardContent>
             </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between gap-3">
+                <div>
+                  <CardTitle className="flex items-center gap-2"><Warehouse className="h-5 w-5 text-blue-700" />Bahan Baku Order</CardTitle>
+                  <p className="mt-1 text-sm text-muted-foreground">Stok otomatis dipotong setelah order berhasil dibuat.</p>
+                </div>
+                <Button type="button" variant="outline" size="sm" onClick={addMaterial} disabled={inventoryLoading}>
+                  <Plus className="mr-2 h-4 w-4" />Tambah Bahan
+                </Button>
+              </CardHeader>
+              <CardContent>
+                {materials.length === 0 ? (
+                  <button type="button" onClick={addMaterial} className="w-full rounded-xl border border-dashed border-slate-300 p-6 text-center transition-colors hover:border-blue-400 hover:bg-blue-50/40">
+                    <Warehouse className="mx-auto mb-2 h-7 w-7 text-slate-300" />
+                    <span className="text-sm font-medium text-slate-600">Belum ada bahan baku dipilih</span>
+                    <span className="mt-1 block text-xs text-slate-400">Klik untuk menambahkan kain, benang, tinta, atau bahan lainnya.</span>
+                  </button>
+                ) : (
+                  <div className="space-y-3">
+                    {materials.map((usage, index) => {
+                      const selected = inventoryData?.materials?.find((item: any) => item.id === usage.materialId);
+                      const isInsufficient = selected && usage.quantity > Number(selected.currentStock);
+                      return <div key={index} className="rounded-xl border border-slate-200 p-4">
+                        <div className="grid gap-3 md:grid-cols-[1fr_170px_44px]">
+                          <div className="space-y-2"><Label>Bahan Baku *</Label><Select value={usage.materialId} onValueChange={(value) => updateMaterial(index, 'materialId', value)}>
+                            <SelectTrigger><SelectValue placeholder="Pilih bahan dari stok" /></SelectTrigger>
+                            <SelectContent>{inventoryData?.materials?.map((material: any) => <SelectItem key={material.id} value={material.id}
+                              disabled={materials.some((item, itemIndex) => itemIndex !== index && item.materialId === material.id)}>
+                              {material.code} · {material.name} — stok {Number(material.currentStock).toLocaleString('id-ID')} {material.unit}
+                            </SelectItem>)}</SelectContent>
+                          </Select></div>
+                          <div className="space-y-2"><Label>Jumlah Dipakai *</Label><div className="relative"><Input type="number" min="0.01" step="0.01" value={usage.quantity || ''}
+                            onChange={(event) => updateMaterial(index, 'quantity', Number(event.target.value))} className={selected ? 'pr-14' : ''} placeholder="0" />
+                            {selected && <span className="absolute right-3 top-2.5 text-sm text-slate-400">{selected.unit}</span>}</div></div>
+                          <div className="flex items-end"><Button type="button" variant="ghost" size="icon" onClick={() => removeMaterial(index)} className="text-red-500 hover:bg-red-50 hover:text-red-600"><Trash2 className="h-4 w-4" /></Button></div>
+                        </div>
+                        <div className="mt-3 grid gap-3 md:grid-cols-2"><Input value={usage.notes} onChange={(event) => updateMaterial(index, 'notes', event.target.value)} placeholder="Catatan pemakaian (opsional)" />
+                          <div className="flex items-center justify-end text-sm"><span className="text-slate-500">Estimasi biaya:&nbsp;</span><span className="font-semibold">{formatCurrency((selected ? Number(selected.unitPrice) : 0) * usage.quantity)}</span></div></div>
+                        {isInsufficient && <p className="mt-2 flex items-center gap-1.5 text-xs font-medium text-red-600"><AlertTriangle className="h-3.5 w-3.5" />Jumlah melebihi stok tersedia.</p>}
+                      </div>;
+                    })}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
           </div>
 
           <div className="space-y-6">
@@ -692,6 +782,13 @@ export default function NewOrder() {
                     <span>Total</span>
                     <span>{formatCurrency(totalAmount)}</span>
                   </div>
+                  {materials.length > 0 && <div className="flex justify-between text-sm text-slate-500">
+                    <span>Estimasi biaya bahan</span>
+                    <span>{formatCurrency(materials.reduce((sum, usage) => {
+                      const material = inventoryData?.materials?.find((item: any) => item.id === usage.materialId);
+                      return sum + (Number(material?.unitPrice || 0) * usage.quantity);
+                    }, 0))}</span>
+                  </div>}
                 </div>
 
                 <Separator />

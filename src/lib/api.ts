@@ -78,6 +78,12 @@ export const api = {
         body: JSON.stringify(data),
         token,
       }),
+    updateMaterials: (token: string, id: string, materials: any[]) =>
+      apiRequest<any>(`/orders/${id}/materials`, {
+        method: 'PUT',
+        body: JSON.stringify({ materials }),
+        token,
+      }),
   },
 
   customers: {
@@ -369,6 +375,13 @@ export const api = {
         body: JSON.stringify(data),
         token,
       }),
+  },
+
+  financialReports: {
+    get: (token: string, params?: Record<string, string>) => {
+      const query = params ? '?' + new URLSearchParams(params).toString() : '';
+      return apiRequest<any>(`/financial-reports${query}`, { token });
+    },
   },
 
   auditLogs: {

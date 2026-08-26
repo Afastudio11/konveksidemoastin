@@ -30,6 +30,7 @@ export const menuPermissionEnum = pgEnum('menu_permission', [
   'customers',
   'expenses',
   'inventory',
+  'financial_reports',
   'activity_logs',
   'settings',
   'user_management'
@@ -379,6 +380,19 @@ export const stockMovements = pgTable('stock_movements', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
+export const orderMaterialUsages = pgTable('order_material_usages', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  orderId: uuid('order_id').references(() => orders.id, { onDelete: 'cascade' }).notNull(),
+  materialId: uuid('material_id').references(() => rawMaterials.id, { onDelete: 'cascade' }).notNull(),
+  stockMovementId: uuid('stock_movement_id').references(() => stockMovements.id, { onDelete: 'set null' }),
+  quantity: decimal('quantity', { precision: 14, scale: 2 }).notNull(),
+  unitCost: decimal('unit_cost', { precision: 14, scale: 2 }).notNull(),
+  totalCost: decimal('total_cost', { precision: 14, scale: 2 }).notNull(),
+  notes: text('notes'),
+  createdBy: uuid('created_by').references(() => users.id),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
 export const rawMaterialsRelations = relations(rawMaterials, ({ one, many }) => ({
   createdByUser: one(users, {
     fields: [rawMaterials.createdBy],
@@ -394,6 +408,25 @@ export const stockMovementsRelations = relations(stockMovements, ({ one }) => ({
   }),
   createdByUser: one(users, {
     fields: [stockMovements.createdBy],
+    references: [users.id],
+  }),
+}));
+
+export const orderMaterialUsagesRelations = relations(orderMaterialUsages, ({ one }) => ({
+  order: one(orders, {
+    fields: [orderMaterialUsages.orderId],
+    references: [orders.id],
+  }),
+  material: one(rawMaterials, {
+    fields: [orderMaterialUsages.materialId],
+    references: [rawMaterials.id],
+  }),
+  stockMovement: one(stockMovements, {
+    fields: [orderMaterialUsages.stockMovementId],
+    references: [stockMovements.id],
+  }),
+  createdByUser: one(users, {
+    fields: [orderMaterialUsages.createdBy],
     references: [users.id],
   }),
 }));

@@ -52,6 +52,7 @@ import {
   CreditCard,
   Pencil,
   Trash2,
+  Warehouse,
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { id as idLocale } from 'date-fns/locale';
@@ -106,6 +107,8 @@ export default function OrderDetail() {
   const [paymentAmountDisplay, setPaymentAmountDisplay] = useState('');
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [materialDialogOpen, setMaterialDialogOpen] = useState(false);
+  const [materialForm, setMaterialForm] = useState<Array<{ materialId: string; quantity: number; notes: string }>>([]);
   const [editForm, setEditForm] = useState({
     customerName: '',
     customerPhone: '',
@@ -127,6 +130,12 @@ export default function OrderDetail() {
     queryKey: ['paymentInvoices', orderId],
     queryFn: () => api.invoices.getPaymentInvoices(token!, orderId!),
     enabled: !!token && !!orderId,
+  });
+
+  const { data: inventoryData } = useQuery({
+    queryKey: ['inventory', 'order-detail'],
+    queryFn: () => api.inventory.list(token!, {}),
+    enabled: !!token && materialDialogOpen,
   });
 
   useEffect(() => {
@@ -190,6 +199,27 @@ export default function OrderDetail() {
       toast.error(error.message || 'Gagal mengupdate order');
     },
   });
+
+  const updateMaterialsMutation = useMutation({
+    mutationFn: () => api.orders.updateMaterials(token!, orderId!, materialForm),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['order', orderId] });
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
+      queryClient.invalidateQueries({ queryKey: ['financial-reports'] });
+      setMaterialDialogOpen(false);
+      toast.success('Pemakaian bahan dan stok berhasil diperbarui');
+    },
+    onError: (error: any) => toast.error(error.message || 'Gagal memperbarui bahan baku'),
+  });
+
+  const openMaterialDialog = () => {
+    setMaterialForm((order?.materialUsages || []).map((usage: any) => ({
+      materialId: usage.materialId,
+      quantity: Number(usage.quantity),
+      notes: usage.notes || '',
+    })));
+    setMaterialDialogOpen(true);
+  };
 
   const handleOpenEditDialog = () => {
     if (order) {
@@ -424,6 +454,30 @@ export default function OrderDetail() {
                     )}
                   </div>
                 </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between gap-3">
+                <div>
+                  <CardTitle className="flex items-center gap-2"><Warehouse className="h-5 w-5 text-blue-700" />Pemakaian Bahan Baku</CardTitle>
+                  <p className="mt-1 text-sm text-muted-foreground">Biaya bahan tercatat ke laporan keuangan order ini.</p>
+                </div>
+                <Button variant="outline" size="sm" onClick={openMaterialDialog}><Pencil className="mr-2 h-4 w-4" />Kelola Bahan</Button>
+              </CardHeader>
+              <CardContent>
+                {!order.materialUsages?.length ? (
+                  <div className="rounded-xl border border-dashed p-5 text-center text-sm text-muted-foreground">Belum ada bahan baku yang dialokasikan.</div>
+                ) : (
+                  <div className="space-y-3">
+                    {order.materialUsages.map((usage: any) => <div key={usage.id} className="flex items-center justify-between gap-4 rounded-xl border p-3">
+                      <div><p className="font-semibold">{usage.name}</p><p className="text-xs text-muted-foreground">{usage.code} · {usage.category}{usage.notes ? ` · ${usage.notes}` : ''}</p></div>
+                      <div className="text-right"><p className="font-semibold">{Number(usage.quantity).toLocaleString('id-ID')} {usage.unit}</p><p className="text-xs text-muted-foreground">{formatCurrency(Number(usage.totalCost))}</p></div>
+                    </div>)}
+                    <Separator />
+                    <div className="flex justify-between font-bold"><span>Total Biaya Bahan</span><span>{formatCurrency(order.materialUsages.reduce((sum: number, usage: any) => sum + Number(usage.totalCost), 0))}</span></div>
+                  </div>
+                )}
               </CardContent>
             </Card>
 
@@ -838,6 +892,39 @@ export default function OrderDetail() {
           </div>
         </div>
       </div>
+
+      <Dialog open={materialDialogOpen} onOpenChange={setMaterialDialogOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Kelola Bahan Baku Order</DialogTitle>
+            <DialogDescription>Perubahan akan mengembalikan alokasi lama lalu memotong stok sesuai daftar terbaru.</DialogDescription>
+          </DialogHeader>
+          <div className="max-h-[60vh] space-y-3 overflow-y-auto py-3">
+            {materialForm.length === 0 && <div className="rounded-xl border border-dashed p-6 text-center text-sm text-muted-foreground">Belum ada bahan. Tambahkan bahan yang dipakai untuk order ini.</div>}
+            {materialForm.map((usage, index) => {
+              const selected = inventoryData?.materials?.find((material: any) => material.id === usage.materialId);
+              return <div key={index} className="rounded-xl border p-4">
+                <div className="grid gap-3 sm:grid-cols-[1fr_150px_40px]">
+                  <div className="space-y-2"><Label>Bahan Baku</Label><Select value={usage.materialId} onValueChange={(value) => setMaterialForm((current) => current.map((item, itemIndex) => itemIndex === index ? { ...item, materialId: value } : item))}>
+                    <SelectTrigger><SelectValue placeholder="Pilih bahan" /></SelectTrigger><SelectContent>{inventoryData?.materials?.map((material: any) => <SelectItem key={material.id} value={material.id}
+                      disabled={materialForm.some((item, itemIndex) => itemIndex !== index && item.materialId === material.id)}>{material.code} · {material.name} ({Number(material.currentStock).toLocaleString('id-ID')} {material.unit})</SelectItem>)}</SelectContent>
+                  </Select></div>
+                  <div className="space-y-2"><Label>Jumlah</Label><div className="relative"><Input type="number" min="0.01" step="0.01" value={usage.quantity || ''}
+                    onChange={(event) => setMaterialForm((current) => current.map((item, itemIndex) => itemIndex === index ? { ...item, quantity: Number(event.target.value) } : item))} className={selected ? 'pr-12' : ''} />
+                    {selected && <span className="absolute right-3 top-2.5 text-sm text-muted-foreground">{selected.unit}</span>}</div></div>
+                  <div className="flex items-end"><Button variant="ghost" size="icon" onClick={() => setMaterialForm((current) => current.filter((_, itemIndex) => itemIndex !== index))} className="text-red-500"><Trash2 className="h-4 w-4" /></Button></div>
+                </div>
+                <Input className="mt-3" placeholder="Catatan pemakaian (opsional)" value={usage.notes} onChange={(event) => setMaterialForm((current) => current.map((item, itemIndex) => itemIndex === index ? { ...item, notes: event.target.value } : item))} />
+              </div>;
+            })}
+            <Button variant="outline" className="w-full" onClick={() => setMaterialForm((current) => [...current, { materialId: '', quantity: 0, notes: '' }])}><Plus className="mr-2 h-4 w-4" />Tambah Bahan</Button>
+          </div>
+          <DialogFooter><Button variant="outline" onClick={() => setMaterialDialogOpen(false)}>Batal</Button><Button onClick={() => updateMaterialsMutation.mutate()}
+            disabled={updateMaterialsMutation.isPending || materialForm.some((item) => !item.materialId || item.quantity <= 0)} className="bg-blue-700 hover:bg-blue-800">
+            {updateMaterialsMutation.isPending ? 'Menyimpan...' : 'Simpan & Potong Stok'}
+          </Button></DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={paymentDialogOpen} onOpenChange={setPaymentDialogOpen}>
         <DialogContent>

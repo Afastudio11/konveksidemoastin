@@ -25,9 +25,9 @@ WHERE email LIKE '%@seed.konveksi.invalid';
 INSERT INTO users (email, password, name, role, permissions, created_at, updated_at)
 VALUES
   ('owner.demo@seed.konveksi.invalid', crypt('DemoKonveksi2026!', gen_salt('bf', 10)), 'Nadia Pratama', 'superadmin', '[]'::jsonb, localtimestamp - interval '3 months', localtimestamp),
-  ('admin.demo@seed.konveksi.invalid', crypt('DemoKonveksi2026!', gen_salt('bf', 10)), 'Rizky Maulana', 'admin', '["dashboard", "orders", "customers", "expenses"]'::jsonb, localtimestamp - interval '3 months', localtimestamp),
-  ('keuangan.demo@seed.konveksi.invalid', crypt('DemoKonveksi2026!', gen_salt('bf', 10)), 'Siti Rahma', 'admin', '["dashboard", "orders", "customers", "expenses"]'::jsonb, localtimestamp - interval '2 months', localtimestamp),
-  ('produksi.demo@seed.konveksi.invalid', crypt('DemoKonveksi2026!', gen_salt('bf', 10)), 'Dimas Saputra', 'admin', '["dashboard", "orders", "customers"]'::jsonb, localtimestamp - interval '1 month', localtimestamp)
+  ('admin.demo@seed.konveksi.invalid', crypt('DemoKonveksi2026!', gen_salt('bf', 10)), 'Rizky Maulana', 'admin', '["dashboard", "orders", "customers", "expenses", "inventory", "financial_reports"]'::jsonb, localtimestamp - interval '3 months', localtimestamp),
+  ('keuangan.demo@seed.konveksi.invalid', crypt('DemoKonveksi2026!', gen_salt('bf', 10)), 'Siti Rahma', 'admin', '["dashboard", "orders", "customers", "expenses", "inventory", "financial_reports"]'::jsonb, localtimestamp - interval '2 months', localtimestamp),
+  ('produksi.demo@seed.konveksi.invalid', crypt('DemoKonveksi2026!', gen_salt('bf', 10)), 'Dimas Saputra', 'admin', '["dashboard", "orders", "customers", "inventory"]'::jsonb, localtimestamp - interval '1 month', localtimestamp)
 ON CONFLICT (email) DO UPDATE SET
   name = EXCLUDED.name,
   role = EXCLUDED.role,
@@ -297,7 +297,7 @@ INSERT INTO production_expenses (
 SELECT
   LEAST(o.created_at + (expense_no * interval '1 day'), localtimestamp), o.customer_id, o.id,
   o.invoice_number,
-  CASE expense_no WHEN 1 THEN 'Kain dan bahan utama' ELSE 'Sablon / bordir / finishing' END,
+  CASE expense_no WHEN 1 THEN 'Jasa potong dan jahit' ELSE 'Sablon / bordir / finishing' END,
   CASE expense_no WHEN 1 THEN (ARRAY['CV Textile Makassar', 'Toko Kain Nusantara', 'UD Bahan Jaya'])[((o.sequence_no - 1) % 3) + 1]
                   ELSE (ARRAY['Sablon Prima', 'Bordir Mitra', 'Finishing Makassar'])[((o.sequence_no - 1) % 3) + 1] END,
   1,

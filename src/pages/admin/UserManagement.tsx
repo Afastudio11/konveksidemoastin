@@ -50,6 +50,7 @@ const PERMISSION_LABELS: Record<string, string> = {
   customers: 'Pelanggan',
   expenses: 'Pengeluaran',
   inventory: 'Stok Bahan Baku',
+  financial_reports: 'Laporan Keuangan',
   activity_logs: 'Log Aktivitas',
   settings: 'Pengaturan',
   user_management: 'Manajemen User',

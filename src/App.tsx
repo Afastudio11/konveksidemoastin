@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import { AuthProvider, useAuth } from "@/lib/auth";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import Index from "./pages/Index";
@@ -21,6 +22,8 @@ import AdminSettings from "./pages/admin/Settings";
 import AdminActivityLogs from "./pages/admin/ActivityLogs";
 import AdminUserManagement from "./pages/admin/UserManagement";
 import AdminInventory from "./pages/admin/Inventory";
+
+const FinancialReports = lazy(() => import("./pages/admin/FinancialReports"));
 
 const queryClient = new QueryClient();
 
@@ -115,6 +118,16 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <AdminInventory />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/financial-reports"
+              element={
+                <ProtectedRoute>
+                  <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full" /></div>}>
+                    <FinancialReports />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />

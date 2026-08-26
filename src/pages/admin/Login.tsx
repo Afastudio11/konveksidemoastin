@@ -12,6 +12,8 @@ const menuPermissionMap = [
   { path: '/admin/orders', permission: 'orders' },
   { path: '/admin/customers', permission: 'customers' },
   { path: '/admin/expenses', permission: 'expenses' },
+  { path: '/admin/inventory', permission: 'inventory' },
+  { path: '/admin/financial-reports', permission: 'financial_reports' },
   { path: '/admin/activity-logs', permission: 'activity_logs' },
   { path: '/admin/settings', permission: 'settings' },
   { path: '/admin/users', permission: 'user_management' },

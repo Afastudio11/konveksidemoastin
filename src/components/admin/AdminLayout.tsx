@@ -14,6 +14,7 @@ import {
   Activity,
   Shield,
   Warehouse,
+  ChartNoAxesCombined,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -39,6 +40,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       { path: '/admin/customers', label: 'Pelanggan', icon: Users, permission: 'customers' },
       { path: '/admin/expenses', label: 'Pengeluaran', icon: Receipt, permission: 'expenses' },
       { path: '/admin/inventory', label: 'Stok Bahan Baku', icon: Warehouse, permission: 'inventory' },
+      { path: '/admin/financial-reports', label: 'Laporan Keuangan', icon: ChartNoAxesCombined, permission: 'financial_reports' },
       { path: '/admin/activity-logs', label: 'Log Aktivitas', icon: Activity, permission: 'activity_logs' },
       { path: '/admin/settings', label: 'Pengaturan', icon: Settings, permission: 'settings' },
       { path: '/admin/users', label: 'Manajemen User', icon: Shield, permission: 'user_management' },

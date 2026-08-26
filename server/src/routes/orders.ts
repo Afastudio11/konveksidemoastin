@@ -1,6 +1,15 @@
 import { Router } from 'express';
 import { db } from '../db';
-import { orders, orderItems, orderStatusHistory, customers, payments } from '../db/schema';
+import {
+  orders,
+  orderItems,
+  orderStatusHistory,
+  customers,
+  payments,
+  rawMaterials,
+  stockMovements,
+  orderMaterialUsages,
+} from '../db/schema';
 import { eq, desc, and, or, ilike, sql } from 'drizzle-orm';
 import { z } from 'zod';
 import { AuthRequest, requireRole } from '../middleware/auth';
@@ -28,6 +37,11 @@ const createOrderSchema = z.object({
     color: z.string().optional(),
     notes: z.string().optional(),
   })).min(1),
+  materials: z.array(z.object({
+    materialId: z.string().uuid(),
+    quantity: z.number().positive(),
+    notes: z.string().trim().max(500).optional(),
+  })).optional().default([]),
   dpAmount: z.number().min(0).optional(),
   discountAmount: z.number().min(0).optional(),
   discountType: z.enum(['fixed', 'percent']).optional(),
@@ -42,6 +56,128 @@ const updateStatusSchema = z.object({
   status: z.enum(['pending', 'design', 'beli_bahan', 'potong_printing', 'jahit', 'bordir_sablon', 'qc', 'packing', 'selesai', 'dikirim']),
   notes: z.string().optional(),
 });
+
+const orderMaterialsSchema = z.object({
+  materials: z.array(z.object({
+    materialId: z.string().uuid(),
+    quantity: z.number().positive(),
+    notes: z.string().trim().max(500).optional(),
+  })).default([]),
+});
+
+type MaterialInput = z.infer<typeof orderMaterialsSchema>['materials'][number];
+
+function combineMaterials(materials: MaterialInput[]) {
+  const combined = new Map<string, MaterialInput>();
+  for (const material of materials) {
+    const existing = combined.get(material.materialId);
+    combined.set(material.materialId, {
+      materialId: material.materialId,
+      quantity: (existing?.quantity || 0) + material.quantity,
+      notes: [existing?.notes, material.notes].filter(Boolean).join('; ') || undefined,
+    });
+  }
+  return Array.from(combined.values());
+}
+
+async function deductOrderMaterials(
+  tx: any,
+  order: { id: string; invoiceNumber: string; createdAt?: Date },
+  materials: MaterialInput[],
+  userId?: string,
+) {
+  let totalMaterialCost = 0;
+
+  for (const input of combineMaterials(materials)) {
+    const quantity = Number(input.quantity);
+    const [updatedMaterial] = await tx.update(rawMaterials)
+      .set({
+        currentStock: sql`${rawMaterials.currentStock} - ${quantity}`,
+        updatedAt: new Date(),
+      })
+      .where(and(
+        eq(rawMaterials.id, input.materialId),
+        eq(rawMaterials.isActive, true),
+        sql`${rawMaterials.currentStock} >= ${quantity}`,
+      ))
+      .returning();
+
+    if (!updatedMaterial) {
+      const [material] = await tx.select().from(rawMaterials)
+        .where(eq(rawMaterials.id, input.materialId)).limit(1);
+      const error = new Error(material
+        ? `Stok ${material.name} tidak cukup. Tersedia ${Number(material.currentStock).toLocaleString('id-ID')} ${material.unit}`
+        : 'Bahan baku tidak ditemukan');
+      (error as any).code = material ? 'INSUFFICIENT_STOCK' : 'MATERIAL_NOT_FOUND';
+      throw error;
+    }
+
+    const newStock = Number(updatedMaterial.currentStock);
+    const previousStock = newStock + quantity;
+    const unitCost = Number(updatedMaterial.unitPrice);
+    const totalCost = quantity * unitCost;
+
+    const [movement] = await tx.insert(stockMovements).values({
+      materialId: updatedMaterial.id,
+      type: 'out',
+      quantity: quantity.toString(),
+      previousStock: previousStock.toString(),
+      newStock: newStock.toString(),
+      reference: order.invoiceNumber,
+      notes: `Pemakaian otomatis untuk order ${order.invoiceNumber}${input.notes ? ` - ${input.notes}` : ''}`,
+      movementDate: order.createdAt || new Date(),
+      createdBy: userId,
+    }).returning();
+
+    await tx.insert(orderMaterialUsages).values({
+      orderId: order.id,
+      materialId: updatedMaterial.id,
+      stockMovementId: movement.id,
+      quantity: quantity.toString(),
+      unitCost: unitCost.toString(),
+      totalCost: totalCost.toString(),
+      notes: input.notes,
+      createdBy: userId,
+      createdAt: order.createdAt || new Date(),
+    });
+
+    totalMaterialCost += totalCost;
+  }
+
+  return totalMaterialCost;
+}
+
+async function restoreOrderMaterials(tx: any, order: { id: string; invoiceNumber: string }, userId?: string) {
+  const usages = await tx.select({
+    id: orderMaterialUsages.id,
+    materialId: orderMaterialUsages.materialId,
+    quantity: orderMaterialUsages.quantity,
+  }).from(orderMaterialUsages).where(eq(orderMaterialUsages.orderId, order.id));
+
+  for (const usage of usages) {
+    const quantity = Number(usage.quantity);
+    const [updatedMaterial] = await tx.update(rawMaterials)
+      .set({ currentStock: sql`${rawMaterials.currentStock} + ${quantity}`, updatedAt: new Date() })
+      .where(eq(rawMaterials.id, usage.materialId))
+      .returning();
+
+    if (updatedMaterial) {
+      const newStock = Number(updatedMaterial.currentStock);
+      await tx.insert(stockMovements).values({
+        materialId: usage.materialId,
+        type: 'in',
+        quantity: quantity.toString(),
+        previousStock: (newStock - quantity).toString(),
+        newStock: newStock.toString(),
+        reference: `REVISI-${order.invoiceNumber}`,
+        notes: `Pengembalian stok dari revisi/penghapusan order ${order.invoiceNumber}`,
+        createdBy: userId,
+      });
+    }
+  }
+
+  await tx.delete(orderMaterialUsages).where(eq(orderMaterialUsages.orderId, order.id));
+}
 
 router.get('/', async (req: AuthRequest, res) => {
   try {
@@ -167,12 +303,32 @@ router.get('/:id', async (req: AuthRequest, res) => {
       .where(eq(payments.orderId, id))
       .orderBy(desc(payments.createdAt));
 
+    const materialUsages = await db
+      .select({
+        id: orderMaterialUsages.id,
+        materialId: orderMaterialUsages.materialId,
+        code: rawMaterials.code,
+        name: rawMaterials.name,
+        category: rawMaterials.category,
+        unit: rawMaterials.unit,
+        quantity: orderMaterialUsages.quantity,
+        unitCost: orderMaterialUsages.unitCost,
+        totalCost: orderMaterialUsages.totalCost,
+        notes: orderMaterialUsages.notes,
+        createdAt: orderMaterialUsages.createdAt,
+      })
+      .from(orderMaterialUsages)
+      .innerJoin(rawMaterials, eq(orderMaterialUsages.materialId, rawMaterials.id))
+      .where(eq(orderMaterialUsages.orderId, id))
+      .orderBy(rawMaterials.name);
+
     res.json({
       ...order,
       customer,
       items,
       statusHistory,
       payments: orderPayments,
+      materialUsages,
     });
   } catch (error) {
     console.error('Get order error:', error);
@@ -268,6 +424,20 @@ router.post('/', requireRole('admin'), async (req: AuthRequest, res) => {
       });
     }
 
+    let materialCost = 0;
+    try {
+      materialCost = await db.transaction((tx) => deductOrderMaterials(
+        tx,
+        { id: newOrder.id, invoiceNumber, createdAt: newOrder.createdAt },
+        data.materials,
+        req.user?.id,
+      ));
+    } catch (materialError) {
+      // Order dan item dibatalkan jika satu saja bahan tidak dapat dipotong.
+      await db.delete(orders).where(eq(orders.id, newOrder.id));
+      throw materialError;
+    }
+
     await db.insert(orderStatusHistory).values({
       orderId: newOrder.id,
       status: 'pending',
@@ -296,13 +466,57 @@ router.post('/', requireRole('admin'), async (req: AuthRequest, res) => {
       order: newOrder,
       invoiceNumber,
       trackingCode,
+      materialCost,
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ error: 'Data tidak valid', details: error.errors });
     }
+    if ((error as any)?.code === 'INSUFFICIENT_STOCK' || (error as any)?.code === 'MATERIAL_NOT_FOUND') {
+      return res.status(400).json({ error: (error as Error).message });
+    }
     console.error('Create order error:', error);
     res.status(500).json({ error: 'Terjadi kesalahan server' });
+  }
+});
+
+router.put('/:id/materials', requireRole('admin'), async (req: AuthRequest, res) => {
+  try {
+    const { materials } = orderMaterialsSchema.parse(req.body);
+    const [order] = await db.select().from(orders).where(eq(orders.id, req.params.id)).limit(1);
+
+    if (!order) return res.status(404).json({ error: 'Order tidak ditemukan' });
+
+    const materialCost = await db.transaction(async (tx) => {
+      await restoreOrderMaterials(tx, order, req.user?.id);
+      return deductOrderMaterials(tx, order, materials, req.user?.id);
+    });
+
+    if (req.user) {
+      await createAuditLog({
+        actorId: req.user.id,
+        actorRole: req.user.role as any,
+        actorName: req.user.name,
+        actionType: 'order_update',
+        entityType: 'order',
+        entityId: order.id,
+        summary: `Memperbarui pemakaian bahan baku order ${order.invoiceNumber}`,
+        afterState: { materials, materialCost },
+        ipAddress: req.ip,
+        userAgent: req.headers['user-agent'],
+      });
+    }
+
+    res.json({ message: 'Pemakaian bahan baku berhasil diperbarui', materialCost });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({ error: 'Data bahan baku tidak valid', details: error.errors });
+    }
+    if ((error as any)?.code === 'INSUFFICIENT_STOCK' || (error as any)?.code === 'MATERIAL_NOT_FOUND') {
+      return res.status(400).json({ error: (error as Error).message });
+    }
+    console.error('Update order materials error:', error);
+    res.status(500).json({ error: 'Gagal memperbarui pemakaian bahan baku' });
   }
 });
 
@@ -704,7 +918,10 @@ router.delete('/:id', requireRole('superadmin'), async (req: AuthRequest, res) =
       return res.status(404).json({ error: 'Order tidak ditemukan' });
     }
 
-    await db.delete(orders).where(eq(orders.id, id));
+    await db.transaction(async (tx) => {
+      await restoreOrderMaterials(tx, existingOrder, req.user?.id);
+      await tx.delete(orders).where(eq(orders.id, id));
+    });
 
     if (req.user) {
       await createAuditLog({

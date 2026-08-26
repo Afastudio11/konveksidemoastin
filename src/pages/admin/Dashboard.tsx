@@ -149,7 +149,7 @@ export default function AdminDashboard() {
   const totalOrders = Number(stats?.totalOrders || 0);
   const completedOrders = Number(stats?.completedOrders || 0);
   const completionRate = totalOrders ? Math.round((completedOrders / totalOrders) * 100) : 0;
-  const omzet = Number(filterType === 'all' ? stats?.totalOmzetAllTime : stats?.totalOmzet || 0);
+  const omzet = Number((filterType === 'all' ? stats?.totalOmzetAllTime : stats?.totalOmzet) || 0);
   const productionCounts = new Map<string, number>(
     (productionOverview?.statusCounts || []).map((item: { status: string; count: number }) => [item.status, Number(item.count)]),
   );
@@ -277,8 +277,8 @@ export default function AdminDashboard() {
             <CardContent className="flex items-center gap-4 p-5">
               <div className={`rounded-2xl p-3 ${iconClass}`}><Icon className="h-5 w-5" /></div>
               <div className="min-w-0"><p className="text-sm font-medium text-slate-500">{label}</p>
-                <div className="mt-0.5 flex items-baseline gap-2"><span className="text-2xl font-bold text-slate-950">{statsLoading ? '-' : value.toLocaleString('id-ID')}</span>
-                  <span className="truncate text-xs text-slate-400">{helper}</span></div></div>
+                <p className="mt-0.5 text-2xl font-bold text-slate-950">{statsLoading ? '-' : value.toLocaleString('id-ID')}</p>
+                <p className="mt-1 truncate text-xs text-slate-400">{helper}</p></div>
             </CardContent>
           </Card>)}
         </section>
