@@ -131,8 +131,10 @@ export const api = {
       const query = params ? '?' + new URLSearchParams(params).toString() : '';
       return apiRequest<{ orders: any[] }>(`/dashboard/recent-orders${query}`, { token });
     },
-    productionOverview: (token: string) =>
-      apiRequest<{ statusCounts: any[] }>('/dashboard/production-overview', { token }),
+    productionOverview: (token: string, params?: Record<string, string>) => {
+      const query = params ? '?' + new URLSearchParams(params).toString() : '';
+      return apiRequest<{ statusCounts: any[] }>(`/dashboard/production-overview${query}`, { token });
+    },
     productAnalytics: (token: string, params?: Record<string, string>) => {
       const query = params ? '?' + new URLSearchParams(params).toString() : '';
       return apiRequest<{

@@ -220,13 +220,31 @@ router.get('/recent-orders', async (req: AuthRequest, res) => {
 
 router.get('/production-overview', async (req: AuthRequest, res) => {
   try {
+    const { startDate, endDate, month, year } = req.query;
+    let dateFilter: any = null;
+
+    if (startDate && endDate) {
+      dateFilter = sql`DATE(${orders.createdAt} AT TIME ZONE 'Asia/Jakarta') >= ${startDate} AND DATE(${orders.createdAt} AT TIME ZONE 'Asia/Jakarta') <= ${endDate}`;
+    } else if (month && year) {
+      const monthNum = parseInt(month as string);
+      const yearNum = parseInt(year as string);
+      const startStr = `${yearNum}-${String(monthNum).padStart(2, '0')}-01`;
+      const lastDay = new Date(yearNum, monthNum, 0).getDate();
+      const endStr = `${yearNum}-${String(monthNum).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`;
+      dateFilter = sql`DATE(${orders.createdAt} AT TIME ZONE 'Asia/Jakarta') >= ${startStr} AND DATE(${orders.createdAt} AT TIME ZONE 'Asia/Jakarta') <= ${endStr}`;
+    }
+
     const statusCounts = await db
       .select({
         status: orders.productionStatus,
         count: sql<number>`count(*)`,
       })
       .from(orders)
-      .where(eq(orders.paymentStatus, 'paid'))
+      .where(
+        dateFilter
+          ? and(eq(orders.paymentStatus, 'paid'), dateFilter)
+          : eq(orders.paymentStatus, 'paid')
+      )
       .groupBy(orders.productionStatus);
 
     res.json({ statusCounts });
