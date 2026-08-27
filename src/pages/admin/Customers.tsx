@@ -34,7 +34,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Label } from '@/components/ui/label';
-import { Search, Phone, Mail, Eye, ArrowUpDown, ArrowUp, ArrowDown, Building2, Pencil, Trash2, FileDown, Loader2 } from 'lucide-react';
+import { Search, Phone, Mail, ArrowRight, ArrowUpDown, ArrowUp, ArrowDown, Building2, Pencil, Trash2, FileDown, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { id as idLocale } from 'date-fns/locale';
 import { toast } from 'sonner';
@@ -310,7 +310,8 @@ export default function AdminCustomers() {
                             <div className="flex justify-end gap-1">
                               <Link to={`/admin/customers/${customer.id}`}>
                                 <Button variant="outline" size="sm">
-                                  <Eye className="w-4 h-4" />
+                                  Cek Detail
+                                  <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
                               </Link>
                               {isSuperAdmin && (

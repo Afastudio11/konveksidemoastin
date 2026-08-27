@@ -2,7 +2,6 @@ import puppeteer, { Browser, Page } from 'puppeteer';
 import { format } from 'date-fns';
 import { id as idLocale } from 'date-fns/locale/id';
 import * as fs from 'fs';
-import * as path from 'path';
 import { execSync } from 'child_process';
 
 function getChromiumPath(): string {
@@ -40,30 +39,6 @@ function getChromiumPath(): string {
   }
   
   return '';
-}
-
-const COMPANY_INFO = {
-  name: 'Konveksi Industry',
-  tagline: 'Konveksi & Apparel Professional',
-  phone: '0857-5477-7068',
-  email: 'konveksiindustry@gmail.com',
-  address: 'Jl. Maccini Sawah No 48, Maccini, Kota Makassar, Sulawesi Selatan',
-};
-
-function getLogoBase64(): string {
-  try {
-    const logoDarkPath = path.join(process.cwd(), 'server', 'src', 'assets', 'logo-dark.png');
-    if (fs.existsSync(logoDarkPath)) {
-      const logoBuffer = fs.readFileSync(logoDarkPath);
-      return `data:image/png;base64,${logoBuffer.toString('base64')}`;
-    }
-    const logoPath = path.join(process.cwd(), 'src', 'assets', 'logo-dark.png');
-    const logoBuffer = fs.readFileSync(logoPath);
-    return `data:image/png;base64,${logoBuffer.toString('base64')}`;
-  } catch (error) {
-    console.error('Error loading logo:', error);
-    return '';
-  }
 }
 
 interface InvoiceItem {
@@ -110,7 +85,6 @@ function formatDate(date: Date): string {
 }
 
 export function generateInvoiceHTML(data: InvoiceData): string {
-  const logoBase64 = getLogoBase64();
   const itemsHTML = data.items
     .map(
       (item, index) => `
@@ -144,9 +118,7 @@ export function generateInvoiceHTML(data: InvoiceData): string {
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #1f2937; line-height: 1.3; font-size: 12px; }
     .container { max-width: 800px; margin: 0 auto; padding: 15px 20px; }
-    .header { display: flex; justify-content: space-between; margin-bottom: 15px; }
-    .logo-img { height: 50px; width: auto; }
-    .company-name { font-size: 16px; font-weight: bold; color: #000000; margin-top: 4px; }
+    .header { display: flex; justify-content: flex-end; margin-bottom: 15px; }
     table { width: 100%; border-collapse: collapse; }
     th { background: #1e3a8a; color: white; padding: 6px 8px; text-align: left; font-size: 11px; }
     th:nth-child(3), th:nth-child(4), th:nth-child(5) { text-align: center; }
@@ -161,12 +133,6 @@ export function generateInvoiceHTML(data: InvoiceData): string {
 <body>
   <div class="container">
     <div class="header">
-      <div>
-        ${logoBase64 ? `<img src="${logoBase64}" alt="${COMPANY_INFO.name}" class="logo-img" />` : `<div class="company-name">${COMPANY_INFO.name}</div>`}
-        <p style="color: #6b7280; font-size: 10px; margin-top: 2px;">${COMPANY_INFO.tagline}</p>
-        <p style="color: #6b7280; font-size: 10px;">${COMPANY_INFO.address}</p>
-        <p style="color: #6b7280; font-size: 10px;">Telp: ${COMPANY_INFO.phone} | Email: ${COMPANY_INFO.email}</p>
-      </div>
       <div style="text-align: right;">
         <h1 style="font-size: 24px; color: #1e3a8a;">INVOICE</h1>
         <p style="margin-top: 4px; font-size: 11px;"><strong>No:</strong> ${data.invoiceNumber}</p>
@@ -242,19 +208,8 @@ export function generateInvoiceHTML(data: InvoiceData): string {
     </div>
     ` : ''}
 
-    <div style="margin-top: 12px; padding: 10px; background: #dbeafe; border-radius: 6px;">
-      <h4 style="color: #1e40af; margin-bottom: 4px; font-size: 11px;">Informasi Pembayaran:</h4>
-      <p style="color: #1e3a8a; font-size: 11px; font-weight: bold;">Bank BRI</p>
-      <p style="color: #1e3a8a; font-size: 11px;">No. Rekening: 024001000578560</p>
-      <p style="color: #1e3a8a; font-size: 11px;">A/n: PT Virotek Karya Kreasi</p>
-      <p style="margin-top: 4px; font-size: 10px; color: #3b82f6;">
-        Kode Tracking: <strong>${data.trackingCode}</strong>
-      </p>
-    </div>
-
     <div class="footer">
-      <p>Terima kasih atas kepercayaan Anda kepada Konveksi Industry</p>
-      <p style="margin-top: 4px;">Invoice ini dibuat secara otomatis oleh sistem Konveksi Industry</p>
+      <p>Invoice ini dibuat secara otomatis oleh sistem.</p>
     </div>
   </div>
 </body>
@@ -344,7 +299,6 @@ interface PaymentInvoiceData {
 }
 
 export function generatePaymentInvoiceHTML(data: PaymentInvoiceData): string {
-  const logoBase64 = getLogoBase64();
   const invoiceTypeLabel = data.invoiceType === 'dp' ? 'DOWN PAYMENT (DP)' : 'PELUNASAN';
   const invoiceTypeBadge = data.invoiceType === 'dp' 
     ? '<span style="background: #dbeafe; color: #1e40af; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: bold;">INVOICE DP</span>'
@@ -382,9 +336,7 @@ export function generatePaymentInvoiceHTML(data: PaymentInvoiceData): string {
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #1f2937; line-height: 1.3; font-size: 11px; }
     .container { max-width: 800px; margin: 0 auto; padding: 15px 20px; }
-    .header { display: flex; justify-content: space-between; margin-bottom: 15px; }
-    .logo-img { height: 50px; width: auto; }
-    .company-name { font-size: 16px; font-weight: bold; color: #000000; margin-top: 4px; }
+    .header { display: flex; justify-content: flex-end; margin-bottom: 15px; }
     table { width: 100%; border-collapse: collapse; }
     th { background: #1e3a8a; color: white; padding: 6px 8px; text-align: left; font-size: 10px; }
     th:last-child { text-align: right; }
@@ -400,12 +352,6 @@ export function generatePaymentInvoiceHTML(data: PaymentInvoiceData): string {
 <body>
   <div class="container">
     <div class="header">
-      <div>
-        ${logoBase64 ? `<img src="${logoBase64}" alt="${COMPANY_INFO.name}" class="logo-img" />` : `<div class="company-name">${COMPANY_INFO.name}</div>`}
-        <p style="color: #6b7280; font-size: 10px; margin-top: 2px;">${COMPANY_INFO.tagline}</p>
-        <p style="color: #6b7280; font-size: 10px;">${COMPANY_INFO.address}</p>
-        <p style="color: #6b7280; font-size: 10px;">Telp: ${COMPANY_INFO.phone} | Email: ${COMPANY_INFO.email}</p>
-      </div>
       <div style="text-align: right;">
         <h1 style="font-size: 22px; color: #1e3a8a;">KWITANSI</h1>
         <div style="margin-top: 4px; margin-bottom: 6px;">${invoiceTypeBadge}</div>
@@ -484,17 +430,9 @@ export function generatePaymentInvoiceHTML(data: PaymentInvoiceData): string {
     ${dpPaidMessage}
     ${remainingPaymentBox}
 
-    <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: flex-start;">
-      <div>
-        <p style="color: #6b7280; font-size: 10px;">Status Pembayaran:</p>
-        <div style="margin-top: 4px;">${statusBadge}</div>
-      </div>
-      <div style="text-align: center; width: 150px;">
-        <p style="color: #6b7280; font-size: 10px; margin-bottom: 40px;">Hormat Kami,</p>
-        <div style="border-top: 1px solid #9ca3af; padding-top: 6px;">
-          <p style="font-weight: 600; font-size: 11px;">Konveksi Industry</p>
-        </div>
-      </div>
+    <div style="margin-top: 20px;">
+      <p style="color: #6b7280; font-size: 10px;">Status Pembayaran:</p>
+      <div style="margin-top: 4px;">${statusBadge}</div>
     </div>
 
     ${data.notes ? `
@@ -504,18 +442,9 @@ export function generatePaymentInvoiceHTML(data: PaymentInvoiceData): string {
     </div>
     ` : ''}
 
-    ${data.remainingAmount > 0 ? `
-    <div style="margin-top: 12px; padding: 10px; background: #dbeafe; border-radius: 6px;">
-      <h4 style="color: #1e40af; margin-bottom: 4px; font-size: 11px;">Informasi Pembayaran Sisa:</h4>
-      <p style="color: #1e3a8a; font-size: 11px; font-weight: bold;">Bank BRI</p>
-      <p style="color: #1e3a8a; font-size: 11px;">No. Rekening: 024001000578560</p>
-      <p style="color: #1e3a8a; font-size: 11px;">A/n: PT Virotek Karya Kreasi</p>
-    </div>
-    ` : ''}
-
     <div class="footer">
       <p>Terima kasih atas pembayaran Anda</p>
-      <p style="margin-top: 4px;">Kwitansi ini dibuat secara otomatis oleh sistem Konveksi Industry</p>
+      <p style="margin-top: 4px;">Kwitansi ini dibuat secara otomatis oleh sistem.</p>
       <p style="margin-top: 2px; font-size: 8px; color: #9ca3af;">Simpan kwitansi ini sebagai bukti pembayaran yang sah</p>
     </div>
   </div>
@@ -616,7 +545,6 @@ interface BillingInvoiceData {
 }
 
 export function generateBillingInvoiceHTML(data: BillingInvoiceData): string {
-  const logoBase64 = getLogoBase64();
   const billingTypeLabel = data.billingType === 'dp' ? 'DOWN PAYMENT (DP)' : 'PELUNASAN';
   const billingTypeBadge = data.billingType === 'dp' 
     ? '<span style="background: #dbeafe; color: #1e40af; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: bold;">TAGIHAN DP</span>'
@@ -664,9 +592,7 @@ export function generateBillingInvoiceHTML(data: BillingInvoiceData): string {
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #1f2937; line-height: 1.3; font-size: 11px; }
     .container { max-width: 800px; margin: 0 auto; padding: 15px 20px; }
-    .header { display: flex; justify-content: space-between; margin-bottom: 15px; }
-    .logo-img { height: 50px; width: auto; }
-    .company-name { font-size: 16px; font-weight: bold; color: #000000; margin-top: 4px; }
+    .header { display: flex; justify-content: flex-end; margin-bottom: 15px; }
     table { width: 100%; border-collapse: collapse; }
     th { background: #1e3a8a; color: white; padding: 6px 8px; text-align: left; font-size: 10px; }
     th:nth-child(3), th:nth-child(4), th:nth-child(5) { text-align: center; }
@@ -682,12 +608,6 @@ export function generateBillingInvoiceHTML(data: BillingInvoiceData): string {
 <body>
   <div class="container">
     <div class="header">
-      <div>
-        ${logoBase64 ? `<img src="${logoBase64}" alt="${COMPANY_INFO.name}" class="logo-img" />` : `<div class="company-name">${COMPANY_INFO.name}</div>`}
-        <p style="color: #6b7280; font-size: 10px; margin-top: 2px;">${COMPANY_INFO.tagline}</p>
-        <p style="color: #6b7280; font-size: 10px;">${COMPANY_INFO.address}</p>
-        <p style="color: #6b7280; font-size: 10px;">Telp: ${COMPANY_INFO.phone} | Email: ${COMPANY_INFO.email}</p>
-      </div>
       <div style="text-align: right;">
         <h1 style="font-size: 20px; color: #1e3a8a;">INVOICE TAGIHAN</h1>
         <div style="margin-top: 4px; margin-bottom: 6px;">${billingTypeBadge}</div>
@@ -770,34 +690,13 @@ export function generateBillingInvoiceHTML(data: BillingInvoiceData): string {
 
     ${paidMessage}
 
-    <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: flex-start;">
-      <div>
-        <p style="color: #6b7280; font-size: 10px;">Status Pembayaran:</p>
-        <div style="margin-top: 4px;">${statusBadge}</div>
-      </div>
-      <div style="text-align: center; width: 150px;">
-        <p style="color: #6b7280; font-size: 10px; margin-bottom: 40px;">Hormat Kami,</p>
-        <div style="border-top: 1px solid #9ca3af; padding-top: 6px;">
-          <p style="font-weight: 600; font-size: 11px;">Konveksi Industry</p>
-        </div>
-      </div>
+    <div style="margin-top: 20px;">
+      <p style="color: #6b7280; font-size: 10px;">Status Pembayaran:</p>
+      <div style="margin-top: 4px;">${statusBadge}</div>
     </div>
-
-    ${!data.isPaid ? `
-    <div style="margin-top: 12px; padding: 10px; background: #dbeafe; border-radius: 6px;">
-      <h4 style="color: #1e40af; margin-bottom: 4px; font-size: 11px;">Informasi Pembayaran:</h4>
-      <p style="color: #1e3a8a; font-size: 11px; font-weight: bold;">Bank BRI</p>
-      <p style="color: #1e3a8a; font-size: 11px;">No. Rekening: 024001000578560</p>
-      <p style="color: #1e3a8a; font-size: 11px;">A/n: PT Virotek Karya Kreasi</p>
-      <p style="margin-top: 4px; font-size: 10px; color: #3b82f6;">
-        Kode Tracking: <strong>${data.trackingCode}</strong>
-      </p>
-    </div>
-    ` : ''}
 
     <div class="footer">
-      <p>Terima kasih atas kepercayaan Anda kepada Konveksi Industry</p>
-      <p style="margin-top: 4px;">Invoice tagihan ini dibuat secara otomatis oleh sistem Konveksi Industry</p>
+      <p>Invoice tagihan ini dibuat secara otomatis oleh sistem.</p>
     </div>
   </div>
 </body>

@@ -623,13 +623,6 @@ export default function OrderDetail() {
                     </div>
                   )}
 
-                  <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
-                    <h4 className="text-sm font-medium text-blue-900 mb-2">Informasi Rekening:</h4>
-                    <p className="text-sm text-blue-800 font-bold">Bank BRI</p>
-                    <p className="text-sm text-blue-800">No. Rek: 024001000578560</p>
-                    <p className="text-sm text-blue-800">A/n: PT Virotek Karya Kreasi</p>
-                  </div>
-
                   {order.paymentDeadline && (
                     <div className="text-sm">
                       <span className="text-muted-foreground">Batas Bayar: </span>
@@ -878,7 +871,7 @@ export default function OrderDetail() {
                           /\D/g,
                           ''
                         )}?text=${encodeURIComponent(
-                          `Halo ${order.customer?.name}, berikut link tracking pesanan Anda di Konveksi Industry:\n\n${trackingUrl}\n\nNomor Invoice: ${order.invoiceNumber}\nNomor Tracking: ${order.trackingCode}`
+                          `Halo ${order.customer?.name}, berikut link tracking pesanan Anda:\n\n${trackingUrl}\n\nNomor Invoice: ${order.invoiceNumber}\nNomor Tracking: ${order.trackingCode}`
                         )}`,
                         '_blank'
                       )

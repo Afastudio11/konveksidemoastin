@@ -17,6 +17,7 @@ import AdminOrders from "./pages/admin/Orders";
 import AdminOrderDetail from "./pages/admin/OrderDetail";
 import AdminNewOrder from "./pages/admin/NewOrder";
 import AdminCustomers from "./pages/admin/Customers";
+import AdminCustomerDetail from "./pages/admin/CustomerDetail";
 import AdminExpenses from "./pages/admin/Expenses";
 import AdminSettings from "./pages/admin/Settings";
 import AdminActivityLogs from "./pages/admin/ActivityLogs";
@@ -102,6 +103,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <AdminCustomers />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/customers/:id"
+              element={
+                <ProtectedRoute>
+                  <AdminCustomerDetail />
                 </ProtectedRoute>
               }
             />
