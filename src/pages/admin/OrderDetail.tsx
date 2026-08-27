@@ -665,8 +665,8 @@ export default function OrderDetail() {
                           onClick={async () => {
                             try {
                               await api.invoices.downloadBillingInvoiceHtml(token!, orderId!, 'dp');
-                            } catch (error) {
-                              toast.error('Gagal membuka invoice');
+                            } catch (error: any) {
+                              toast.error(error.message || 'Gagal membuka invoice');
                             }
                           }}
                         >
@@ -680,8 +680,8 @@ export default function OrderDetail() {
                           onClick={async () => {
                             try {
                               await api.invoices.downloadBillingInvoicePdf(token!, orderId!, 'dp');
-                            } catch (error) {
-                              toast.error('Gagal mendownload PDF');
+                            } catch (error: any) {
+                              toast.error(error.message || 'Gagal mendownload PDF');
                             }
                           }}
                         >
@@ -717,8 +717,8 @@ export default function OrderDetail() {
                         onClick={async () => {
                           try {
                             await api.invoices.downloadBillingInvoiceHtml(token!, orderId!, 'pelunasan');
-                          } catch (error) {
-                            toast.error('Gagal membuka invoice');
+                          } catch (error: any) {
+                            toast.error(error.message || 'Gagal membuka invoice');
                           }
                         }}
                       >
@@ -732,8 +732,8 @@ export default function OrderDetail() {
                         onClick={async () => {
                           try {
                             await api.invoices.downloadBillingInvoicePdf(token!, orderId!, 'pelunasan');
-                          } catch (error) {
-                            toast.error('Gagal mendownload PDF');
+                          } catch (error: any) {
+                            toast.error(error.message || 'Gagal mendownload PDF');
                           }
                         }}
                       >
@@ -813,8 +813,8 @@ export default function OrderDetail() {
                             onClick={async () => {
                               try {
                                 await api.invoices.downloadPaymentInvoiceHtml(token!, invoice.id);
-                              } catch (error) {
-                                toast.error('Gagal membuka invoice');
+                              } catch (error: any) {
+                                toast.error(error.message || 'Gagal membuka invoice');
                               }
                             }}
                           >
@@ -826,8 +826,8 @@ export default function OrderDetail() {
                             onClick={async () => {
                               try {
                                 await api.invoices.downloadPaymentInvoicePdf(token!, invoice.id);
-                              } catch (error) {
-                                toast.error('Gagal mendownload PDF');
+                              } catch (error: any) {
+                                toast.error(error.message || 'Gagal mendownload PDF');
                               }
                             }}
                           >

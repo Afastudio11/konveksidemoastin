@@ -26,6 +26,67 @@ async function apiRequest<T>(endpoint: string, options: ApiOptions = {}): Promis
   return response.json();
 }
 
+async function responseError(response: Response, fallback: string): Promise<Error> {
+  const payload = await response.clone().json().catch(() => null);
+  return new Error(payload?.error || `${fallback} (HTTP ${response.status})`);
+}
+
+async function downloadResponse(response: Response, filename: string, expectedType?: string) {
+  if (!response.ok) throw await responseError(response, 'Gagal mengunduh file');
+
+  const contentType = response.headers.get('content-type') || '';
+  if (expectedType && !contentType.includes(expectedType)) {
+    throw new Error('Server tidak mengirim format file yang benar');
+  }
+
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = filename;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  window.setTimeout(() => window.URL.revokeObjectURL(url), 1_000);
+}
+
+async function openAuthenticatedHtml(endpoint: string, token: string, fallbackFilename: string) {
+  // Buka tab sebelum await agar tidak diblokir popup blocker browser.
+  const preview = window.open('about:blank', '_blank');
+  if (preview) {
+    preview.document.title = 'Memuat invoice...';
+    preview.document.body.innerHTML = '<p style="font-family:sans-serif;padding:24px">Memuat invoice...</p>';
+  }
+
+  try {
+    const response = await fetch(`${API_BASE}${endpoint}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!response.ok) throw await responseError(response, 'Gagal membuka invoice');
+
+    const html = await response.text();
+    const url = window.URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+
+    if (preview) {
+      preview.location.replace(url);
+      window.setTimeout(() => window.URL.revokeObjectURL(url), 60_000);
+      return;
+    }
+
+    // Jika popup diblokir, unduh versi HTML agar invoice tetap bisa diakses.
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = fallbackFilename;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    window.setTimeout(() => window.URL.revokeObjectURL(url), 1_000);
+  } catch (error) {
+    preview?.close();
+    throw error;
+  }
+}
+
 export const api = {
   auth: {
     login: (email: string, password: string) =>
@@ -201,92 +262,29 @@ export const api = {
   invoices: {
     getPaymentInvoices: (token: string, orderId: string) =>
       apiRequest<any[]>(`/invoice/${orderId}/payment-invoices`, { token }),
-    downloadOrderInvoiceHtml: async (token: string, orderId: string) => {
-      const response = await fetch(`${API_BASE}/invoice/${orderId}/html`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) throw new Error('Failed to download invoice');
-      const html = await response.text();
-      const blob = new Blob([html], { type: 'text/html' });
-      const url = window.URL.createObjectURL(blob);
-      window.open(url, '_blank');
-    },
+    downloadOrderInvoiceHtml: (token: string, orderId: string) =>
+      openAuthenticatedHtml(`/invoice/${orderId}/html`, token, `invoice-${orderId}.html`),
     downloadOrderInvoicePdf: async (token: string, orderId: string, invoiceNumber: string) => {
       const response = await fetch(`${API_BASE}/invoice/${orderId}/pdf`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
-      if (!response.ok) throw new Error('Failed to download invoice PDF');
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${invoiceNumber}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
+      await downloadResponse(response, `${invoiceNumber}.pdf`, 'application/pdf');
     },
-    downloadPaymentInvoiceHtml: async (token: string, invoiceId: string) => {
-      const response = await fetch(`${API_BASE}/invoice/payment/${invoiceId}/html`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) throw new Error('Failed to download invoice');
-      const html = await response.text();
-      const blob = new Blob([html], { type: 'text/html' });
-      const url = window.URL.createObjectURL(blob);
-      window.open(url, '_blank');
-    },
+    downloadPaymentInvoiceHtml: (token: string, invoiceId: string) =>
+      openAuthenticatedHtml(`/invoice/payment/${invoiceId}/html`, token, `kwitansi-${invoiceId}.html`),
     downloadPaymentInvoicePdf: async (token: string, invoiceId: string) => {
       const response = await fetch(`${API_BASE}/invoice/payment/${invoiceId}/pdf`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
-      if (!response.ok) throw new Error('Failed to download invoice PDF');
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `invoice-${invoiceId}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
+      await downloadResponse(response, `invoice-${invoiceId}.pdf`, 'application/pdf');
     },
-    downloadBillingInvoiceHtml: async (token: string, orderId: string, type: 'dp' | 'pelunasan') => {
-      const response = await fetch(`${API_BASE}/invoice/${orderId}/billing/${type}/html`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) throw new Error('Failed to download billing invoice');
-      const html = await response.text();
-      const blob = new Blob([html], { type: 'text/html' });
-      const url = window.URL.createObjectURL(blob);
-      window.open(url, '_blank');
-    },
+    downloadBillingInvoiceHtml: (token: string, orderId: string, type: 'dp' | 'pelunasan') =>
+      openAuthenticatedHtml(`/invoice/${orderId}/billing/${type}/html`, token, `tagihan-${type}-${orderId}.html`),
     downloadBillingInvoicePdf: async (token: string, orderId: string, type: 'dp' | 'pelunasan') => {
       const response = await fetch(`${API_BASE}/invoice/${orderId}/billing/${type}/pdf`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
-      if (!response.ok) throw new Error('Failed to download billing invoice PDF');
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `tagihan-${type}-${orderId}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
+      await downloadResponse(response, `tagihan-${type}-${orderId}.pdf`, 'application/pdf');
     },
   },
 

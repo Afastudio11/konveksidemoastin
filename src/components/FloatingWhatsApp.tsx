@@ -4,7 +4,9 @@ import { useLocation } from "react-router-dom";
 const FloatingWhatsApp = () => {
   const location = useLocation();
   
-  const isAdminPage = location.pathname.startsWith('/admin');
+  const shouldHide =
+    location.pathname.startsWith('/admin') ||
+    /^\/(track|tracking|pay)(\/|$)/.test(location.pathname);
   
   const handleClick = () => {
     window.open(
@@ -13,7 +15,7 @@ const FloatingWhatsApp = () => {
     );
   };
 
-  if (isAdminPage) {
+  if (shouldHide) {
     return null;
   }
 

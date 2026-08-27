@@ -8,6 +8,7 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const isHomePage = location.pathname === "/";
+  const usePageHeader = !isHomePage;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,8 +49,10 @@ const Header = () => {
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled 
-          ? "glassmorphism-dark shadow-lg py-3" 
+        usePageHeader
+          ? "bg-[#172c73]/95 backdrop-blur-xl shadow-lg py-3"
+          : scrolled
+          ? "glassmorphism-dark shadow-lg py-3"
           : "bg-transparent py-5"
       }`}
     >
@@ -80,11 +83,7 @@ const Header = () => {
               <button
                 key={item}
                 onClick={() => scrollToSection(["home", "about", "products", "contact"][index])}
-                className={`px-4 py-2 text-sm font-semibold transition-all duration-300 relative group rounded-lg ${
-                  scrolled 
-                    ? "text-foreground hover:text-accent" 
-                    : "text-white/90 hover:text-white"
-                }`}
+                className="px-4 py-2 text-sm font-semibold transition-all duration-300 relative group rounded-lg text-white/90 hover:text-white"
                 data-testid={`nav-${["home", "about", "products", "contact"][index]}`}
               >
                 <span className="relative z-10">{item}</span>
@@ -115,11 +114,7 @@ const Header = () => {
           </div>
 
           <button
-            className={`lg:hidden p-2 rounded-lg transition-all duration-300 ${
-              scrolled 
-                ? "text-foreground hover:bg-accent/10" 
-                : "text-white hover:bg-white/10"
-            }`}
+            className="lg:hidden p-2 rounded-lg text-white transition-all duration-300 hover:bg-white/10"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             data-testid="button-menu"
           >

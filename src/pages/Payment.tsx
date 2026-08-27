@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -34,21 +34,16 @@ export default function Payment() {
   const [isSearching, setIsSearching] = useState(false);
   const [orderInfo, setOrderInfo] = useState<OrderPaymentInfo | null>(null);
 
-  useEffect(() => {
-    if (paramTrackingCode) {
-      searchOrder();
-    }
-  }, [paramTrackingCode]);
-
-  const searchOrder = async () => {
-    if (!trackingCode.trim()) {
+  const searchOrder = useCallback(async (code: string) => {
+    const requestedCode = code.trim().toUpperCase();
+    if (!requestedCode) {
       toast({ title: "Masukkan kode tracking", variant: "destructive" });
       return;
     }
 
     setIsSearching(true);
     try {
-      const res = await fetch(`${API_BASE}/payments/status/${trackingCode.toUpperCase()}`);
+      const res = await fetch(`${API_BASE}/payments/status/${requestedCode}`);
       if (!res.ok) {
         throw new Error("Order tidak ditemukan");
       }
@@ -64,7 +59,14 @@ export default function Payment() {
     } finally {
       setIsSearching(false);
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    if (paramTrackingCode) {
+      setTrackingCode(paramTrackingCode);
+      void searchOrder(paramTrackingCode);
+    }
+  }, [paramTrackingCode, searchOrder]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900">
@@ -94,11 +96,11 @@ export default function Payment() {
                     placeholder="Masukkan kode tracking (contoh: TRK-ABC123)"
                     value={trackingCode}
                     onChange={(e) => setTrackingCode(e.target.value.toUpperCase())}
-                    onKeyDown={(e) => e.key === "Enter" && searchOrder()}
+                    onKeyDown={(e) => e.key === "Enter" && searchOrder(trackingCode)}
                     className="flex-1"
                   />
                   <Button
-                    onClick={searchOrder}
+                    onClick={() => searchOrder(trackingCode)}
                     disabled={isSearching}
                     className="bg-[#CCFF00] text-blue-900 hover:bg-[#b8e600]"
                   >

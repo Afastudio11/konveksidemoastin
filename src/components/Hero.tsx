@@ -56,6 +56,24 @@ const useCountAnimation = (end: number, duration: number = 2000, shouldStart: bo
   return count;
 };
 
+function StatCard({ stat, isVisible }: { stat: (typeof stats)[number]; isVisible: boolean }) {
+  const count = useCountAnimation(stat.value, 2000, isVisible);
+
+  return (
+    <div
+      className="p-2 sm:p-3 md:p-4 flex flex-col items-center justify-center text-center border-2 sm:border-4 border-black min-w-0"
+      style={{ backgroundColor: '#d4ff00' }}
+    >
+      <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black text-black">
+        {count}{stat.suffix}
+      </div>
+      <div className="text-[10px] sm:text-xs md:text-sm text-black font-bold mt-1 leading-tight">
+        {stat.label}
+      </div>
+    </div>
+  );
+}
+
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
   const statsRef = useRef<HTMLDivElement>(null);
@@ -70,13 +88,14 @@ const Hero = () => {
       { threshold: 0.3 }
     );
 
-    if (statsRef.current) {
-      observer.observe(statsRef.current);
+    const statsElement = statsRef.current;
+    if (statsElement) {
+      observer.observe(statsElement);
     }
 
     return () => {
-      if (statsRef.current) {
-        observer.unobserve(statsRef.current);
+      if (statsElement) {
+        observer.unobserve(statsElement);
       }
     };
   }, []);
@@ -122,24 +141,9 @@ const Hero = () => {
 
             {/* Stats - 4 kotak dengan border tebal */}
             <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 -mx-1 sm:mx-0">
-              {stats.map((stat, index) => {
-                const count = useCountAnimation(stat.value, 2000, isVisible);
-                
-                return (
-                  <div
-                    key={index}
-                    className="p-2 sm:p-3 md:p-4 flex flex-col items-center justify-center text-center border-2 sm:border-4 border-black min-w-0"
-                    style={{ backgroundColor: '#d4ff00' }}
-                  >
-                    <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black text-black">
-                      {count}{stat.suffix}
-                    </div>
-                    <div className="text-[10px] sm:text-xs md:text-sm text-black font-bold mt-1 leading-tight">
-                      {stat.label}
-                    </div>
-                  </div>
-                );
-              })}
+              {stats.map((stat) => (
+                <StatCard key={stat.label} stat={stat} isVisible={isVisible} />
+              ))}
             </div>
 
             {/* Client Logos */}

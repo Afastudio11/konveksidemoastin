@@ -5,6 +5,10 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# Chromium disediakan oleh image produksi, jadi Puppeteer tidak perlu
+# mengunduh browser lain saat instalasi dependency/build frontend.
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+
 # Copy package files
 COPY package.json package-lock.json ./
 
@@ -23,6 +27,18 @@ RUN npm run build
 FROM node:20-alpine AS production
 
 WORKDIR /app
+
+# Puppeteer membutuhkan Chromium beserta font/library ini untuk membuat PDF.
+RUN apk add --no-cache \
+    chromium \
+    nss \
+    freetype \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont
+
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
 # Install production dependencies only
 COPY package.json package-lock.json ./

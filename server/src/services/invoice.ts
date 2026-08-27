@@ -28,6 +28,7 @@ function getChromiumPath(): string {
       return whichResult;
     }
   } catch {
+    // Lanjutkan ke pencarian executable berikutnya.
   }
   
   try {
@@ -36,6 +37,7 @@ function getChromiumPath(): string {
       return nixChrome;
     }
   } catch {
+    // Nix store tidak tersedia pada sebagian besar environment.
   }
   
   return '';
@@ -235,7 +237,6 @@ export async function generateInvoicePDF(data: InvoiceData): Promise<Buffer> {
         '--disable-gpu',
         '--no-first-run',
         '--no-zygote',
-        '--single-process',
       ],
     });
     
@@ -471,7 +472,6 @@ export async function generatePaymentInvoicePDF(data: PaymentInvoiceData): Promi
         '--disable-gpu',
         '--no-first-run',
         '--no-zygote',
-        '--single-process',
       ],
     });
     
@@ -722,7 +722,6 @@ export async function generateBillingInvoicePDF(data: BillingInvoiceData): Promi
         '--disable-gpu',
         '--no-first-run',
         '--no-zygote',
-        '--single-process',
       ],
     });
     

@@ -166,6 +166,7 @@ const getEntityIcon = (entityType: string) => {
 
 export default function ActivityLogs() {
   const { token, user } = useAuth();
+  const isSuperAdmin = user?.role === 'superadmin';
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [actionType, setActionType] = useState<string>('');
@@ -177,7 +178,41 @@ export default function ActivityLogs() {
   const [endDate, setEndDate] = useState<Date | undefined>(new Date());
   const [selectedLog, setSelectedLog] = useState<any>(null);
 
-  if (user?.role !== 'superadmin') {
+  const params: Record<string, string> = { 
+    page: page.toString(), 
+    limit: '20' 
+  };
+  if (search) params.search = search;
+  if (actionType) params.actionType = actionType;
+  if (entityType) params.entityType = entityType;
+  if (actorId) params.actorId = actorId;
+  if (startDate) params.startDate = format(startDate, 'yyyy-MM-dd');
+  if (endDate) params.endDate = format(endDate, 'yyyy-MM-dd');
+
+  const { data: logsData, isLoading } = useQuery({
+    queryKey: ['audit-logs', params],
+    queryFn: () => api.auditLogs.list(token!, params),
+    enabled: !!token && isSuperAdmin,
+  });
+
+  const { data: statsData } = useQuery({
+    queryKey: ['audit-logs-stats', { startDate, endDate }],
+    queryFn: () => {
+      const statsParams: Record<string, string> = {};
+      if (startDate) statsParams.startDate = format(startDate, 'yyyy-MM-dd');
+      if (endDate) statsParams.endDate = format(endDate, 'yyyy-MM-dd');
+      return api.auditLogs.stats(token!, statsParams);
+    },
+    enabled: !!token && isSuperAdmin,
+  });
+
+  const { data: usersData } = useQuery({
+    queryKey: ['audit-logs-users'],
+    queryFn: () => api.auditLogs.getUsers(token!),
+    enabled: !!token && isSuperAdmin,
+  });
+
+  if (!isSuperAdmin) {
     return (
       <AdminLayout>
         <div className="p-6 flex items-center justify-center min-h-[60vh]">
@@ -194,40 +229,6 @@ export default function ActivityLogs() {
       </AdminLayout>
     );
   }
-
-  const params: Record<string, string> = { 
-    page: page.toString(), 
-    limit: '20' 
-  };
-  if (search) params.search = search;
-  if (actionType) params.actionType = actionType;
-  if (entityType) params.entityType = entityType;
-  if (actorId) params.actorId = actorId;
-  if (startDate) params.startDate = format(startDate, 'yyyy-MM-dd');
-  if (endDate) params.endDate = format(endDate, 'yyyy-MM-dd');
-
-  const { data: logsData, isLoading } = useQuery({
-    queryKey: ['audit-logs', params],
-    queryFn: () => api.auditLogs.list(token!, params),
-    enabled: !!token,
-  });
-
-  const { data: statsData } = useQuery({
-    queryKey: ['audit-logs-stats', { startDate, endDate }],
-    queryFn: () => {
-      const statsParams: Record<string, string> = {};
-      if (startDate) statsParams.startDate = format(startDate, 'yyyy-MM-dd');
-      if (endDate) statsParams.endDate = format(endDate, 'yyyy-MM-dd');
-      return api.auditLogs.stats(token!, statsParams);
-    },
-    enabled: !!token,
-  });
-
-  const { data: usersData } = useQuery({
-    queryKey: ['audit-logs-users'],
-    queryFn: () => api.auditLogs.getUsers(token!),
-    enabled: !!token,
-  });
 
   const clearFilters = () => {
     setSearch('');
