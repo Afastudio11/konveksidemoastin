@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { id as idLocale } from 'date-fns/locale';
 import {
-  Activity, ArrowRight, BarChart3, CalendarIcon, CheckCircle2, Clock3,
+  ArrowRight, BarChart3, CalendarIcon, CheckCircle2, Clock3,
   Factory, FileSpreadsheet, FileText, Loader2, Package, Palette, Plus,
   TrendingUp, Users, Wallet, X,
 } from 'lucide-react';
@@ -170,39 +170,36 @@ export default function AdminDashboard() {
 
   return (
     <AdminLayout>
-      <div className="space-y-5 pb-8">
-        <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-          <div className="flex flex-col gap-5 p-5 sm:p-6 xl:flex-row xl:items-center xl:justify-between">
+      <div className="space-y-6 pb-4">
+        <section className="space-y-4">
+          <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
             <div>
-              <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
-                <Activity className="h-4 w-4" /> Ringkasan bisnis
-              </div>
-              <h1 className="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Dashboard Operasional</h1>
-              <p className="mt-1.5 max-w-2xl text-sm text-slate-500 sm:text-base">
-                Halo {user?.name?.split(' ')[0] || 'Admin'}, pantau penjualan, pembayaran, dan progres produksi dalam satu tampilan.
+              <h1 className="text-xl font-semibold tracking-tight text-slate-950 sm:text-2xl">Selamat Datang, {user?.name?.split(' ')[0] || 'Admin'}! 👋</h1>
+              <p className="mt-1 max-w-2xl text-sm text-slate-500">
+                Pantau penjualan, pembayaran, stok, dan progres produksi dari satu workspace.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
-              <Button variant="outline" className="h-10 rounded-xl" onClick={() => exportExcel.mutate()} disabled={exportExcel.isPending}>
+              <Button variant="outline" size="sm" className="h-9" onClick={() => exportExcel.mutate()} disabled={exportExcel.isPending}>
                 {exportExcel.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <FileSpreadsheet className="mr-2 h-4 w-4" />} Excel
               </Button>
-              <Button variant="outline" className="h-10 rounded-xl" onClick={() => exportPdf.mutate()} disabled={exportPdf.isPending}>
+              <Button variant="outline" size="sm" className="h-9" onClick={() => exportPdf.mutate()} disabled={exportPdf.isPending}>
                 {exportPdf.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <FileText className="mr-2 h-4 w-4" />} PDF
               </Button>
-              <Button asChild className="h-10 rounded-xl bg-[#CCFF00] text-blue-950 shadow-none hover:bg-[#b8e600]">
+              <Button asChild size="sm" className="h-9 bg-slate-950 text-white hover:bg-slate-800">
                 <Link to="/admin/orders/new"><Plus className="mr-2 h-4 w-4" />Buat Order</Link>
               </Button>
             </div>
           </div>
 
-          <div className="border-t border-slate-200 bg-slate-50/80 px-5 py-4 sm:px-6">
+          <div className="rounded-xl border border-slate-200 bg-white p-3">
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
               <div className="flex items-center gap-2 text-sm font-semibold text-slate-700">
                 <CalendarIcon className="h-4 w-4 text-blue-700" /> Periode data
               </div>
               <div className="flex flex-1 flex-wrap items-center gap-2">
                 <Select value={filterType} onValueChange={(value: 'all' | 'month' | 'date') => setFilterType(value)}>
-                  <SelectTrigger className="h-10 w-full rounded-xl bg-white sm:w-[165px]"><SelectValue /></SelectTrigger>
+                  <SelectTrigger className="h-9 w-full bg-slate-50 sm:w-[165px]"><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Semua Waktu</SelectItem>
                     <SelectItem value="month">Per Bulan</SelectItem>
@@ -211,17 +208,17 @@ export default function AdminDashboard() {
                 </Select>
                 {filterType === 'month' && <>
                   <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-                    <SelectTrigger className="h-10 w-[145px] rounded-xl bg-white"><SelectValue /></SelectTrigger>
+                    <SelectTrigger className="h-9 w-[145px] bg-slate-50"><SelectValue /></SelectTrigger>
                     <SelectContent>{months.map((month) => <SelectItem key={month.value} value={month.value}>{month.label}</SelectItem>)}</SelectContent>
                   </Select>
                   <Select value={selectedYear} onValueChange={setSelectedYear}>
-                    <SelectTrigger className="h-10 w-[105px] rounded-xl bg-white"><SelectValue /></SelectTrigger>
+                    <SelectTrigger className="h-9 w-[105px] bg-slate-50"><SelectValue /></SelectTrigger>
                     <SelectContent>{years.map((year) => <SelectItem key={year} value={year}>{year}</SelectItem>)}</SelectContent>
                   </Select>
                 </>}
                 {filterType === 'date' && <>
                   <Popover>
-                    <PopoverTrigger asChild><Button variant="outline" className="h-10 w-[145px] justify-start rounded-xl bg-white px-3 font-normal">
+                    <PopoverTrigger asChild><Button variant="outline" className="h-9 w-[145px] justify-start bg-slate-50 px-3 font-normal">
                       <CalendarIcon className="mr-2 h-4 w-4 text-slate-400" />{startDate ? format(startDate, 'dd/MM/yyyy') : 'Tanggal awal'}
                     </Button></PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start"><Calendar mode="single" selected={startDate} onSelect={(date) => {
@@ -230,7 +227,7 @@ export default function AdminDashboard() {
                   </Popover>
                   <span className="text-sm text-slate-400">sampai</span>
                   <Popover>
-                    <PopoverTrigger asChild><Button variant="outline" className="h-10 w-[145px] justify-start rounded-xl bg-white px-3 font-normal">
+                    <PopoverTrigger asChild><Button variant="outline" className="h-9 w-[145px] justify-start bg-slate-50 px-3 font-normal">
                       <CalendarIcon className="mr-2 h-4 w-4 text-slate-400" />{endDate ? format(endDate, 'dd/MM/yyyy') : 'Tanggal akhir'}
                     </Button></PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start"><Calendar mode="single" selected={endDate} onSelect={setEndDate}
@@ -241,43 +238,41 @@ export default function AdminDashboard() {
                   <X className="mr-1 h-4 w-4" />Reset
                 </Button>}
               </div>
-              <Badge variant="outline" className="w-fit rounded-full border-blue-200 bg-blue-50 px-3 py-1.5 text-blue-700">{filterLabel}</Badge>
+              <Badge variant="outline" className="w-fit border-slate-200 bg-slate-50 px-2.5 py-1 text-slate-600">{filterLabel}</Badge>
             </div>
           </div>
         </section>
 
-        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-          <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-blue-950 via-blue-900 to-blue-700 text-white shadow-lg shadow-blue-950/10 md:col-span-2">
-            <div className="absolute -right-14 -top-16 h-48 w-48 rounded-full bg-blue-500/20" />
-            <div className="absolute -bottom-20 right-20 h-44 w-44 rounded-full bg-[#CCFF00]/10" />
-            <CardContent className="relative flex h-full min-h-[190px] flex-col justify-between p-6">
+        <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <Card className="relative overflow-hidden border-slate-200 bg-white">
+            <CardContent className="relative flex h-full min-h-[145px] flex-col justify-between p-4">
               <div className="flex items-start justify-between gap-4">
-                <div><p className="text-sm font-medium text-blue-100">{filterType === 'all' ? 'Total Omzet Keseluruhan' : 'Omzet Periode'}</p>
-                  <p className="mt-3 text-3xl font-bold tracking-tight text-[#CCFF00] sm:text-4xl">{statsLoading ? 'Memuat...' : formatCurrency(omzet)}</p></div>
-                <div className="rounded-2xl bg-white/10 p-3"><BarChart3 className="h-6 w-6 text-[#CCFF00]" /></div>
+                <div><p className="text-sm text-slate-500">{filterType === 'all' ? 'Total Omzet' : 'Omzet Periode'}</p>
+                  <p className="mt-2 text-2xl font-medium tracking-tight text-slate-950">{statsLoading ? 'Memuat...' : formatCurrency(omzet)}</p></div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-slate-50"><BarChart3 className="h-5 w-5 text-indigo-500" /></div>
               </div>
-              <div className="flex items-center justify-between border-t border-white/15 pt-4 text-sm">
-                <span className="text-blue-100">Data {filterLabel.toLowerCase()}</span>
-                <span className="font-semibold">{totalOrders.toLocaleString('id-ID')} order</span>
+              <div className="flex items-center justify-between text-xs text-slate-400">
+                <span>Data {filterLabel.toLowerCase()}</span>
+                <span>+ {totalOrders.toLocaleString('id-ID')} order</span>
               </div>
             </CardContent>
           </Card>
           {moneyMetrics.map(([label, value, helper, Icon, iconClass]) => <Card key={label} className="border-slate-200 shadow-sm">
-            <CardContent className="flex h-full min-h-[190px] flex-col justify-between p-5">
-              <div className={`w-fit rounded-xl p-2.5 ${iconClass}`}><Icon className="h-5 w-5" /></div>
-              <div><p className="text-sm font-medium text-slate-500">{label}</p>
-                <p className="mt-1 break-words text-xl font-bold tracking-tight text-slate-950">{statsLoading ? '-' : formatCurrency(value)}</p>
-                <p className="mt-2 text-xs text-slate-400">{helper}</p></div>
+            <CardContent className="flex h-full min-h-[145px] flex-col justify-between p-4">
+              <div className="flex items-start justify-between gap-3"><div><p className="text-sm text-slate-500">{label}</p>
+                <p className="mt-2 break-words text-2xl font-medium tracking-tight text-slate-950">{statsLoading ? '-' : formatCurrency(value)}</p></div>
+                <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-slate-200 ${iconClass}`}><Icon className="h-5 w-5" /></div></div>
+              <p className="text-xs text-slate-400">{helper}</p>
             </CardContent>
           </Card>)}
         </section>
 
         <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {operations.map(([label, value, helper, Icon, iconClass]) => <Card key={label} className="border-slate-200 shadow-sm transition-shadow hover:shadow-md">
-            <CardContent className="flex items-center gap-4 p-5">
-              <div className={`rounded-2xl p-3 ${iconClass}`}><Icon className="h-5 w-5" /></div>
+          {operations.map(([label, value, helper, Icon, iconClass]) => <Card key={label} className="border-slate-200 shadow-sm">
+            <CardContent className="flex items-center gap-3 p-4">
+              <div className={`flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 ${iconClass}`}><Icon className="h-5 w-5" /></div>
               <div className="min-w-0"><p className="text-sm font-medium text-slate-500">{label}</p>
-                <p className="mt-0.5 text-2xl font-bold text-slate-950">{statsLoading ? '-' : value.toLocaleString('id-ID')}</p>
+                <p className="mt-0.5 text-2xl font-medium text-slate-950">{statsLoading ? '-' : value.toLocaleString('id-ID')}</p>
                 <p className="mt-1 truncate text-xs text-slate-400">{helper}</p></div>
             </CardContent>
           </Card>)}

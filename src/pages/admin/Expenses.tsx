@@ -442,7 +442,7 @@ export default function Expenses() {
               onClick={handleExportPdf} 
               variant="outline"
               disabled={isExporting}
-              className="border-blue-600 text-blue-600 hover:bg-blue-50"
+              className="border-slate-200 text-slate-700 hover:bg-slate-50"
             >
               {isExporting ? (
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -452,7 +452,7 @@ export default function Expenses() {
               Export PDF
             </Button>
             {!isViewLocked && (
-              <Button onClick={() => handleOpenDialog()} className="bg-[#CCFF00] text-blue-900 hover:bg-[#b8e600]">
+              <Button onClick={() => handleOpenDialog()} className="bg-slate-950 text-white hover:bg-slate-800">
                 <Plus className="w-4 h-4 mr-2" />
                 Tambah Pengeluaran
               </Button>
@@ -515,7 +515,7 @@ export default function Expenses() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-r from-blue-600 to-blue-800">
+        <Card className="border-slate-200 bg-white">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               {dateFilterType === 'month' ? (
@@ -524,18 +524,18 @@ export default function Expenses() {
                   size="sm"
                   onClick={handlePreviousMonth}
                   disabled={!canGoPrevious}
-                  className="text-white hover:bg-white/20 disabled:opacity-50"
+                  className="text-slate-600 hover:bg-slate-100 disabled:opacity-50"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </Button>
               ) : <div className="w-9" />}
               
               <div className="flex items-center gap-3">
-                <h2 className="text-xl font-bold text-white">
+                <h2 className="text-lg font-semibold text-slate-950">
                   {periodLabel}
                 </h2>
                 {dateFilterType === 'range' ? (
-                  <Badge className="bg-white/20 text-white flex items-center gap-1 hover:bg-white/20">
+                  <Badge variant="outline" className="flex items-center gap-1 border-slate-200 bg-slate-50 text-slate-600">
                     <CalendarRange className="w-3 h-3" />
                     Rentang
                   </Badge>
@@ -558,7 +558,7 @@ export default function Expenses() {
                   size="sm"
                   onClick={handleNextMonth}
                   disabled={isCurrentMonth}
-                  className="text-white hover:bg-white/20 disabled:opacity-50"
+                  className="text-slate-600 hover:bg-slate-100 disabled:opacity-50"
                 >
                   <ChevronRight className="w-5 h-5" />
                 </Button>
@@ -566,11 +566,11 @@ export default function Expenses() {
             </div>
             
             {dateFilterType === 'range' ? (
-              <p className="text-center text-white/80 text-sm mt-2">
+              <p className="mt-2 text-center text-sm text-slate-500">
                 Mode rentang tanggal digunakan untuk melihat dan mengekspor laporan
               </p>
             ) : isMonthLocked && (
-              <p className="text-center text-white/80 text-sm mt-2">
+              <p className="mt-2 text-center text-sm text-slate-500">
                 Data bulan ini telah dikunci secara otomatis dan hanya dapat dilihat atau didownload
               </p>
             )}
@@ -640,7 +640,7 @@ export default function Expenses() {
                 projectSummaries.map((project) => (
                   <Card 
                     key={project.projectKey} 
-                    className="relative cursor-pointer border border-gray-200 group transition-shadow hover:shadow-lg"
+                    className="group relative cursor-pointer border border-gray-200 transition-colors hover:bg-slate-50"
                     onClick={() => setSelectedProject(project.projectKey)}
                   >
                     {!isViewLocked && (
@@ -741,7 +741,7 @@ export default function Expenses() {
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Card className="bg-blue-50">
+              <Card>
                 <CardContent className="p-4">
                   <div className="text-sm text-muted-foreground">Total Project</div>
                   <div className="text-xl font-bold text-blue-600">
@@ -799,7 +799,7 @@ export default function Expenses() {
                   {!isViewLocked && (
                     <Button 
                       onClick={() => handleOpenDialog()} 
-                      className="ml-auto bg-[#CCFF00] text-blue-900 hover:bg-[#b8e600]"
+                      className="ml-auto bg-slate-950 text-white hover:bg-slate-800"
                     >
                       <Plus className="w-4 h-4 mr-2" />
                       Tambah Pengeluaran
@@ -814,17 +814,17 @@ export default function Expenses() {
                 <div className="overflow-x-auto">
                   <Table>
                     <TableHeader>
-                      <TableRow className="bg-blue-900 hover:bg-blue-900">
-                        <TableHead className="text-white">Tanggal</TableHead>
-                        <TableHead className="text-white">Nama Barang</TableHead>
-                        <TableHead className="text-white">Vendor</TableHead>
-                        <TableHead className="text-white text-center">Qty</TableHead>
-                        <TableHead className="text-white text-right">Harga Satuan</TableHead>
-                        <TableHead className="text-white text-right">Total</TableHead>
-                        <TableHead className="text-white text-center">Status</TableHead>
-                        <TableHead className="text-white text-center">Pembayaran</TableHead>
+                      <TableRow className="bg-slate-50 hover:bg-slate-50">
+                        <TableHead>Tanggal</TableHead>
+                        <TableHead>Nama Barang</TableHead>
+                        <TableHead>Vendor</TableHead>
+                        <TableHead className="text-center">Qty</TableHead>
+                        <TableHead className="text-right">Harga Satuan</TableHead>
+                        <TableHead className="text-right">Total</TableHead>
+                        <TableHead className="text-center">Status</TableHead>
+                        <TableHead className="text-center">Pembayaran</TableHead>
                         {!isViewLocked && (
-                          <TableHead className="text-white text-center">Aksi</TableHead>
+                          <TableHead className="text-center">Aksi</TableHead>
                         )}
                       </TableRow>
                     </TableHeader>
@@ -1069,7 +1069,7 @@ export default function Expenses() {
               </Button>
               <Button
                 type="submit"
-                className="bg-[#CCFF00] text-blue-900 hover:bg-[#b8e600]"
+                className="bg-slate-950 text-white hover:bg-slate-800"
                 disabled={createMutation.isPending || updateMutation.isPending}
               >
                 {createMutation.isPending || updateMutation.isPending ? 'Menyimpan...' : 'Simpan'}

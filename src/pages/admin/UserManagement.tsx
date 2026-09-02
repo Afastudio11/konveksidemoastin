@@ -201,7 +201,7 @@ export default function UserManagement() {
             <h1 className="text-2xl font-bold text-gray-900">Manajemen User</h1>
             <p className="text-gray-500">Kelola akun admin dan permission akses menu</p>
           </div>
-          <Button onClick={handleOpenCreate} className="bg-blue-900 hover:bg-blue-800">
+          <Button onClick={handleOpenCreate} className="bg-slate-950 hover:bg-slate-800">
             <Plus className="w-4 h-4 mr-2" />
             Tambah Admin
           </Button>
@@ -395,7 +395,7 @@ export default function UserManagement() {
               <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
                 Batal
               </Button>
-              <Button type="submit" className="bg-blue-900 hover:bg-blue-800">
+              <Button type="submit" className="bg-slate-950 hover:bg-slate-800">
                 {selectedUser ? 'Update' : 'Tambah'}
               </Button>
             </DialogFooter>

@@ -444,3 +444,78 @@ Secondary: #000000 (black), #E3E3E3 (light gray), #FFFFFF (white)
   text-transform: none;
   letter-spacing: normal;
 }
+
+/* Square-inspired admin workspace: compact, border-led, and content-first. */
+.admin-square-shell {
+  --primary: 222 47% 11%;
+  --primary-foreground: 0 0% 100%;
+  --ring: 215 20% 65%;
+  --radius: 0.625rem;
+}
+
+.admin-square-content {
+  color: #0f172a;
+}
+
+.admin-square-content > * {
+  width: 100%;
+}
+
+.admin-square-content h1 {
+  font-size: 1.5rem !important;
+  line-height: 2rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.025em !important;
+}
+
+.admin-square-content [data-slot='card'] {
+  border-color: #e2e8f0;
+  border-radius: 0.75rem;
+  box-shadow: none;
+}
+
+.admin-square-content [data-slot='card-header'] {
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.admin-square-content [data-slot='card-title'] {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 600;
+}
+
+.admin-square-content table thead tr {
+  background: #f8fafc;
+}
+
+.admin-square-content table th {
+  height: 2.75rem;
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.admin-square-content table td {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.admin-square-content input,
+.admin-square-content button,
+.admin-square-content [role='combobox'] {
+  border-radius: 0.5rem;
+}
+
+.admin-square-content .shadow-sm,
+.admin-square-content .shadow-md,
+.admin-square-content .shadow-lg,
+.admin-square-content .shadow-xl,
+.admin-square-content .shadow-2xl {
+  box-shadow: none !important;
+}
+
+@media (max-width: 639px) {
+  .admin-square-content {
+    padding-bottom: 2rem;
+  }
+}

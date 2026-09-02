@@ -180,7 +180,7 @@ export default function AdminOrders() {
             <p className="text-muted-foreground">Kelola semua pesanan</p>
           </div>
           <Link to="/admin/orders/new">
-            <Button className="bg-[#CCFF00] text-blue-900 hover:bg-[#b8e600]">
+            <Button className="bg-slate-950 text-white hover:bg-slate-800">
               <Plus className="w-4 h-4 mr-2" />
               Buat Order Baru
             </Button>
@@ -353,7 +353,7 @@ export default function AdminOrders() {
                           role="link"
                           tabIndex={0}
                           aria-label={`Cek detail order ${order.invoiceNumber}`}
-                          className="cursor-pointer transition-colors hover:bg-blue-50 focus-visible:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-500"
+                          className="cursor-pointer transition-colors hover:bg-slate-50 focus-visible:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-400"
                           onClick={() => navigate(`/admin/orders/${order.id}`)}
                           onKeyDown={(event) => {
                             if (event.key === 'Enter' || event.key === ' ') {
@@ -392,7 +392,7 @@ export default function AdminOrders() {
                             <Button
                               variant="outline"
                               size="sm"
-                              className="whitespace-nowrap border-blue-200 text-blue-700 hover:bg-blue-100 hover:text-blue-800"
+                              className="whitespace-nowrap border-slate-200 text-slate-700 hover:bg-slate-100 hover:text-slate-950"
                               onClick={(event) => {
                                 event.stopPropagation();
                                 navigate(`/admin/orders/${order.id}`);

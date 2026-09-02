@@ -684,7 +684,7 @@ export default function NewOrder() {
               </CardHeader>
               <CardContent>
                 {materials.length === 0 ? (
-                  <button type="button" onClick={addMaterial} className="w-full rounded-xl border border-dashed border-slate-300 p-6 text-center transition-colors hover:border-blue-400 hover:bg-blue-50/40">
+                  <button type="button" onClick={addMaterial} className="w-full rounded-lg border border-dashed border-slate-300 p-5 text-center transition-colors hover:border-slate-500 hover:bg-slate-50">
                     <Warehouse className="mx-auto mb-2 h-7 w-7 text-slate-300" />
                     <span className="text-sm font-medium text-slate-600">Belum ada bahan baku dipilih</span>
                     <span className="mt-1 block text-xs text-slate-400">Klik untuk menambahkan kain, benang, tinta, atau bahan lainnya.</span>
@@ -878,7 +878,7 @@ export default function NewOrder() {
 
             <Button
               type="submit"
-              className="w-full bg-[#CCFF00] text-blue-900 hover:bg-[#b8e600]"
+              className="w-full bg-slate-950 text-white hover:bg-slate-800"
               disabled={createOrderMutation.isPending}
             >
               {createOrderMutation.isPending ? 'Memproses...' : 'Buat Order'}

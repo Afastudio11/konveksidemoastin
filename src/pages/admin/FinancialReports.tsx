@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { id as idLocale } from 'date-fns/locale';
 import {
   ArrowRight, BarChart3, CalendarIcon, CircleDollarSign, Clock3,
-  Loader2, Package, ReceiptText, TrendingDown, TrendingUp, Wallet, X,
+  Loader2, Package, TrendingDown, TrendingUp, Wallet, X,
 } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
@@ -79,28 +79,25 @@ export default function FinancialReports() {
 
   return (
     <AdminLayout>
-      <div className="space-y-5 pb-8">
-        <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-          <div className="flex flex-col gap-4 p-5 sm:p-6 lg:flex-row lg:items-center lg:justify-between">
+      <div className="space-y-6 pb-4">
+        <section className="space-y-4">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
-                <ReceiptText className="h-4 w-4" /> Laporan & profitabilitas
-              </div>
-              <h1 className="text-2xl font-bold text-slate-950 sm:text-3xl">Laporan Keuangan</h1>
-              <p className="mt-1.5 text-sm text-slate-500 sm:text-base">Pantau pendapatan, piutang, biaya produksi, dan biaya bahan hingga tingkat order.</p>
+              <h1 className="text-xl font-semibold tracking-tight text-slate-950 sm:text-2xl">Laporan Keuangan</h1>
+              <p className="mt-1 text-sm text-slate-500">Pantau pendapatan, piutang, biaya produksi, dan biaya bahan hingga tingkat order.</p>
             </div>
-            <Badge className="w-fit rounded-full border-0 bg-blue-50 px-4 py-2 text-blue-700">{filterLabel}</Badge>
+            <Badge variant="outline" className="w-fit border-slate-200 bg-slate-50 px-2.5 py-1 text-slate-600">{filterLabel}</Badge>
           </div>
-          <div className="flex flex-wrap items-center gap-2 border-t border-slate-200 bg-slate-50/80 px-5 py-4 sm:px-6">
-            <CalendarIcon className="mr-1 h-4 w-4 text-blue-700" />
+          <div className="flex flex-wrap items-center gap-2 rounded-xl border border-slate-200 bg-white p-3">
+            <CalendarIcon className="mr-1 h-4 w-4 text-slate-500" />
             <Select value={filterType} onValueChange={(value: 'all' | 'month' | 'date') => setFilterType(value)}>
-              <SelectTrigger className="h-10 w-[165px] rounded-xl bg-white"><SelectValue /></SelectTrigger>
+              <SelectTrigger className="h-9 w-[165px] bg-slate-50"><SelectValue /></SelectTrigger>
               <SelectContent><SelectItem value="all">Semua Waktu</SelectItem><SelectItem value="month">Per Bulan</SelectItem><SelectItem value="date">Rentang Tanggal</SelectItem></SelectContent>
             </Select>
             {filterType === 'month' && <>
-              <Select value={selectedMonth} onValueChange={setSelectedMonth}><SelectTrigger className="h-10 w-[145px] rounded-xl bg-white"><SelectValue /></SelectTrigger>
+              <Select value={selectedMonth} onValueChange={setSelectedMonth}><SelectTrigger className="h-9 w-[145px] bg-slate-50"><SelectValue /></SelectTrigger>
                 <SelectContent>{months.map((month) => <SelectItem key={month.value} value={month.value}>{month.label}</SelectItem>)}</SelectContent></Select>
-              <Select value={selectedYear} onValueChange={setSelectedYear}><SelectTrigger className="h-10 w-[105px] rounded-xl bg-white"><SelectValue /></SelectTrigger>
+              <Select value={selectedYear} onValueChange={setSelectedYear}><SelectTrigger className="h-9 w-[105px] bg-slate-50"><SelectValue /></SelectTrigger>
                 <SelectContent>{years.map((year) => <SelectItem key={year} value={year}>{year}</SelectItem>)}</SelectContent></Select>
             </>}
             {filterType === 'date' && <>
@@ -136,14 +133,14 @@ export default function FinancialReports() {
             </div>
           </CardContent></Card>
 
-          <Card className="overflow-hidden border-0 bg-slate-950 text-white shadow-sm"><CardContent className="p-6">
-            <h2 className="text-lg font-bold">Komposisi Biaya</h2><p className="mt-1 text-sm text-slate-400">Biaya yang mengurangi nilai order periode ini.</p>
+          <Card className="overflow-hidden border-slate-200 bg-white shadow-sm"><CardContent className="p-6">
+            <h2 className="text-lg font-semibold text-slate-950">Komposisi Biaya</h2><p className="mt-1 text-sm text-slate-500">Biaya yang mengurangi nilai order periode ini.</p>
             <div className="mt-7 space-y-5">
               <CostLine label="Pemakaian bahan baku" value={summary.materialCost} total={summary.orderRevenue} color="bg-amber-400" />
               <CostLine label="Pengeluaran produksi" value={summary.productionExpense} total={summary.orderRevenue} color="bg-pink-500" />
-              <div className="border-t border-white/10 pt-5"><div className="flex justify-between text-sm text-slate-300"><span>Total biaya</span><span className="font-bold text-white">{currency(Number(summary.totalCost || 0))}</span></div></div>
-              <div className="rounded-xl bg-white/5 p-4"><div className="flex items-center justify-between"><span className="text-sm text-slate-300">Margin estimasi</span>
-                <span className="text-xl font-bold text-[#CCFF00]">{Number(summary.orderRevenue) ? `${((Number(summary.estimatedGrossProfit) / Number(summary.orderRevenue)) * 100).toFixed(1)}%` : '0%'}</span></div></div>
+              <div className="border-t border-slate-200 pt-5"><div className="flex justify-between text-sm text-slate-500"><span>Total biaya</span><span className="font-semibold text-slate-950">{currency(Number(summary.totalCost || 0))}</span></div></div>
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-4"><div className="flex items-center justify-between"><span className="text-sm text-slate-500">Margin estimasi</span>
+                <span className="text-xl font-semibold text-emerald-600">{Number(summary.orderRevenue) ? `${((Number(summary.estimatedGrossProfit) / Number(summary.orderRevenue)) * 100).toFixed(1)}%` : '0%'}</span></div></div>
             </div>
           </CardContent></Card>
         </section>
@@ -164,7 +161,7 @@ export default function FinancialReports() {
 }
 
 function DateButton({ value, placeholder, onSelect, disabledBefore }: { value?: Date; placeholder: string; onSelect: (date?: Date) => void; disabledBefore?: Date }) {
-  return <Popover><PopoverTrigger asChild><Button variant="outline" className="h-10 w-[145px] justify-start rounded-xl bg-white px-3 font-normal">
+  return <Popover><PopoverTrigger asChild><Button variant="outline" className="h-9 w-[145px] justify-start bg-slate-50 px-3 font-normal">
     <CalendarIcon className="mr-2 h-4 w-4 text-slate-400" />{value ? format(value, 'dd/MM/yyyy') : placeholder}
   </Button></PopoverTrigger><PopoverContent className="w-auto p-0" align="start"><Calendar mode="single" selected={value} onSelect={onSelect}
     disabled={(date) => !!disabledBefore && date < disabledBefore} initialFocus /></PopoverContent></Popover>;
@@ -174,24 +171,24 @@ function SummaryCard({ title, value, helper, icon: Icon, theme, loading }: any) 
   const themes: Record<string, string> = { blue: 'bg-blue-50 text-blue-700', green: 'bg-emerald-50 text-emerald-700', orange: 'bg-amber-50 text-amber-700', lime: 'bg-lime-100 text-lime-800', red: 'bg-red-50 text-red-700' };
   return <Card className="border-slate-200 shadow-sm"><CardContent className="p-5"><div className="flex items-start justify-between gap-3"><div>
     <p className="text-sm font-medium text-slate-500">{title}</p><p className="mt-2 text-2xl font-bold tracking-tight text-slate-950">{loading ? '-' : currency(Number(value || 0))}</p><p className="mt-2 text-xs text-slate-400">{helper}</p>
-  </div><div className={`rounded-xl p-2.5 ${themes[theme]}`}><Icon className="h-5 w-5" /></div></div></CardContent></Card>;
+  </div><div className={`flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 ${themes[theme]}`}><Icon className="h-5 w-5" /></div></div></CardContent></Card>;
 }
 
 function CostLine({ label, value, total, color }: any) {
   const percentage = Number(total) ? Math.min(100, (Number(value) / Number(total)) * 100) : 0;
-  return <div><div className="mb-2 flex justify-between text-sm"><span className="text-slate-300">{label}</span><span className="font-semibold">{currency(Number(value || 0))}</span></div>
-    <div className="h-2 overflow-hidden rounded-full bg-white/10"><div className={`h-full rounded-full ${color}`} style={{ width: `${percentage}%` }} /></div><p className="mt-1.5 text-right text-xs text-slate-500">{percentage.toFixed(1)}% dari nilai order</p></div>;
+  return <div><div className="mb-2 flex justify-between text-sm"><span className="text-slate-500">{label}</span><span className="font-semibold text-slate-900">{currency(Number(value || 0))}</span></div>
+    <div className="h-2 overflow-hidden rounded-full bg-slate-100"><div className={`h-full rounded-full ${color}`} style={{ width: `${percentage}%` }} /></div><p className="mt-1.5 text-right text-xs text-slate-400">{percentage.toFixed(1)}% dari nilai order</p></div>;
 }
 
 function OrderTable({ rows, loading, onOpen }: any) {
   return <div className="overflow-x-auto"><Table><TableHeader><TableRow className="bg-slate-50 hover:bg-slate-50">
     <TableHead className="pl-5">Order</TableHead><TableHead>Pelanggan</TableHead><TableHead className="text-right">Nilai Order</TableHead><TableHead className="text-right">Biaya Bahan</TableHead><TableHead className="text-right">Biaya Produksi</TableHead><TableHead className="text-right">Estimasi Laba</TableHead><TableHead className="text-right">Piutang</TableHead><TableHead className="pr-5 text-right">Aksi</TableHead>
-  </TableRow></TableHeader><TableBody>{loading ? <LoadingRow columns={8} /> : !rows.length ? <EmptyRow columns={8} text="Belum ada data order pada periode ini" /> : rows.map((row: any) => <TableRow key={row.id} className="cursor-pointer hover:bg-blue-50/40" onClick={() => onOpen(row.id)}>
+  </TableRow></TableHeader><TableBody>{loading ? <LoadingRow columns={8} /> : !rows.length ? <EmptyRow columns={8} text="Belum ada data order pada periode ini" /> : rows.map((row: any) => <TableRow key={row.id} className="cursor-pointer hover:bg-slate-50" onClick={() => onOpen(row.id)}>
     <TableCell className="pl-5"><p className="font-semibold text-slate-900">{row.invoiceNumber}</p><p className="text-xs text-slate-400">{format(new Date(row.createdAt), 'dd MMM yyyy', { locale: idLocale })}</p></TableCell>
     <TableCell className="font-medium text-slate-700">{row.customerName}</TableCell><TableCell className="text-right font-semibold">{currency(Number(row.totalAmount))}</TableCell>
     <TableCell className="text-right text-amber-700">{currency(Number(row.materialCost))}</TableCell><TableCell className="text-right text-pink-700">{currency(Number(row.otherExpense))}</TableCell>
     <TableCell className={`text-right font-bold ${Number(row.estimatedProfit) >= 0 ? 'text-emerald-700' : 'text-red-600'}`}>{currency(Number(row.estimatedProfit))}</TableCell>
-    <TableCell className="text-right text-orange-700">{currency(Number(row.outstandingAmount))}</TableCell><TableCell className="pr-5 text-right"><Button variant="ghost" size="sm" onClick={(event) => { event.stopPropagation(); onOpen(row.id); }} className="text-blue-700">Detail <ArrowRight className="ml-1 h-4 w-4" /></Button></TableCell>
+    <TableCell className="text-right text-orange-700">{currency(Number(row.outstandingAmount))}</TableCell><TableCell className="pr-5 text-right"><Button variant="ghost" size="sm" onClick={(event) => { event.stopPropagation(); onOpen(row.id); }} className="text-slate-700">Detail <ArrowRight className="ml-1 h-4 w-4" /></Button></TableCell>
   </TableRow>)}</TableBody></Table></div>;
 }
 

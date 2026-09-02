@@ -378,7 +378,7 @@ export default function OrderDetail() {
                           key={status.value}
                           className={`text-center p-2 rounded-lg text-xs ${
                             isCurrent
-                              ? 'bg-[#CCFF00] text-blue-900 font-bold'
+                              ? 'bg-slate-950 text-white font-semibold'
                               : isCompleted
                               ? 'bg-green-100 text-green-800'
                               : 'bg-gray-100 text-gray-500'
@@ -588,7 +588,7 @@ export default function OrderDetail() {
                     <div className="space-y-2">
                       {(order.paymentStatus === 'waiting_dp' && Number(order.dpAmount) > 0) && (
                         <Button
-                          className="w-full bg-blue-600 hover:bg-blue-700"
+                          className="w-full bg-slate-950 hover:bg-slate-800"
                           onClick={() => {
                             setPaymentAmount(order.dpAmount?.toString() || '');
                             setPaymentAmountDisplay(formatNumber(Number(order.dpAmount || 0)));
@@ -676,7 +676,7 @@ export default function OrderDetail() {
                         <Button
                           variant="default"
                           size="sm"
-                          className="flex-1 bg-blue-600 hover:bg-blue-700"
+                          className="flex-1 bg-slate-950 hover:bg-slate-800"
                           onClick={async () => {
                             try {
                               await api.invoices.downloadBillingInvoicePdf(token!, orderId!, 'dp');
@@ -728,7 +728,7 @@ export default function OrderDetail() {
                       <Button
                         variant="default"
                         size="sm"
-                        className="flex-1 bg-blue-600 hover:bg-blue-700"
+                        className="flex-1 bg-slate-950 hover:bg-slate-800"
                         onClick={async () => {
                           try {
                             await api.invoices.downloadBillingInvoicePdf(token!, orderId!, 'pelunasan');
@@ -913,7 +913,7 @@ export default function OrderDetail() {
             <Button variant="outline" className="w-full" onClick={() => setMaterialForm((current) => [...current, { materialId: '', quantity: 0, notes: '' }])}><Plus className="mr-2 h-4 w-4" />Tambah Bahan</Button>
           </div>
           <DialogFooter><Button variant="outline" onClick={() => setMaterialDialogOpen(false)}>Batal</Button><Button onClick={() => updateMaterialsMutation.mutate()}
-            disabled={updateMaterialsMutation.isPending || materialForm.some((item) => !item.materialId || item.quantity <= 0)} className="bg-blue-700 hover:bg-blue-800">
+            disabled={updateMaterialsMutation.isPending || materialForm.some((item) => !item.materialId || item.quantity <= 0)} className="bg-slate-950 hover:bg-slate-800">
             {updateMaterialsMutation.isPending ? 'Menyimpan...' : 'Simpan & Potong Stok'}
           </Button></DialogFooter>
         </DialogContent>
@@ -1045,7 +1045,7 @@ export default function OrderDetail() {
             <Button 
               onClick={handleSubmitEdit}
               disabled={updateOrderMutation.isPending || !editForm.customerName || !editForm.customerPhone}
-              className="bg-blue-600 hover:bg-blue-700"
+              className="bg-slate-950 hover:bg-slate-800"
             >
               {updateOrderMutation.isPending ? 'Menyimpan...' : 'Simpan Perubahan'}
             </Button>

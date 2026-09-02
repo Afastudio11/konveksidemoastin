@@ -270,32 +270,32 @@ export default function Inventory() {
             <h1 className="text-2xl font-bold text-gray-950">Stok Bahan Baku</h1>
             <p className="text-muted-foreground">Pantau persediaan dan pergerakan bahan produksi</p>
           </div>
-          <Button onClick={openCreate} className="bg-[#CCFF00] text-blue-900 hover:bg-[#b8e600]">
+          <Button onClick={openCreate} className="bg-slate-950 text-white hover:bg-slate-800">
             <Plus className="mr-2 h-4 w-4" />
             Tambah Bahan
           </Button>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <Card className="border-l-4 border-l-blue-600">
+          <Card>
             <CardContent className="flex items-center justify-between p-5">
               <div><p className="text-sm text-muted-foreground">Total Jenis Bahan</p><p className="mt-1 text-2xl font-bold text-blue-600">{summary.totalMaterials}</p></div>
               <Boxes className="h-9 w-9 text-blue-200" />
             </CardContent>
           </Card>
-          <Card className="border-l-4 border-l-amber-500">
+          <Card>
             <CardContent className="flex items-center justify-between p-5">
               <div><p className="text-sm text-muted-foreground">Stok Menipis</p><p className="mt-1 text-2xl font-bold text-amber-600">{summary.lowStock}</p></div>
               <AlertTriangle className="h-9 w-9 text-amber-200" />
             </CardContent>
           </Card>
-          <Card className="border-l-4 border-l-red-500">
+          <Card>
             <CardContent className="flex items-center justify-between p-5">
               <div><p className="text-sm text-muted-foreground">Stok Habis</p><p className="mt-1 text-2xl font-bold text-red-600">{summary.outOfStock}</p></div>
               <Warehouse className="h-9 w-9 text-red-200" />
             </CardContent>
           </Card>
-          <Card className="border-l-4 border-l-emerald-500">
+          <Card>
             <CardContent className="flex items-center justify-between p-5">
               <div><p className="text-sm text-muted-foreground">Nilai Persediaan</p><p className="mt-1 text-xl font-bold text-emerald-600">{formatCurrency(summary.totalValue)}</p></div>
               <CircleDollarSign className="h-9 w-9 text-emerald-200" />
@@ -335,15 +335,15 @@ export default function Inventory() {
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
-                  <TableRow className="bg-blue-900 hover:bg-blue-900">
-                    <TableHead className="text-white">Bahan Baku</TableHead>
-                    <TableHead className="text-white">Kategori</TableHead>
-                    <TableHead className="text-white">Supplier / Lokasi</TableHead>
-                    <TableHead className="text-right text-white">Stok</TableHead>
-                    <TableHead className="text-right text-white">Stok Minimum</TableHead>
-                    <TableHead className="text-right text-white">Harga Satuan</TableHead>
-                    <TableHead className="text-center text-white">Status</TableHead>
-                    <TableHead className="text-center text-white">Aksi</TableHead>
+                  <TableRow className="bg-slate-50 hover:bg-slate-50">
+                    <TableHead>Bahan Baku</TableHead>
+                    <TableHead>Kategori</TableHead>
+                    <TableHead>Supplier / Lokasi</TableHead>
+                    <TableHead className="text-right">Stok</TableHead>
+                    <TableHead className="text-right">Stok Minimum</TableHead>
+                    <TableHead className="text-right">Harga Satuan</TableHead>
+                    <TableHead className="text-center">Status</TableHead>
+                    <TableHead className="text-center">Aksi</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -404,7 +404,7 @@ export default function Inventory() {
             </div>
             {selectedMaterial && <p className="rounded-lg bg-blue-50 p-3 text-sm text-blue-700">Stok berjalan diubah melalui transaksi Masuk, Keluar, atau Penyesuaian agar histori tetap tercatat.</p>}
             <div className="space-y-2"><Label htmlFor="material-notes">Catatan</Label><Textarea id="material-notes" value={materialForm.notes} onChange={(e) => setMaterialForm({ ...materialForm, notes: e.target.value })} placeholder="Detail warna, spesifikasi, atau catatan pembelian" /></div>
-            <DialogFooter><Button type="button" variant="outline" onClick={() => setMaterialDialogOpen(false)}>Batal</Button><Button type="submit" disabled={saveMaterial.isPending} className="bg-blue-900 hover:bg-blue-800">{saveMaterial.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}{selectedMaterial ? 'Simpan Perubahan' : 'Tambah Bahan'}</Button></DialogFooter>
+            <DialogFooter><Button type="button" variant="outline" onClick={() => setMaterialDialogOpen(false)}>Batal</Button><Button type="submit" disabled={saveMaterial.isPending} className="bg-slate-950 hover:bg-slate-800">{saveMaterial.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}{selectedMaterial ? 'Simpan Perubahan' : 'Tambah Bahan'}</Button></DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
@@ -419,7 +419,7 @@ export default function Inventory() {
             <div className="space-y-2"><Label htmlFor="movement-date">Tanggal</Label><Input id="movement-date" type="datetime-local" value={movementForm.movementDate} onChange={(e) => setMovementForm({ ...movementForm, movementDate: e.target.value })} /></div>
             <div className="space-y-2"><Label htmlFor="movement-reference">Referensi</Label><Input id="movement-reference" value={movementForm.reference} onChange={(e) => setMovementForm({ ...movementForm, reference: e.target.value })} placeholder="No. nota, invoice, atau order" /></div>
             <div className="space-y-2"><Label htmlFor="movement-notes">Keterangan</Label><Textarea id="movement-notes" value={movementForm.notes} onChange={(e) => setMovementForm({ ...movementForm, notes: e.target.value })} placeholder="Keperluan atau keterangan transaksi" /></div>
-            <DialogFooter><Button type="button" variant="outline" onClick={() => setMovementDialogOpen(false)}>Batal</Button><Button type="submit" disabled={saveMovement.isPending} className={movementForm.type === 'out' ? 'bg-orange-600 hover:bg-orange-700' : 'bg-blue-900 hover:bg-blue-800'}>{saveMovement.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Simpan Transaksi</Button></DialogFooter>
+            <DialogFooter><Button type="button" variant="outline" onClick={() => setMovementDialogOpen(false)}>Batal</Button><Button type="submit" disabled={saveMovement.isPending} className={movementForm.type === 'out' ? 'bg-orange-600 hover:bg-orange-700' : 'bg-slate-950 hover:bg-slate-800'}>{saveMovement.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Simpan Transaksi</Button></DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
