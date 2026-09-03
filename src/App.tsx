@@ -27,6 +27,8 @@ import AiAssistant from "./pages/admin/AiAssistant";
 
 const FinancialReports = lazy(() => import("./pages/admin/FinancialReports"));
 
+import { ThemeProvider } from "@/components/theme-provider";
+
 const queryClient = new QueryClient();
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -48,13 +50,14 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 }
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <FloatingWhatsApp />
+  <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <FloatingWhatsApp />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/track" element={<Tracking />} />
@@ -181,6 +184,7 @@ const App = () => (
       </TooltipProvider>
     </AuthProvider>
   </QueryClientProvider>
+</ThemeProvider>
 );
 
 export default App;

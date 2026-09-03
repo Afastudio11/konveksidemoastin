@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -64,49 +65,62 @@ Secondary: #000000 (black), #E3E3E3 (light gray), #FFFFFF (white)
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
+    --background: 0 0% 98.5%;
+    --foreground: 240 10% 3.9%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
+    --card-foreground: 240 10% 3.9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
+    --popover-foreground: 240 10% 3.9%;
 
-    --primary: 237 75% 50%;
+    --primary: 256 89% 60%;
     --primary-foreground: 0 0% 100%;
-    --primary-dark: 237 75% 40%;
-    --primary-light: 237 75% 60%;
+    --primary-dark: 256 89% 50%;
+    --primary-light: 256 89% 70%;
 
-    --secondary: 0 0% 89%;
-    --secondary-foreground: 0 0% 0%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
 
-    --accent: 68 98% 49%;
-    --accent-foreground: 0 0% 0%;
-    --accent-light: 68 98% 59%;
-    --accent-dark: 68 98% 39%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 89%;
-    --input: 0 0% 89%;
-    --ring: 237 75% 50%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 256 89% 60%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
 
-    --gradient-primary: linear-gradient(135deg, hsl(237, 75%, 50%) 0%, hsl(237, 75%, 40%) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(68, 98%, 49%) 0%, hsl(68, 98%, 59%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(0, 0%, 100%) 0%, hsl(0, 0%, 89%) 100%);
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 240 10% 3.9%;
+    --sidebar-primary: 256 89% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 240 5.9% 90%;
+    --sidebar-ring: 256 89% 60%;
+
+    --chart-1: #6e3ff3;
+    --chart-2: #375dfb;
+    --chart-3: #10b981;
+    --chart-4: #f59e0b;
+    --chart-5: #ec4899;
+
+    --gradient-primary: linear-gradient(135deg, #6e3ff3 0%, #aa8ef9 100%);
+    --gradient-accent: linear-gradient(135deg, #6e3ff3 0%, #df3674 100%);
+    --gradient-subtle: linear-gradient(180deg, #ffffff 0%, #f4f4f5 100%);
     
-    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
-    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1);
-    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1);
-    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.1);
-    --shadow-2xl: 0 25px 50px -12px hsl(0 0% 0% / 0.15);
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.07);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.07);
+    --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.12);
     
     --transition-base: all 0.2s ease;
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -114,56 +128,69 @@ Secondary: #000000 (black), #E3E3E3 (light gray), #FFFFFF (white)
   }
 
   .dark {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 100%;
+    --card: 240 10% 6%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 240 10% 6%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 237 75% 50%;
+    --primary: 256 89% 60%;
     --primary-foreground: 0 0% 100%;
-    --primary-dark: 237 75% 40%;
-    --primary-light: 237 75% 60%;
+    --primary-dark: 256 89% 50%;
+    --primary-light: 256 89% 70%;
 
-    --secondary: 0 0% 20%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 0 0% 20%;
-    --muted-foreground: 0 0% 70%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
 
-    --accent: 68 98% 49%;
-    --accent-foreground: 0 0% 0%;
-    --accent-light: 68 98% 59%;
-    --accent-dark: 68 98% 39%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 25%;
-    --input: 0 0% 25%;
-    --ring: 237 75% 50%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 256 89% 60%;
+
+    --sidebar-background: 240 10% 6%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 256 89% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 256 89% 60%;
+
+    --chart-1: #aa8ef9;
+    --chart-2: #6985fc;
+    --chart-3: #34d399;
+    --chart-4: #fbbf24;
+    --chart-5: #f472b6;
   }
 }
 
 @layer base {
   * {
     @apply border-border;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   }
 
-  body {
+  html, body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Gotham', 'Montserrat', system-ui, -apple-system, sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
     font-weight: 400;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Alte Haas Grotesk', 'Arial Black', Impact, sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
     font-weight: 700;
     letter-spacing: -0.02em;
-    text-transform: uppercase;
   }
   
   strong, b {
@@ -425,13 +452,12 @@ Secondary: #000000 (black), #E3E3E3 (light gray), #FFFFFF (white)
   opacity: 0;
 }
 
-/* Admin Dashboard - Poppins Font */
-.admin-poppins {
-  font-family: 'Poppins', system-ui, -apple-system, sans-serif !important;
-}
-
-.admin-poppins * {
-  font-family: 'Poppins', system-ui, -apple-system, sans-serif !important;
+/* Global Font System - Plus Jakarta Sans */
+.admin-poppins,
+.admin-poppins *,
+.admin-square-shell,
+.admin-square-shell * {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
 }
 
 .admin-poppins h1,
@@ -440,59 +466,38 @@ Secondary: #000000 (black), #E3E3E3 (light gray), #FFFFFF (white)
 .admin-poppins h4,
 .admin-poppins h5,
 .admin-poppins h6 {
-  font-family: 'Poppins', system-ui, -apple-system, sans-serif !important;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
   text-transform: none;
   letter-spacing: normal;
 }
 
-/* Square-inspired admin workspace: compact, border-led, and content-first. */
+/* Square UI Leads Dashboard System */
 .admin-square-shell {
-  --primary: 222 47% 11%;
-  --primary-foreground: 0 0% 100%;
-  --ring: 215 20% 65%;
-  --radius: 0.625rem;
+  --radius: 0.75rem;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
 }
 
 .admin-square-content {
-  color: #0f172a;
+  color: inherit;
 }
 
 .admin-square-content > * {
   width: 100%;
 }
 
-.admin-square-content h1 {
-  font-size: 1.5rem !important;
-  line-height: 2rem !important;
-  font-weight: 600 !important;
-  letter-spacing: -0.025em !important;
-}
-
 .admin-square-content [data-slot='card'] {
-  border-color: #e2e8f0;
-  border-radius: 0.75rem;
-  box-shadow: none;
-}
-
-.admin-square-content [data-slot='card-header'] {
-  border-bottom: 1px solid #f1f5f9;
-}
-
-.admin-square-content [data-slot='card-title'] {
-  font-size: 1rem;
-  line-height: 1.5rem;
-  font-weight: 600;
+  border-radius: var(--radius);
 }
 
 .admin-square-content table thead tr {
-  background: #f8fafc;
+  background: hsl(var(--muted) / 0.5);
 }
 
 .admin-square-content table th {
   height: 2.75rem;
-  color: #64748b;
   font-size: 0.75rem;
   font-weight: 500;
+  color: hsl(var(--muted-foreground));
 }
 
 .admin-square-content table td {
@@ -500,22 +505,9 @@ Secondary: #000000 (black), #E3E3E3 (light gray), #FFFFFF (white)
   padding-bottom: 0.75rem;
 }
 
-.admin-square-content input,
-.admin-square-content button,
-.admin-square-content [role='combobox'] {
-  border-radius: 0.5rem;
-}
-
-.admin-square-content .shadow-sm,
-.admin-square-content .shadow-md,
-.admin-square-content .shadow-lg,
-.admin-square-content .shadow-xl,
-.admin-square-content .shadow-2xl {
-  box-shadow: none !important;
-}
-
 @media (max-width: 639px) {
   .admin-square-content {
     padding-bottom: 2rem;
   }
 }
+

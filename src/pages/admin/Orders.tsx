@@ -173,21 +173,21 @@ export default function AdminOrders() {
 
   return (
     <AdminLayout>
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
+      <div className="space-y-4 sm:space-y-6 pb-6 w-full">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
-            <h1 className="text-3xl font-bold">Orders</h1>
-            <p className="text-muted-foreground">Kelola semua pesanan</p>
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">Daftar Pesanan</h1>
+            <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">Kelola seluruh order konveksi dan status pengerjaan.</p>
           </div>
           <Link to="/admin/orders/new">
-            <Button className="bg-slate-950 text-white hover:bg-slate-800">
+            <Button className="h-9 sm:h-10 text-xs sm:text-sm bg-foreground text-background hover:bg-foreground/90 font-medium">
               <Plus className="w-4 h-4 mr-2" />
               Buat Order Baru
             </Button>
           </Link>
         </div>
 
-        <Card>
+        <Card className="rounded-xl border-border bg-card shadow-xs">
           <CardHeader>
             <div className="flex flex-col gap-4">
               <div className="flex flex-col md:flex-row gap-4">

@@ -41,7 +41,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { Plus, Pencil, Trash2, Search, ArrowLeft, FolderOpen, AlertCircle, CheckCircle2, X, FileDown, Loader2, ChevronLeft, ChevronRight, Lock, Eye, CalendarRange } from 'lucide-react';
+import { Plus, Pencil, Trash2, Search, ArrowLeft, FolderOpen, FolderKanban, AlertCircle, CheckCircle2, X, FileDown, Loader2, ChevronLeft, ChevronRight, Lock, Eye, CalendarRange, WalletCards, TimerReset } from 'lucide-react';
 import { format, startOfMonth, endOfMonth, subMonths, isBefore, startOfDay, endOfDay } from 'date-fns';
 import { id as idLocale } from 'date-fns/locale';
 import { toast } from 'sonner';
@@ -431,28 +431,36 @@ export default function Expenses() {
 
   return (
     <AdminLayout>
-      <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="space-y-4 sm:space-y-6 pb-6 w-full">
+        {/* Header & Actions - Square UI Leads style */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-bold">Beban Pengeluaran Produksi</h1>
-            <p className="text-muted-foreground">Kelola pengeluaran operasional dan produksi</p>
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
+              Beban Pengeluaran Produksi
+            </h1>
+            <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
+              Kelola biaya project, vendor, dan status pembayaran operasional.
+            </p>
           </div>
-          <div className="flex gap-2">
-            <Button 
-              onClick={handleExportPdf} 
+          <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+            <Button
+              onClick={handleExportPdf}
               variant="outline"
               disabled={isExporting}
-              className="border-slate-200 text-slate-700 hover:bg-slate-50"
+              className="h-9 sm:h-10 text-xs sm:text-sm border-border bg-card"
             >
               {isExporting ? (
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
               ) : (
-                <FileDown className="w-4 h-4 mr-2" />
+                <FileDown className="w-4 h-4 mr-2 text-muted-foreground" />
               )}
               Export PDF
             </Button>
             {!isViewLocked && (
-              <Button onClick={() => handleOpenDialog()} className="bg-slate-950 text-white hover:bg-slate-800">
+              <Button
+                onClick={() => handleOpenDialog()}
+                className="h-9 sm:h-10 text-xs sm:text-sm bg-foreground text-background hover:bg-foreground/90 font-medium"
+              >
                 <Plus className="w-4 h-4 mr-2" />
                 Tambah Pengeluaran
               </Button>
@@ -460,173 +468,194 @@ export default function Expenses() {
           </div>
         </div>
 
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-end">
-              <div className="space-y-2">
-                <Label>Filter Periode</Label>
-                <Select
-                  value={dateFilterType}
-                  onValueChange={(value: 'month' | 'range') => {
-                    setDateFilterType(value);
-                    setSelectedProject(null);
-                  }}
-                >
-                  <SelectTrigger className="w-full sm:w-[190px]">
-                    <CalendarRange className="mr-2 h-4 w-4" />
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="month">Per Bulan</SelectItem>
-                    <SelectItem value="range">Rentang Tanggal</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {dateFilterType === 'range' && (
-                <div className="grid flex-1 gap-3 sm:grid-cols-[1fr_auto_1fr] sm:items-end lg:max-w-2xl">
-                  <div className="space-y-2">
-                    <Label htmlFor="expense-range-start">Dari Tanggal</Label>
-                    <Input
-                      id="expense-range-start"
-                      type="date"
-                      value={rangeStart}
-                      required
-                      max={format(new Date(), 'yyyy-MM-dd')}
-                      onChange={(event) => handleRangeStartChange(event.target.value)}
-                    />
-                  </div>
-                  <span className="hidden pb-2 text-muted-foreground sm:block">sampai</span>
-                  <div className="space-y-2">
-                    <Label htmlFor="expense-range-end">Sampai Tanggal</Label>
-                    <Input
-                      id="expense-range-end"
-                      type="date"
-                      value={rangeEnd}
-                      required
-                      min={rangeStart}
-                      max={format(new Date(), 'yyyy-MM-dd')}
-                      onChange={(event) => handleRangeEndChange(event.target.value)}
-                    />
-                  </div>
+        {/* Filter Period Bar */}
+        <div className="grid gap-4 xl:grid-cols-[0.95fr_1.05fr]">
+          <Card className="border-border bg-card rounded-xl">
+            <CardContent className="p-4">
+              <div className="flex flex-col gap-3 lg:flex-row lg:items-end">
+                <div className="space-y-1.5">
+                  <Label className="text-xs text-muted-foreground">Filter Periode</Label>
+                  <Select
+                    value={dateFilterType}
+                    onValueChange={(value: 'month' | 'range') => {
+                      setDateFilterType(value);
+                      setSelectedProject(null);
+                    }}
+                  >
+                    <SelectTrigger className="w-full sm:w-[190px] h-9 text-xs bg-card border-border">
+                      <CalendarRange className="mr-2 h-3.5 w-3.5 text-muted-foreground" />
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="month">Per Bulan</SelectItem>
+                      <SelectItem value="range">Rentang Tanggal</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
 
-        <Card className="border-slate-200 bg-white">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              {dateFilterType === 'month' ? (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handlePreviousMonth}
-                  disabled={!canGoPrevious}
-                  className="text-slate-600 hover:bg-slate-100 disabled:opacity-50"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </Button>
-              ) : <div className="w-9" />}
-              
-              <div className="flex items-center gap-3">
-                <h2 className="text-lg font-semibold text-slate-950">
-                  {periodLabel}
-                </h2>
-                {dateFilterType === 'range' ? (
-                  <Badge variant="outline" className="flex items-center gap-1 border-slate-200 bg-slate-50 text-slate-600">
-                    <CalendarRange className="w-3 h-3" />
-                    Rentang
-                  </Badge>
-                ) : isMonthLocked ? (
-                  <Badge className="bg-red-500 text-white flex items-center gap-1">
-                    <Lock className="w-3 h-3" />
-                    Terkunci
-                  </Badge>
-                ) : (
-                  <Badge className="bg-green-500 text-white flex items-center gap-1">
-                    <CheckCircle2 className="w-3 h-3" />
-                    Aktif
-                  </Badge>
+                {dateFilterType === 'range' && (
+                  <div className="grid flex-1 gap-3 sm:grid-cols-[1fr_auto_1fr] sm:items-end lg:max-w-2xl">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="expense-range-start" className="text-xs text-muted-foreground">Dari Tanggal</Label>
+                      <Input
+                        id="expense-range-start"
+                        type="date"
+                        value={rangeStart}
+                        required
+                        max={format(new Date(), 'yyyy-MM-dd')}
+                        onChange={(event) => handleRangeStartChange(event.target.value)}
+                        className="h-9 text-xs bg-card border-border"
+                      />
+                    </div>
+                    <span className="hidden pb-2 text-xs text-muted-foreground sm:block">sampai</span>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="expense-range-end" className="text-xs text-muted-foreground">Sampai Tanggal</Label>
+                      <Input
+                        id="expense-range-end"
+                        type="date"
+                        value={rangeEnd}
+                        required
+                        min={rangeStart}
+                        max={format(new Date(), 'yyyy-MM-dd')}
+                        onChange={(event) => handleRangeEndChange(event.target.value)}
+                        className="h-9 text-xs bg-card border-border"
+                      />
+                    </div>
+                  </div>
                 )}
               </div>
+            </CardContent>
+          </Card>
 
-              {dateFilterType === 'month' ? (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleNextMonth}
-                  disabled={isCurrentMonth}
-                  className="text-slate-600 hover:bg-slate-100 disabled:opacity-50"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </Button>
-              ) : <div className="w-9" />}
-            </div>
-            
-            {dateFilterType === 'range' ? (
-              <p className="mt-2 text-center text-sm text-slate-500">
-                Mode rentang tanggal digunakan untuk melihat dan mengekspor laporan
-              </p>
-            ) : isMonthLocked && (
-              <p className="mt-2 text-center text-sm text-slate-500">
-                Data bulan ini telah dikunci secara otomatis dan hanya dapat dilihat atau didownload
-              </p>
-            )}
-          </CardContent>
-        </Card>
+          <Card className="border-border bg-card rounded-xl">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                {dateFilterType === 'month' ? (
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={handlePreviousMonth}
+                    disabled={!canGoPrevious}
+                    className="size-8"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </Button>
+                ) : <div className="w-8" />}
+                
+                <div className="flex items-center gap-2.5">
+                  <h2 className="text-base font-semibold text-foreground">
+                    {periodLabel}
+                  </h2>
+                  {dateFilterType === 'range' ? (
+                    <Badge variant="outline" className="text-xs border-border bg-muted/50 text-muted-foreground">
+                      <CalendarRange className="w-3 h-3 mr-1" />
+                      Rentang
+                    </Badge>
+                  ) : isMonthLocked ? (
+                    <Badge variant="outline" className="text-xs bg-rose-100 text-rose-800 dark:bg-rose-950/40 dark:text-rose-400 border-rose-200">
+                      <Lock className="w-3 h-3 mr-1" />
+                      Terkunci
+                    </Badge>
+                  ) : (
+                    <Badge variant="outline" className="text-xs bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400 border-emerald-200">
+                      <CheckCircle2 className="w-3 h-3 mr-1" />
+                      Aktif
+                    </Badge>
+                  )}
+                </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Card>
-            <CardContent className="p-4">
-              <div className="text-sm text-muted-foreground">Total Pengeluaran</div>
-              <div className="text-xl font-bold text-blue-600">
-                {formatCurrency(data?.summary?.totalExpenses || 0)}
+                {dateFilterType === 'month' ? (
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={handleNextMonth}
+                    disabled={isCurrentMonth}
+                    className="size-8"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                ) : <div className="w-8" />}
               </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="text-sm text-muted-foreground">Jumlah Project</div>
-              <div className="text-xl font-bold">{projectSummaries.length}</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="text-sm text-muted-foreground">Belum Dibayar</div>
-              <div className="text-xl font-bold text-red-600">
-                {formatCurrency(projectSummaries.reduce((sum, p) => sum + p.unpaidAmount, 0))}
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="text-sm text-muted-foreground">Dalam Proses</div>
-              <div className="text-xl font-bold text-yellow-600">
-                {projectSummaries.reduce((sum, p) => sum + p.inProgressCount, 0)} item
-              </div>
+              
+              {dateFilterType === 'range' ? (
+                <p className="mt-2 text-center text-xs text-muted-foreground">
+                  Mode rentang tanggal digunakan untuk melihat dan mengekspor laporan
+                </p>
+              ) : isMonthLocked && (
+                <p className="mt-2 text-center text-xs text-muted-foreground">
+                  Data bulan ini telah dikunci secara otomatis dan hanya dapat dilihat atau didownload
+                </p>
+              )}
             </CardContent>
           </Card>
         </div>
 
+        {/* Square UI Stats Divider Cards */}
+        <div className="bg-card text-card-foreground rounded-xl border shadow-xs overflow-hidden">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 lg:divide-x divide-border">
+            <div className="p-4 sm:p-5 space-y-3">
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <WalletCards className="size-4 text-muted-foreground" />
+                <span className="text-xs sm:text-sm font-medium">Total Pengeluaran</span>
+              </div>
+              <p className="text-2xl font-semibold tracking-tight text-foreground truncate">
+                {formatCurrency(data?.summary?.totalExpenses || 0)}
+              </p>
+              <p className="text-[11px] text-muted-foreground">Akumulasi periode {periodLabel}</p>
+            </div>
+
+            <div className="p-4 sm:p-5 space-y-3">
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <FolderKanban className="size-4 text-muted-foreground" />
+                <span className="text-xs sm:text-sm font-medium">Jumlah Project</span>
+              </div>
+              <p className="text-2xl font-semibold tracking-tight text-foreground">
+                {projectSummaries.length}
+              </p>
+              <p className="text-[11px] text-muted-foreground">Project produksi aktif</p>
+            </div>
+
+            <div className="p-4 sm:p-5 space-y-3">
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <AlertCircle className="size-4 text-muted-foreground" />
+                <span className="text-xs sm:text-sm font-medium">Belum Dibayar</span>
+              </div>
+              <p className="text-2xl font-semibold tracking-tight text-foreground truncate">
+                {formatCurrency(projectSummaries.reduce((sum, p) => sum + p.unpaidAmount, 0))}
+              </p>
+              <p className="text-[11px] text-muted-foreground">Kewajiban vendor tertahan</p>
+            </div>
+
+            <div className="p-4 sm:p-5 space-y-3">
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <TimerReset className="size-4 text-muted-foreground" />
+                <span className="text-xs sm:text-sm font-medium">Dalam Proses</span>
+              </div>
+              <p className="text-2xl font-semibold tracking-tight text-foreground">
+                {projectSummaries.reduce((sum, p) => sum + p.inProgressCount, 0)} item
+              </p>
+              <p className="text-[11px] text-muted-foreground">Pengerjaan vendor berjalan</p>
+            </div>
+          </div>
+        </div>
+
         {!selectedProject ? (
           <>
-            <Card>
+            <Card className="border-border bg-card rounded-xl">
               <CardContent className="p-4">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                   <Input
                     placeholder="Cari project atau pelanggan..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
+                    className="pl-9 h-9 text-xs bg-card border-border"
                   />
                 </div>
               </CardContent>
             </Card>
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {isLoading ? (
                 <div className="col-span-full text-center py-8 text-muted-foreground">
                   Loading...
@@ -640,30 +669,30 @@ export default function Expenses() {
                 projectSummaries.map((project) => (
                   <Card 
                     key={project.projectKey} 
-                    className="group relative cursor-pointer border border-gray-200 transition-colors hover:bg-slate-50"
+                    className="group relative cursor-pointer overflow-hidden border border-border bg-card rounded-xl transition-all hover:border-foreground/30 hover:shadow-xs"
                     onClick={() => setSelectedProject(project.projectKey)}
                   >
                     {!isViewLocked && (
                       <button
                         onClick={(e) => handleDeleteProject(e, project)}
-                        className="absolute top-2 right-2 w-6 h-6 rounded-full bg-red-100 hover:bg-red-500 hover:text-white text-red-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                        className="absolute top-2.5 right-2.5 w-6 h-6 rounded-md bg-muted hover:bg-destructive hover:text-white text-muted-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all z-10"
                         title="Hapus Project"
                       >
-                        <X className="w-4 h-4" />
+                        <X className="w-3.5 h-3.5" />
                       </button>
                     )}
                     {isViewLocked && (
-                      <div className="absolute top-2 right-2">
-                        <Lock className="w-4 h-4 text-gray-400" />
+                      <div className="absolute top-2.5 right-2.5">
+                        <Lock className="w-3.5 h-3.5 text-muted-foreground" />
                       </div>
                     )}
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-lg flex items-center justify-between pr-8">
+                    <CardHeader className="p-4 pb-2">
+                      <CardTitle className="text-base flex items-center justify-between pr-6 font-semibold">
                         <span className="truncate">
                           {project.customerName || project.projectName || 'Lainnya'}
                         </span>
                         {project.unpaidCount > 0 ? (
-                          <Badge variant="destructive" className="ml-2 flex-shrink-0">
+                          <Badge variant="outline" className="ml-2 shrink-0 bg-rose-100 text-rose-800 dark:bg-rose-950/40 dark:text-rose-400 border-rose-200 text-[11px]">
                             {project.unpaidCount} belum bayar
                           </Badge>
                         ) : (
@@ -799,7 +828,7 @@ export default function Expenses() {
                   {!isViewLocked && (
                     <Button 
                       onClick={() => handleOpenDialog()} 
-                      className="ml-auto bg-slate-950 text-white hover:bg-slate-800"
+                      className="ml-auto bg-[#087fb8] text-white hover:bg-[#176384]"
                     >
                       <Plus className="w-4 h-4 mr-2" />
                       Tambah Pengeluaran
@@ -1069,7 +1098,7 @@ export default function Expenses() {
               </Button>
               <Button
                 type="submit"
-                className="bg-slate-950 text-white hover:bg-slate-800"
+                className="bg-[#087fb8] text-white hover:bg-[#176384]"
                 disabled={createMutation.isPending || updateMutation.isPending}
               >
                 {createMutation.isPending || updateMutation.isPending ? 'Menyimpan...' : 'Simpan'}

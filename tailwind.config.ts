@@ -14,9 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        primary: ['"Alte Haas Grotesk"', '"Arial Black"', 'Impact', 'sans-serif'],
-        secondary: ['Gotham', '"Montserrat"', 'system-ui', '-apple-system', 'sans-serif'],
-        sans: ['Gotham', '"Montserrat"', 'system-ui', '-apple-system', 'sans-serif'],
+        primary: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+        secondary: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -55,6 +55,23 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar-background, var(--card)))",
+          foreground: "hsl(var(--sidebar-foreground, var(--foreground)))",
+          primary: "hsl(var(--sidebar-primary, var(--primary)))",
+          "primary-foreground": "hsl(var(--sidebar-primary-foreground, var(--primary-foreground)))",
+          accent: "hsl(var(--sidebar-accent, var(--accent)))",
+          "accent-foreground": "hsl(var(--sidebar-accent-foreground, var(--accent-foreground)))",
+          border: "hsl(var(--sidebar-border, var(--border)))",
+          ring: "hsl(var(--sidebar-ring, var(--ring)))",
+        },
+        chart: {
+          1: "var(--chart-1)",
+          2: "var(--chart-2)",
+          3: "var(--chart-3)",
+          4: "var(--chart-4)",
+          5: "var(--chart-5)",
         },
       },
       backgroundImage: {

@@ -244,68 +244,63 @@ export default function ActivityLogs() {
 
   return (
     <AdminLayout>
-      <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="space-y-4 sm:space-y-6 pb-6 w-full">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Log Aktivitas</h1>
-            <p className="text-gray-600 mt-1">
-              Pantau semua aktivitas admin untuk mencegah fraud
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">Log Aktivitas</h1>
+            <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
+              Pantau seluruh riwayat aksi pengguna dan perubahan data sistem.
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <img src="/icons/icon-activity.png" alt="Aktivitas" className="w-12 h-12 rounded-lg" />
-                <div>
-                  <p className="text-sm text-gray-600">Total Aktivitas</p>
-                  <p className="text-xl font-bold">{statsData?.totalActivities || 0}</p>
-                </div>
+        {/* Square UI Stats Divider Cards */}
+        <div className="bg-card text-card-foreground rounded-xl border shadow-xs overflow-hidden">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 lg:divide-x divide-border">
+            <div className="p-4 sm:p-5 space-y-3">
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Activity className="size-4 text-muted-foreground" />
+                <span className="text-xs sm:text-sm font-medium">Total Aktivitas</span>
               </div>
-            </CardContent>
-          </Card>
+              <p className="text-2xl font-semibold tracking-tight text-foreground">
+                {statsData?.totalActivities || 0}
+              </p>
+              <p className="text-[11px] text-muted-foreground">Seluruh aksi tercatat</p>
+            </div>
 
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <img src="/icons/icon-order.png" alt="Order" className="w-12 h-12 rounded-lg" />
-                <div>
-                  <p className="text-sm text-gray-600">Order</p>
-                  <p className="text-xl font-bold">
-                    {statsData?.actionStats?.filter((s: any) => s.actionType.startsWith('order_')).reduce((acc: number, s: any) => acc + Number(s.count), 0) || 0}
-                  </p>
-                </div>
+            <div className="p-4 sm:p-5 space-y-3">
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Package className="size-4 text-muted-foreground" />
+                <span className="text-xs sm:text-sm font-medium">Order Diproses</span>
               </div>
-            </CardContent>
-          </Card>
+              <p className="text-2xl font-semibold tracking-tight text-foreground">
+                {statsData?.actionStats?.filter((s: any) => s.actionType.startsWith('order_')).reduce((acc: number, s: any) => acc + Number(s.count), 0) || 0}
+              </p>
+              <p className="text-[11px] text-muted-foreground">Perubahan status & pesanan</p>
+            </div>
 
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <img src="/icons/icon-expense.png" alt="Pengeluaran" className="w-12 h-12 rounded-lg" />
-                <div>
-                  <p className="text-sm text-gray-600">Pengeluaran</p>
-                  <p className="text-xl font-bold">
-                    {statsData?.actionStats?.filter((s: any) => s.actionType.startsWith('expense_')).reduce((acc: number, s: any) => acc + Number(s.count), 0) || 0}
-                  </p>
-                </div>
+            <div className="p-4 sm:p-5 space-y-3">
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Receipt className="size-4 text-muted-foreground" />
+                <span className="text-xs sm:text-sm font-medium">Pengeluaran</span>
               </div>
-            </CardContent>
-          </Card>
+              <p className="text-2xl font-semibold tracking-tight text-foreground">
+                {statsData?.actionStats?.filter((s: any) => s.actionType.startsWith('expense_')).reduce((acc: number, s: any) => acc + Number(s.count), 0) || 0}
+              </p>
+              <p className="text-[11px] text-muted-foreground">Biaya & pembayaran vendor</p>
+            </div>
 
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <img src="/icons/icon-user.png" alt="User Aktif" className="w-12 h-12 rounded-lg" />
-                <div>
-                  <p className="text-sm text-gray-600">User Aktif</p>
-                  <p className="text-xl font-bold">{statsData?.userStats?.length || 0}</p>
-                </div>
+            <div className="p-4 sm:p-5 space-y-3">
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Users className="size-4 text-muted-foreground" />
+                <span className="text-xs sm:text-sm font-medium">User Aktif</span>
               </div>
-            </CardContent>
-          </Card>
+              <p className="text-2xl font-semibold tracking-tight text-foreground">
+                {statsData?.userStats?.length || 0}
+              </p>
+              <p className="text-[11px] text-muted-foreground">Staf & admin beroperasi</p>
+            </div>
+          </div>
         </div>
 
         <Card>
