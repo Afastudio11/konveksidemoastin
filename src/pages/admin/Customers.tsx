@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/lib/auth';
@@ -14,7 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -34,7 +34,26 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Label } from '@/components/ui/label';
-import { Search, Phone, Mail, ArrowRight, ArrowUpDown, ArrowUp, ArrowDown, Building2, Pencil, Trash2, FileDown, Loader2 } from 'lucide-react';
+import {
+  Search,
+  Phone,
+  Mail,
+  ArrowRight,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
+  Building2,
+  Pencil,
+  Trash2,
+  FileDown,
+  Loader2,
+  Users,
+  UserCheck,
+  Building,
+  Calendar,
+  MessageCircle,
+  ExternalLink,
+} from 'lucide-react';
 import { format } from 'date-fns';
 import { id as idLocale } from 'date-fns/locale';
 import { toast } from 'sonner';
@@ -49,7 +68,7 @@ export default function AdminCustomers() {
   const [search, setSearch] = useState('');
   const [sortField, setSortField] = useState<SortField>('createdAt');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
-  
+
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState<any>(null);
@@ -68,7 +87,7 @@ export default function AdminCustomers() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: (data: { id: string; formData: any }) => 
+    mutationFn: (data: { id: string; formData: any }) =>
       api.customers.update(token!, data.id, data.formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['customers'] });
@@ -105,11 +124,13 @@ export default function AdminCustomers() {
 
   const getSortIcon = (field: SortField) => {
     if (sortField !== field) {
-      return <ArrowUpDown className="w-4 h-4 ml-1 opacity-50" />;
+      return <ArrowUpDown className="w-3.5 h-3.5 ml-1 opacity-40" />;
     }
-    return sortDirection === 'asc' 
-      ? <ArrowUp className="w-4 h-4 ml-1" /> 
-      : <ArrowDown className="w-4 h-4 ml-1" />;
+    return sortDirection === 'asc' ? (
+      <ArrowUp className="w-3.5 h-3.5 ml-1 text-foreground" />
+    ) : (
+      <ArrowDown className="w-3.5 h-3.5 ml-1 text-foreground" />
+    );
   };
 
   const handleEdit = (customer: any) => {
@@ -151,205 +172,338 @@ export default function AdminCustomers() {
     }
   };
 
-  const sortedCustomers = data?.customers ? [...data.customers].sort((a: any, b: any) => {
-    let aValue = a[sortField];
-    let bValue = b[sortField];
+  const sortedCustomers = useMemo(() => {
+    if (!data?.customers) return [];
+    return [...data.customers].sort((a: any, b: any) => {
+      let aValue = a[sortField];
+      let bValue = b[sortField];
 
-    if (sortField === 'createdAt') {
-      aValue = new Date(aValue).getTime();
-      bValue = new Date(bValue).getTime();
-    } else {
-      aValue = (aValue || '').toLowerCase();
-      bValue = (bValue || '').toLowerCase();
-    }
+      if (sortField === 'createdAt') {
+        aValue = new Date(aValue).getTime();
+        bValue = new Date(bValue).getTime();
+      } else {
+        aValue = (aValue || '').toLowerCase();
+        bValue = (bValue || '').toLowerCase();
+      }
 
-    if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
-    if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
-    return 0;
-  }) : [];
+      if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }, [data?.customers, sortField, sortDirection]);
+
+  // Derived stats from data
+  const stats = useMemo(() => {
+    const total = data?.pagination?.total || data?.customers?.length || 0;
+    const withCompany = data?.customers?.filter((c: any) => !!c.companyName)?.length || 0;
+    const withEmail = data?.customers?.filter((c: any) => !!c.email)?.length || 0;
+    return { total, withCompany, withEmail };
+  }, [data]);
 
   return (
     <AdminLayout>
-      <div className="space-y-6">
-        <div className="flex justify-between items-start">
+      <div className="space-y-4 sm:space-y-6 pb-6 w-full">
+        {/* Header - Square UI Leads */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
-            <h1 className="text-3xl font-bold">Pelanggan</h1>
-            <p className="text-muted-foreground">Daftar semua pelanggan</p>
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
+              Direktori Pelanggan
+            </h1>
+            <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
+              Kelola database kontak pelanggan, instansi bisnis, dan riwayat pemesanan.
+            </p>
           </div>
           {isSuperAdmin && (
-            <Button onClick={handleExportPdf} disabled={isExporting} variant="outline">
+            <Button
+              onClick={handleExportPdf}
+              disabled={isExporting}
+              variant="outline"
+              size="sm"
+              className="h-9 text-xs border-border bg-card shadow-2xs gap-2 font-medium"
+            >
               {isExporting ? (
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
               ) : (
-                <FileDown className="w-4 h-4 mr-2" />
+                <FileDown className="w-3.5 h-3.5 text-muted-foreground" />
               )}
-              Download PDF
+              Export PDF
             </Button>
           )}
         </div>
 
-        <Card>
-          <CardHeader>
-            <div className="flex gap-4">
-              <div className="relative flex-1 max-w-sm">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Cari nama atau nomor telepon..."
-                  className="pl-10"
-                />
+        {/* 4-Stat Metric Cards - Square UI Divider Layout */}
+        <Card className="rounded-xl border-border bg-card shadow-xs overflow-hidden">
+          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-border">
+            <div className="p-4 sm:p-5 flex items-center gap-3.5">
+              <Button variant="outline" size="icon" className="size-9 rounded-lg shrink-0 border-border">
+                <Users className="size-4 text-muted-foreground" />
+              </Button>
+              <div>
+                <p className="text-xs font-medium text-muted-foreground">Total Pelanggan</p>
+                <p className="text-xl sm:text-2xl font-bold tracking-tight text-foreground mt-0.5">
+                  {stats.total}
+                </p>
               </div>
             </div>
-          </CardHeader>
-          <CardContent>
+
+            <div className="p-4 sm:p-5 flex items-center gap-3.5">
+              <Button variant="outline" size="icon" className="size-9 rounded-lg shrink-0 border-border">
+                <Building className="size-4 text-muted-foreground" />
+              </Button>
+              <div>
+                <p className="text-xs font-medium text-muted-foreground">Klien Instansi / Bisnis</p>
+                <p className="text-xl sm:text-2xl font-bold tracking-tight text-foreground mt-0.5">
+                  {stats.withCompany}
+                </p>
+              </div>
+            </div>
+
+            <div className="p-4 sm:p-5 flex items-center gap-3.5">
+              <Button variant="outline" size="icon" className="size-9 rounded-lg shrink-0 border-border">
+                <Mail className="size-4 text-muted-foreground" />
+              </Button>
+              <div>
+                <p className="text-xs font-medium text-muted-foreground">Kontak Email Terverifikasi</p>
+                <p className="text-xl sm:text-2xl font-bold tracking-tight text-foreground mt-0.5">
+                  {stats.withEmail}
+                </p>
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        {/* Filter & Customer Table Card */}
+        <Card className="rounded-xl border-border bg-card shadow-xs overflow-hidden">
+          {/* Toolbar */}
+          <div className="p-4 border-b border-border/70 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Input
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  setPage(1);
+                }}
+                placeholder="Cari nama, instansi, atau nomor telepon..."
+                className="pl-9 h-9 text-xs sm:text-sm rounded-lg border-border bg-muted/20 focus:bg-background transition-colors"
+              />
+            </div>
+            {data?.pagination && (
+              <div className="text-xs text-muted-foreground shrink-0 font-medium">
+                Total: <span className="text-foreground font-semibold">{data.pagination.total}</span> pelanggan
+              </div>
+            )}
+          </div>
+
+          <CardContent className="p-0">
             {isLoading ? (
-              <div className="text-center py-8">Loading...</div>
-            ) : !data?.customers?.length ? (
-              <div className="text-center py-8 text-muted-foreground">
-                Tidak ada pelanggan
+              <div className="flex items-center justify-center py-16 gap-2 text-xs text-muted-foreground">
+                <Loader2 className="size-4 animate-spin" />
+                <span>Memuat data pelanggan...</span>
+              </div>
+            ) : !sortedCustomers.length ? (
+              <div className="text-center py-16 text-xs text-muted-foreground">
+                <Users className="size-8 mx-auto mb-2 opacity-40" />
+                <p>Tidak ada data pelanggan yang sesuai.</p>
               </div>
             ) : (
               <>
                 <div className="overflow-x-auto">
                   <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>
+                    <TableHeader className="bg-muted/40 border-b border-border">
+                      <TableRow className="hover:bg-transparent">
+                        <TableHead className="h-10 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider pl-4">
                           <button
                             onClick={() => handleSort('name')}
-                            className="flex items-center hover:text-foreground transition-colors"
+                            className="flex items-center hover:text-foreground transition-colors font-semibold"
                           >
-                            Nama
+                            Pelanggan
                             {getSortIcon('name')}
                           </button>
                         </TableHead>
-                        <TableHead>
+                        <TableHead className="h-10 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
                           <button
                             onClick={() => handleSort('companyName')}
-                            className="flex items-center hover:text-foreground transition-colors"
+                            className="flex items-center hover:text-foreground transition-colors font-semibold"
                           >
-                            Instansi/Perusahaan
+                            Instansi / Usaha
                             {getSortIcon('companyName')}
                           </button>
                         </TableHead>
-                        <TableHead>
+                        <TableHead className="h-10 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
                           <button
                             onClick={() => handleSort('phone')}
-                            className="flex items-center hover:text-foreground transition-colors"
+                            className="flex items-center hover:text-foreground transition-colors font-semibold"
                           >
-                            Telepon
+                            WhatsApp / Telepon
                             {getSortIcon('phone')}
                           </button>
                         </TableHead>
-                        <TableHead>
+                        <TableHead className="h-10 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
                           <button
                             onClick={() => handleSort('email')}
-                            className="flex items-center hover:text-foreground transition-colors"
+                            className="flex items-center hover:text-foreground transition-colors font-semibold"
                           >
                             Email
                             {getSortIcon('email')}
                           </button>
                         </TableHead>
-                        <TableHead>
+                        <TableHead className="h-10 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
                           <button
                             onClick={() => handleSort('createdAt')}
-                            className="flex items-center hover:text-foreground transition-colors"
+                            className="flex items-center hover:text-foreground transition-colors font-semibold"
                           >
                             Terdaftar
                             {getSortIcon('createdAt')}
                           </button>
                         </TableHead>
-                        <TableHead className="text-right">Aksi</TableHead>
+                        <TableHead className="h-10 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider text-right pr-4">
+                          Aksi
+                        </TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {sortedCustomers.map((customer: any) => (
-                        <TableRow key={customer.id}>
-                          <TableCell className="font-medium">
-                            {customer.name}
-                          </TableCell>
-                          <TableCell>
-                            {customer.companyName ? (
-                              <span className="flex items-center gap-1">
-                                <Building2 className="w-3 h-3 text-muted-foreground" />
-                                {customer.companyName}
-                              </span>
-                            ) : (
-                              <span className="text-muted-foreground">-</span>
-                            )}
-                          </TableCell>
-                          <TableCell>
-                            <a
-                              href={`https://wa.me/${customer.phone?.replace(/\D/g, '')}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center gap-1 text-blue-600 hover:underline"
-                            >
-                              <Phone className="w-3 h-3" />
-                              {customer.phone}
-                            </a>
-                          </TableCell>
-                          <TableCell>
-                            {customer.email ? (
-                              <a
-                                href={`mailto:${customer.email}`}
-                                className="flex items-center gap-1 text-blue-600 hover:underline"
-                              >
-                                <Mail className="w-3 h-3" />
-                                {customer.email}
-                              </a>
-                            ) : (
-                              <span className="text-muted-foreground">-</span>
-                            )}
-                          </TableCell>
-                          <TableCell>
-                            {format(new Date(customer.createdAt), 'dd MMM yyyy', { locale: idLocale })}
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <div className="flex justify-end gap-1">
-                              <Link to={`/admin/customers/${customer.id}`}>
-                                <Button variant="outline" size="sm">
-                                  Cek Detail
-                                  <ArrowRight className="ml-2 h-4 w-4" />
-                                </Button>
-                              </Link>
-                              {isSuperAdmin && (
-                                <>
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => handleEdit(customer)}
+                      {sortedCustomers.map((customer: any) => {
+                        const cleanPhone = customer.phone?.replace(/\D/g, '') || '';
+                        const initials = (customer.name || 'P')
+                          .split(' ')
+                          .filter(Boolean)
+                          .slice(0, 2)
+                          .map((n: string) => n[0]?.toUpperCase())
+                          .join('');
+
+                        return (
+                          <TableRow
+                            key={customer.id}
+                            className="hover:bg-muted/30 border-b border-border/50 transition-colors"
+                          >
+                            {/* Pelanggan */}
+                            <TableCell className="py-3 pl-4">
+                              <div className="flex items-center gap-2.5">
+                                <div className="size-8 rounded-full bg-muted border border-border/70 flex items-center justify-center font-bold text-xs text-foreground shrink-0 shadow-2xs">
+                                  {initials}
+                                </div>
+                                <div className="min-w-0">
+                                  <Link
+                                    to={`/admin/customers/${customer.id}`}
+                                    className="font-semibold text-xs sm:text-sm text-foreground hover:underline truncate block"
                                   >
-                                    <Pencil className="w-4 h-4" />
-                                  </Button>
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => handleDelete(customer)}
-                                    className="text-red-600 hover:text-red-700"
-                                  >
-                                    <Trash2 className="w-4 h-4" />
-                                  </Button>
-                                </>
+                                    {customer.name}
+                                  </Link>
+                                  <span className="text-[11px] text-muted-foreground block truncate">
+                                    ID: #{customer.id?.substring(0, 6)}
+                                  </span>
+                                </div>
+                              </div>
+                            </TableCell>
+
+                            {/* Instansi */}
+                            <TableCell className="py-3">
+                              {customer.companyName ? (
+                                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[11px] font-medium bg-muted/80 text-foreground border border-border/60">
+                                  <Building2 className="w-3 h-3 text-muted-foreground shrink-0" />
+                                  <span className="truncate max-w-[140px]">{customer.companyName}</span>
+                                </span>
+                              ) : (
+                                <span className="text-xs text-muted-foreground/60">—</span>
                               )}
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      ))}
+                            </TableCell>
+
+                            {/* Telepon */}
+                            <TableCell className="py-3">
+                              {customer.phone ? (
+                                <a
+                                  href={`https://wa.me/${cleanPhone}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1.5 text-xs text-foreground hover:text-emerald-600 transition-colors group"
+                                >
+                                  <MessageCircle className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                                  <span className="font-mono text-[11px]">{customer.phone}</span>
+                                  <ExternalLink className="w-2.5 h-2.5 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground" />
+                                </a>
+                              ) : (
+                                <span className="text-xs text-muted-foreground/60">—</span>
+                              )}
+                            </TableCell>
+
+                            {/* Email */}
+                            <TableCell className="py-3">
+                              {customer.email ? (
+                                <a
+                                  href={`mailto:${customer.email}`}
+                                  className="text-xs text-muted-foreground hover:text-foreground transition-colors truncate max-w-[160px] block"
+                                >
+                                  {customer.email}
+                                </a>
+                              ) : (
+                                <span className="text-xs text-muted-foreground/60">—</span>
+                              )}
+                            </TableCell>
+
+                            {/* Terdaftar */}
+                            <TableCell className="py-3 text-xs text-muted-foreground whitespace-nowrap">
+                              {format(new Date(customer.createdAt), 'dd MMM yyyy', { locale: idLocale })}
+                            </TableCell>
+
+                            {/* Aksi */}
+                            <TableCell className="py-3 text-right pr-4">
+                              <div className="flex items-center justify-end gap-1.5">
+                                <Link to={`/admin/customers/${customer.id}`}>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="h-7 px-2.5 text-xs rounded-lg font-medium border-border gap-1 hover:bg-muted"
+                                  >
+                                    <span>Detail</span>
+                                    <ArrowRight className="w-3 h-3 text-muted-foreground" />
+                                  </Button>
+                                </Link>
+
+                                {isSuperAdmin && (
+                                  <>
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      onClick={() => handleEdit(customer)}
+                                      className="size-7 rounded-lg text-muted-foreground hover:text-foreground"
+                                      title="Edit pelanggan"
+                                    >
+                                      <Pencil className="w-3.5 h-3.5" />
+                                    </Button>
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      onClick={() => handleDelete(customer)}
+                                      className="size-7 rounded-lg text-rose-500 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40"
+                                      title="Hapus pelanggan"
+                                    >
+                                      <Trash2 className="w-3.5 h-3.5" />
+                                    </Button>
+                                  </>
+                                )}
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
                     </TableBody>
                   </Table>
                 </div>
 
+                {/* Pagination */}
                 {data.pagination && (
-                  <div className="flex justify-between items-center mt-4">
-                    <div className="text-sm text-muted-foreground">
-                      Total: {data.pagination.total} pelanggan
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 border-t border-border/70 text-xs">
+                    <div className="text-muted-foreground">
+                      Menampilkan halaman{' '}
+                      <span className="font-semibold text-foreground">{page}</span> dari{' '}
+                      <span className="font-semibold text-foreground">{data.pagination.totalPages || 1}</span> ({data.pagination.total} total)
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex items-center gap-1.5">
                       <Button
                         variant="outline"
                         size="sm"
+                        className="h-8 text-xs rounded-lg"
                         disabled={page <= 1}
                         onClick={() => setPage(page - 1)}
                       >
@@ -358,6 +512,7 @@ export default function AdminCustomers() {
                       <Button
                         variant="outline"
                         size="sm"
+                        className="h-8 text-xs rounded-lg"
                         disabled={page >= data.pagination.totalPages}
                         onClick={() => setPage(page + 1)}
                       >
@@ -370,86 +525,99 @@ export default function AdminCustomers() {
             )}
           </CardContent>
         </Card>
+
+        {/* Edit Dialog */}
+        <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+          <DialogContent className="sm:max-w-[425px] rounded-xl">
+            <DialogHeader>
+              <DialogTitle className="text-base font-bold">Edit Data Pelanggan</DialogTitle>
+              <DialogDescription className="text-xs">
+                Perbarui informasi identitas dan kontak pelanggan.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-3.5 py-3">
+              <div className="grid gap-1.5">
+                <Label htmlFor="name" className="text-xs font-medium">Nama Lengkap</Label>
+                <Input
+                  id="name"
+                  value={editForm.name}
+                  onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                  className="h-9 text-xs"
+                />
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="phone" className="text-xs font-medium">Nomor WhatsApp / Telepon</Label>
+                <Input
+                  id="phone"
+                  value={editForm.phone}
+                  onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
+                  className="h-9 text-xs font-mono"
+                />
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="email" className="text-xs font-medium">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={editForm.email}
+                  onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
+                  className="h-9 text-xs"
+                />
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="address" className="text-xs font-medium">Alamat</Label>
+                <Input
+                  id="address"
+                  value={editForm.address}
+                  onChange={(e) => setEditForm({ ...editForm, address: e.target.value })}
+                  className="h-9 text-xs"
+                />
+              </div>
+            </div>
+            <DialogFooter className="gap-2 sm:gap-0">
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 text-xs"
+                onClick={() => setEditDialogOpen(false)}
+              >
+                Batal
+              </Button>
+              <Button
+                size="sm"
+                className="h-8 text-xs bg-foreground text-background hover:bg-foreground/90 font-medium"
+                onClick={handleSaveEdit}
+                disabled={updateMutation.isPending}
+              >
+                {updateMutation.isPending && <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />}
+                Simpan Perubahan
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* Delete Alert Dialog */}
+        <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+          <AlertDialogContent className="sm:max-w-[420px] rounded-xl">
+            <AlertDialogHeader>
+              <AlertDialogTitle className="text-base font-bold">Hapus Pelanggan?</AlertDialogTitle>
+              <AlertDialogDescription className="text-xs leading-relaxed">
+                Apakah Anda yakin ingin menghapus <strong>{selectedCustomer?.name}</strong>? Tindakan ini tidak dapat dibatalkan.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter className="gap-2 sm:gap-0">
+              <AlertDialogCancel className="h-8 text-xs">Batal</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={handleConfirmDelete}
+                className="h-8 text-xs bg-rose-600 hover:bg-rose-700 text-white font-medium"
+              >
+                {deleteMutation.isPending && <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />}
+                Hapus
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
-
-      <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Edit Pelanggan</DialogTitle>
-            <DialogDescription>
-              Ubah data pelanggan di bawah ini
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Nama</Label>
-              <Input
-                id="name"
-                value={editForm.name}
-                onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                placeholder="Nama pelanggan"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="phone">Telepon</Label>
-              <Input
-                id="phone"
-                value={editForm.phone}
-                onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
-                placeholder="Nomor telepon"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={editForm.email}
-                onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
-                placeholder="Email (opsional)"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="address">Alamat</Label>
-              <Input
-                id="address"
-                value={editForm.address}
-                onChange={(e) => setEditForm({ ...editForm, address: e.target.value })}
-                placeholder="Alamat (opsional)"
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setEditDialogOpen(false)}>
-              Batal
-            </Button>
-            <Button onClick={handleSaveEdit} disabled={updateMutation.isPending}>
-              {updateMutation.isPending ? 'Menyimpan...' : 'Simpan'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Hapus Pelanggan?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Anda yakin ingin menghapus pelanggan <strong>{selectedCustomer?.name}</strong>? 
-              Tindakan ini tidak dapat dibatalkan.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Batal</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleConfirmDelete}
-              className="bg-red-600 hover:bg-red-700"
-            >
-              {deleteMutation.isPending ? 'Menghapus...' : 'Hapus'}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </AdminLayout>
   );
 }
