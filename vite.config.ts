@@ -15,8 +15,9 @@ export default defineConfig(({ mode }) => ({
     },
     proxy: {
       '/api': {
-        target: 'http://localhost:3001',
+        target: process.env.VITE_API_URL || 'https://demokonveksi.astintech.id',
         changeOrigin: true,
+        secure: false,
       },
     },
     allowedHosts: true,
