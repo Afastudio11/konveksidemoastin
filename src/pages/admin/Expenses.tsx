@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/lib/auth';
-import { api } from '@/lib/api';
+import { api, apiRequest } from '@/lib/api';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -211,7 +211,9 @@ export default function Expenses() {
     }
   };
 
-  const { data, isLoading } = useQuery({
+  const [isSeeding, setIsSeeding] = useState(false);
+
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ['expenses', searchTerm, filterWorkStatus, filterPaymentStatus, periodStart.toISOString(), periodEnd.toISOString()],
     queryFn: () => {
       const params: Record<string, string> = { 
@@ -226,6 +228,19 @@ export default function Expenses() {
     },
     enabled: !!token,
   });
+
+  const handleSeedExpenses = async () => {
+    try {
+      setIsSeeding(true);
+      await apiRequest('/api/expenses/seed', { method: 'POST' }, token);
+      toast.success('Berhasil menambahkan data contoh pengeluaran September 2026!');
+      refetch();
+    } catch (err: any) {
+      toast.error(err.message || 'Gagal mengisi data contoh pengeluaran');
+    } finally {
+      setIsSeeding(false);
+    }
+  };
 
   const { data: customers } = useQuery({
     queryKey: ['expense-customers'],
@@ -661,9 +676,32 @@ export default function Expenses() {
                   Loading...
                 </div>
               ) : projectSummaries.length === 0 ? (
-                <div className="col-span-full text-center py-8 text-muted-foreground">
-                  <FolderOpen className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                  <p>Belum ada data pengeluaran untuk periode {periodLabel}</p>
+                <div className="col-span-full text-center py-12 px-4 rounded-xl border border-dashed border-border bg-card">
+                  <FolderOpen className="w-10 h-10 mx-auto mb-3 text-muted-foreground opacity-40" />
+                  <p className="text-sm font-semibold text-foreground">Belum ada data pengeluaran untuk periode {periodLabel}</p>
+                  <p className="text-xs text-muted-foreground mt-1 max-w-sm mx-auto">
+                    Kelola biaya pembelian kain, vendor makloon jahit, bordir, dan aksesoris untuk periode ini.
+                  </p>
+                  <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+                    <Button
+                      size="sm"
+                      onClick={handleSeedExpenses}
+                      disabled={isSeeding}
+                      className="h-8 text-xs rounded-lg bg-foreground text-background hover:bg-foreground/90 font-medium"
+                    >
+                      {isSeeding ? 'Membuat Data...' : 'Generate Seed Data (September 2026)'}
+                    </Button>
+                    {!isViewLocked && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => { resetForm(); setIsCreateDialogOpen(true); }}
+                        className="h-8 text-xs rounded-lg border-border"
+                      >
+                        + Tambah Pengeluaran
+                      </Button>
+                    )}
+                  </div>
                 </div>
               ) : (
                 projectSummaries.map((project) => (

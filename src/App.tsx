@@ -24,6 +24,7 @@ import AdminActivityLogs from "./pages/admin/ActivityLogs";
 import AdminUserManagement from "./pages/admin/UserManagement";
 import AdminInventory from "./pages/admin/Inventory";
 import AiAssistant from "./pages/admin/AiAssistant";
+import AdminBatchDetail from "./pages/admin/BatchDetail";
 
 const FinancialReports = lazy(() => import("./pages/admin/FinancialReports"));
 
@@ -149,6 +150,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <AiAssistant />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/batches/:batchId"
+              element={
+                <ProtectedRoute>
+                  <AdminBatchDetail />
                 </ProtectedRoute>
               }
             />

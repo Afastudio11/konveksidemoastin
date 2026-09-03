@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
 import {
   Atom,
-  Bot,
+  Sparkles,
   LayoutGrid,
   ChartArea,
   Users,
@@ -64,7 +64,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     const all = [
       {
         title: "AI Assistant",
-        icon: Bot,
+        icon: Sparkles,
         path: "/admin/ai-assistant",
         permission: "ai_assistant",
       },
@@ -134,9 +134,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   ) || menuItems[1];
 
   const folders = [
-    { name: "Proyek Batch September", hasNotification: true, path: "/admin/orders" },
-    { name: "Seragam Kantor BUMN", hasNotification: false, path: "/admin/orders" },
-    { name: "Kaos Polo & Merchandise", hasNotification: true, path: "/admin/orders" },
+    { name: "Proyek Batch September", hasNotification: true, path: "/admin/batches/batch-september-2026" },
+    { name: "Seragam Kantor BUMN", hasNotification: false, path: "/admin/batches/seragam-kantor-bumn" },
+    { name: "Kaos Polo & Merchandise", hasNotification: true, path: "/admin/batches/kaos-polo-merchandise" },
   ];
 
   const handleLogout = () => {

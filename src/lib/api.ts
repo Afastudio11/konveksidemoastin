@@ -4,7 +4,7 @@ interface ApiOptions extends RequestInit {
   token?: string;
 }
 
-async function apiRequest<T>(endpoint: string, options: ApiOptions = {}): Promise<T> {
+export async function apiRequest<T>(endpoint: string, options: ApiOptions = {}): Promise<T> {
   const { token, ...fetchOptions } = options;
   
   const headers: HeadersInit = {
