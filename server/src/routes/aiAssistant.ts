@@ -7,7 +7,7 @@ import { AuthRequest } from '../middleware/auth';
 
 const router = Router();
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
-const DEFAULT_MODEL = 'openai/gpt-oss-120b';
+const DEFAULT_MODEL = 'llama-3.3-70b-versatile';
 
 const messageSchema = z.object({
   role: z.enum(['user', 'assistant']),
@@ -53,7 +53,7 @@ async function getBusinessContext() {
       FROM orders o
       JOIN customers c ON c.id = o.customer_id
       ORDER BY o.created_at DESC
-      LIMIT 75
+      LIMIT 20
     `),
     db.execute(sql`
       SELECT code, name, category, unit, current_stock, minimum_stock, unit_price,
@@ -63,7 +63,7 @@ async function getBusinessContext() {
       FROM raw_materials
       WHERE is_active = true
       ORDER BY (current_stock <= minimum_stock) DESC, name ASC
-      LIMIT 150
+      LIMIT 30
     `),
     db.execute(sql`
       SELECT pe.date, pe.project_name, pe.item_name, pe.vendor_name, pe.quantity,
@@ -71,7 +71,7 @@ async function getBusinessContext() {
       FROM production_expenses pe
       LEFT JOIN orders o ON o.id = pe.order_id
       ORDER BY pe.date DESC
-      LIMIT 100
+      LIMIT 25
     `),
     db.execute(sql`
       SELECT rm.code, rm.name, rm.unit, COALESCE(SUM(omu.quantity), 0) AS quantity_used,
@@ -81,7 +81,7 @@ async function getBusinessContext() {
       JOIN raw_materials rm ON rm.id = omu.material_id
       GROUP BY rm.id, rm.code, rm.name, rm.unit
       ORDER BY SUM(omu.total_cost) DESC
-      LIMIT 75
+      LIMIT 20
     `),
     db.execute(sql`
       SELECT oi.product_name, oi.product_category, COALESCE(SUM(oi.quantity), 0) AS quantity,
@@ -91,7 +91,7 @@ async function getBusinessContext() {
       WHERE o.payment_status NOT IN ('cancelled', 'refunded', 'expired')
       GROUP BY oi.product_name, oi.product_category
       ORDER BY SUM(oi.quantity) DESC
-      LIMIT 50
+      LIMIT 20
     `),
   ]);
 
