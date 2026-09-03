@@ -19,8 +19,20 @@ async function apiRequest<T>(endpoint: string, options: ApiOptions = {}): Promis
   });
 
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ error: 'Request failed' }));
-    throw new Error(error.error || 'Request failed');
+    let errorMsg = 'Gagal memproses permintaan';
+    try {
+      const errorJson = await response.json();
+      errorMsg = errorJson.error || errorJson.message || errorMsg;
+    } catch {
+      if (response.status === 502 || response.status === 503) {
+        errorMsg = 'Server sedang dalam proses restart/pembaruan. Silakan coba 5-10 detik lagi.';
+      } else if (response.status === 500) {
+        errorMsg = 'Terjadi gangguan koneksi server internal. Silakan coba lagi.';
+      } else {
+        errorMsg = `Gagal terhubung ke server (HTTP ${response.status})`;
+      }
+    }
+    throw new Error(errorMsg);
   }
 
   return response.json();
