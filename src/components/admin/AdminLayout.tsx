@@ -525,7 +525,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </header>
 
         {/* Dashboard Content Container */}
-        <main className="flex-1 p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 w-full bg-background overflow-x-hidden">
+        <main
+          className={
+            location.pathname.startsWith("/admin/ai-assistant")
+              ? "flex-1 w-full bg-background overflow-hidden flex flex-col p-0"
+              : "flex-1 p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 w-full bg-background overflow-x-hidden"
+          }
+        >
           {children}
         </main>
       </div>

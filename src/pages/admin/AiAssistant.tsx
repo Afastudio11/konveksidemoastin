@@ -1,11 +1,12 @@
-import { FormEvent, KeyboardEvent, useState } from 'react';
+import { FormEvent, KeyboardEvent, useState, useRef, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { Loader2, Send, Trash2, Sparkles } from 'lucide-react';
+import { ArrowUp, Loader2, RotateCcw, Sparkles, Bot, User, Copy, Check } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { toast } from 'sonner';
 
 import AdminLayout from '@/components/admin/AdminLayout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
@@ -17,23 +18,60 @@ interface ChatMessage {
 }
 
 const suggestions = [
-  'Berapa total omzet, kas diterima, dan piutang saat ini?',
-  'Bahan baku apa yang stoknya menipis atau habis?',
-  'Order aktif mana yang progres produksinya paling rendah?',
-  'Produk apa yang paling banyak terjual dan berapa nilainya?',
+  { icon: '📊', text: 'Berapa total omzet, kas diterima, dan piutang saat ini?' },
+  { icon: '📦', text: 'Bahan baku apa saja yang stoknya menipis atau habis?' },
+  { icon: '🏭', text: 'Order mana yang progres produksinya paling rendah & mendesak?' },
+  { icon: '🏆', text: 'Produk apa yang paling banyak terjual dan berapa nilainya?' },
 ];
+
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    toast.success('Disalin ke clipboard');
+    setTimeout(() => setCopied(false), 2000);
+  };
+  return (
+    <button
+      onClick={handleCopy}
+      className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors"
+      title="Salin jawaban"
+    >
+      {copied ? <Check className="size-3.5 text-emerald-500" /> : <Copy className="size-3.5" />}
+    </button>
+  );
+}
 
 export default function AiAssistant() {
   const { token } = useAuth();
   const [question, setQuestion] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  // Auto-scroll on new message
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
+    }
+  }, [messages, messages.length]);
+
+  const adjustTextareaHeight = () => {
+    const textarea = inputRef.current;
+    if (textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = `${Math.min(textarea.scrollHeight, 180)}px`;
+    }
+  };
 
   const chat = useMutation({
-    mutationFn: (payload: { question: string; history: ChatMessage[] }) => api.aiAssistant.chat(token!, payload),
+    mutationFn: (payload: { question: string; history: ChatMessage[] }) =>
+      api.aiAssistant.chat(token!, payload),
     onSuccess: (data) => {
       setMessages((current) => [...current, { role: 'assistant', content: data.answer, model: data.model }]);
     },
-    onError: (error: Error) => toast.error(error.message || 'Gagal mendapatkan jawaban'),
+    onError: (error: Error) => toast.error(error.message || 'Gagal mendapatkan jawaban AI'),
   });
 
   const submitQuestion = (value: string) => {
@@ -43,6 +81,7 @@ export default function AiAssistant() {
     const history = messages.slice(-8).map(({ role, content }) => ({ role, content }));
     setMessages((current) => [...current, { role: 'user', content: normalized }]);
     setQuestion('');
+    if (inputRef.current) inputRef.current.style.height = 'auto';
     chat.mutate({ question: normalized, history });
   };
 
@@ -58,120 +97,256 @@ export default function AiAssistant() {
     }
   };
 
+  const handleNewChat = () => {
+    setMessages([]);
+    setQuestion('');
+    if (inputRef.current) {
+      inputRef.current.style.height = 'auto';
+      inputRef.current.focus();
+    }
+  };
+
   return (
     <AdminLayout>
-      <div className="space-y-4 sm:space-y-6 pb-6 w-full">
-        {/* Header - Square UI Leads style */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
-                Asisten AI Bisnis
-              </h1>
-              <span className="inline-flex items-center rounded-full bg-linear-to-r from-[#6e3ff3]/15 to-[#df3674]/15 px-2.5 py-0.5 text-[10px] font-semibold text-[#6e3ff3] border border-[#6e3ff3]/20">
-                Groq Llama 3
-              </span>
-            </div>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-              Analisis cerdas data order, pelanggan, stok, pengeluaran, dan performa konveksi.
-            </p>
+      <div className="flex flex-col h-[calc(100vh-57px)] w-full bg-background">
+        {/* ChatGPT Header Bar */}
+        <div className="shrink-0 h-12 border-b border-border/50 px-4 flex items-center justify-between bg-card/50 backdrop-blur-xs">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-sm tracking-tight text-foreground">
+              Asisten AI Bisnis
+            </span>
+            <span className="inline-flex items-center rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground border border-border/60">
+              Llama 3.3 70B
+            </span>
           </div>
+
           {messages.length > 0 && (
             <Button
-              variant="outline"
+              variant="ghost"
               size="sm"
-              className="text-xs border-border bg-card"
-              onClick={() => setMessages([])}
+              onClick={handleNewChat}
               disabled={chat.isPending}
+              className="h-8 text-xs gap-1.5 text-muted-foreground hover:text-foreground"
             >
-              <Trash2 className="h-3.5 w-3.5 mr-1.5 text-muted-foreground" />
-              Hapus Percakapan
+              <RotateCcw className="size-3.5" />
+              <span>Chat Baru</span>
             </Button>
           )}
         </div>
 
-        <Card className="overflow-hidden border-border bg-card rounded-xl shadow-xs">
-          <CardHeader className="flex-row items-center justify-between space-y-0 border-b border-border/60 p-4">
-            <CardTitle className="text-sm font-semibold">Tanya Data Bisnis</CardTitle>
-            <span className="text-[11px] text-muted-foreground">Snapshot Real-time</span>
-          </CardHeader>
-
-          <CardContent className="p-0">
-            <div className="min-h-[420px] space-y-4 p-4 sm:p-6">
-              {messages.length === 0 ? (
-                <div className="mx-auto flex min-h-[360px] max-w-2xl flex-col justify-center text-center">
-                  <div className="size-10 rounded-xl bg-linear-to-b from-[#6e3ff3] to-[#aa8ef9] text-white flex items-center justify-center mx-auto mb-3 shadow-sm">
-                    <Sparkles className="size-5" />
-                  </div>
-                  <h2 className="text-base font-semibold text-foreground">Apa yang ingin Anda ketahui?</h2>
-                  <p className="mt-1 text-xs text-muted-foreground max-w-md mx-auto">
-                    Jawaban diproses otomatis dari data sistem terbaru. Pilih salah satu contoh pertanyaan di bawah atau ketik langsung.
-                  </p>
-                  <div className="mt-6 grid gap-2.5 sm:grid-cols-2 text-left">
-                    {suggestions.map((suggestion) => (
-                      <button
-                        key={suggestion}
-                        type="button"
-                        onClick={() => submitQuestion(suggestion)}
-                        className="rounded-lg border border-border bg-card p-3 text-xs leading-relaxed text-foreground transition-all hover:border-foreground/30 hover:bg-muted/40 cursor-pointer"
-                      >
-                        {suggestion}
-                      </button>
-                    ))}
-                  </div>
+        {/* Scrollable Messages Area */}
+        <div ref={scrollRef} className="flex-1 overflow-y-auto px-3 sm:px-6">
+          {messages.length === 0 ? (
+            /* Empty State (ChatGPT Landing) */
+            <div className="flex flex-col items-center justify-center min-h-full py-12">
+              <div className="max-w-2xl w-full text-center">
+                <div className="inline-flex items-center justify-center size-12 rounded-2xl bg-foreground text-background mb-4 shadow-sm">
+                  <Sparkles className="size-6" />
                 </div>
-              ) : (
-                <div className="mx-auto max-w-3xl space-y-4">
-                  {messages.map((message, index) => (
-                    <div key={`${message.role}-${index}`} className={message.role === 'user' ? 'flex justify-end' : 'flex justify-start'}>
-                      <div className={message.role === 'user'
-                        ? 'max-w-[85%] rounded-2xl rounded-br-xs bg-foreground text-background px-4 py-3 text-xs sm:text-sm leading-relaxed'
-                        : 'max-w-[92%] rounded-2xl rounded-bl-xs border border-border bg-muted/30 px-4 py-3 text-xs sm:text-sm leading-relaxed text-foreground'}
-                      >
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground mb-2">
+                  Ada yang bisa saya bantu tentang data bisnismu?
+                </h1>
+                <p className="text-xs sm:text-sm text-muted-foreground mb-8 max-w-md mx-auto">
+                  Analisis otomatis data order, kas, stok bahan baku, dan pengeluaran produksi secara real-time.
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-left max-w-xl mx-auto">
+                  {suggestions.map((s) => (
+                    <button
+                      key={s.text}
+                      type="button"
+                      onClick={() => submitQuestion(s.text)}
+                      className="group flex items-start gap-3 rounded-xl border border-border/80 bg-card hover:bg-muted/40 p-3.5 text-xs sm:text-[13px] leading-relaxed text-foreground transition-all hover:border-foreground/25 cursor-pointer shadow-2xs"
+                    >
+                      <span className="text-base shrink-0 mt-0.5">{s.icon}</span>
+                      <span className="text-muted-foreground group-hover:text-foreground transition-colors font-medium">
+                        {s.text}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* Chat Messages List */
+            <div className="max-w-3xl mx-auto w-full py-6 space-y-6">
+              {messages.map((message, index) => (
+                <div key={`${message.role}-${index}`}>
+                  {message.role === 'user' ? (
+                    /* User Bubble - aligned right, clean rounded pill */
+                    <div className="flex justify-end pl-12">
+                      <div className="rounded-2xl rounded-tr-xs bg-foreground text-background px-4 py-2.5 text-xs sm:text-sm leading-relaxed max-w-xl shadow-2xs font-normal">
                         <p className="whitespace-pre-wrap">{message.content}</p>
-                        {message.model && <p className="mt-2 pt-2 border-t border-border/50 text-[10px] text-muted-foreground">Model: {message.model}</p>}
                       </div>
                     </div>
-                  ))}
-                  {chat.isPending && (
-                    <div className="flex justify-start">
-                      <div className="flex items-center gap-2 rounded-xl border border-border bg-muted/30 px-4 py-3 text-xs text-muted-foreground">
-                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                        Menganalisis data...
+                  ) : (
+                    /* Assistant Output - ChatGPT Full Width Style */
+                    <div className="flex gap-3 pr-4 sm:pr-8">
+                      <div className="shrink-0 mt-0.5">
+                        <div className="size-7 rounded-lg bg-muted border border-border flex items-center justify-center text-foreground shadow-2xs">
+                          <Bot className="size-4" />
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0 text-xs sm:text-sm leading-relaxed text-foreground">
+                        <div className="ai-markdown-content overflow-hidden">
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              table: ({ node, ...props }) => (
+                                <div className="my-3 overflow-x-auto rounded-lg border border-border bg-card shadow-2xs">
+                                  <table className="w-full text-left text-xs border-collapse" {...props} />
+                                </div>
+                              ),
+                              thead: ({ node, ...props }) => (
+                                <thead className="bg-muted/70 text-muted-foreground font-semibold border-b border-border text-[11px] uppercase tracking-wider" {...props} />
+                              ),
+                              th: ({ node, ...props }) => (
+                                <th className="px-3.5 py-2.5 whitespace-nowrap font-semibold" {...props} />
+                              ),
+                              tr: ({ node, ...props }) => (
+                                <tr className="border-b border-border/40 hover:bg-muted/30 transition-colors last:border-0" {...props} />
+                              ),
+                              td: ({ node, children, ...props }) => {
+                                const text = String(children).toLowerCase().trim();
+                                if (text === 'menipis') {
+                                  return (
+                                    <td className="px-3.5 py-2.5 whitespace-nowrap" {...props}>
+                                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-100 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300 border border-amber-300 dark:border-amber-800">
+                                        Menipis
+                                      </span>
+                                    </td>
+                                  );
+                                }
+                                if (text === 'habis') {
+                                  return (
+                                    <td className="px-3.5 py-2.5 whitespace-nowrap" {...props}>
+                                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-rose-100 text-rose-800 dark:bg-rose-950/50 dark:text-rose-300 border border-rose-300 dark:border-rose-800">
+                                        Habis
+                                      </span>
+                                    </td>
+                                  );
+                                }
+                                if (text === 'aman') {
+                                  return (
+                                    <td className="px-3.5 py-2.5 whitespace-nowrap" {...props}>
+                                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
+                                        Aman
+                                      </span>
+                                    </td>
+                                  );
+                                }
+                                return <td className="px-3.5 py-2.5 whitespace-nowrap" {...props}>{children}</td>;
+                              },
+                              p: ({ node, ...props }) => (
+                                <p className="my-2.5 leading-relaxed text-foreground" {...props} />
+                              ),
+                              ul: ({ node, ...props }) => (
+                                <ul className="list-disc pl-5 my-2 space-y-1 text-foreground" {...props} />
+                              ),
+                              ol: ({ node, ...props }) => (
+                                <ol className="list-decimal pl-5 my-2 space-y-1 text-foreground" {...props} />
+                              ),
+                              li: ({ node, ...props }) => (
+                                <li className="leading-relaxed" {...props} />
+                              ),
+                              strong: ({ node, ...props }) => (
+                                <strong className="font-semibold text-foreground" {...props} />
+                              ),
+                              h1: ({ node, ...props }) => (
+                                <h1 className="text-base sm:text-lg font-bold mt-4 mb-2 text-foreground" {...props} />
+                              ),
+                              h2: ({ node, ...props }) => (
+                                <h2 className="text-sm sm:text-base font-bold mt-3 mb-1.5 text-foreground" {...props} />
+                              ),
+                              h3: ({ node, ...props }) => (
+                                <h3 className="text-xs sm:text-sm font-semibold mt-2.5 mb-1 text-foreground" {...props} />
+                              ),
+                              blockquote: ({ node, ...props }) => (
+                                <blockquote className="border-l-2 border-primary/50 pl-3 my-2 text-muted-foreground italic" {...props} />
+                              ),
+                            }}
+                          >
+                            {message.content}
+                          </ReactMarkdown>
+                        </div>
+
+                        {/* Action buttons under response */}
+                        <div className="flex items-center gap-2 mt-3 pt-2 text-[11px] text-muted-foreground">
+                          <CopyButton text={message.content} />
+                          {message.model && (
+                            <span className="text-[10px] text-muted-foreground/60">
+                              {message.model}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   )}
                 </div>
+              ))}
+
+              {/* Streaming / Loading State */}
+              {chat.isPending && (
+                <div className="flex gap-3 pr-8">
+                  <div className="shrink-0 mt-0.5">
+                    <div className="size-7 rounded-lg bg-muted border border-border flex items-center justify-center text-foreground shadow-2xs">
+                      <Bot className="size-4 animate-pulse" />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground pt-1.5">
+                    <div className="flex gap-1 items-center">
+                      <span className="size-1.5 rounded-full bg-foreground/60 animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <span className="size-1.5 rounded-full bg-foreground/60 animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <span className="size-1.5 rounded-full bg-foreground/60 animate-bounce" style={{ animationDelay: '300ms' }} />
+                    </div>
+                    <span>Menganalisis data konveksi...</span>
+                  </div>
+                </div>
               )}
             </div>
+          )}
+        </div>
 
-            <form onSubmit={handleSubmit} className="border-t border-border/60 bg-muted/10 p-3 sm:p-4">
-              <div className="mx-auto flex max-w-3xl items-end gap-2 rounded-xl border border-border bg-card p-2 shadow-xs">
+        {/* ChatGPT Pinned Bottom Input Bar */}
+        <div className="shrink-0 border-t border-border/50 bg-background/80 backdrop-blur-xs p-3 sm:p-4">
+          <div className="max-w-3xl mx-auto w-full">
+            <form onSubmit={handleSubmit}>
+              <div className="relative flex items-end rounded-2xl border border-border bg-card shadow-xs focus-within:border-foreground/30 focus-within:shadow-md transition-all">
                 <Textarea
+                  ref={inputRef}
                   value={question}
-                  onChange={(event) => setQuestion(event.target.value)}
+                  onChange={(event) => {
+                    setQuestion(event.target.value);
+                    adjustTextareaHeight();
+                  }}
                   onKeyDown={handleKeyDown}
                   maxLength={1_000}
-                  rows={2}
-                  placeholder="Contoh: Tampilkan order yang belum lunas dan paling mendesak"
-                  className="min-h-[48px] resize-none border-0 px-2 text-xs sm:text-sm shadow-none focus-visible:ring-0 bg-transparent"
+                  rows={1}
+                  placeholder="Tanya data bisnis (contoh: Tampilkan 5 order dengan nilai tertinggi)..."
+                  className="min-h-[48px] max-h-[160px] resize-none border-0 bg-transparent pl-4 pr-12 py-3 text-xs sm:text-sm shadow-none focus-visible:ring-0 placeholder:text-muted-foreground/60"
                 />
-                <Button 
-                  type="submit" 
-                  size="icon" 
-                  className="size-9 shrink-0 bg-foreground text-background hover:bg-foreground/90 font-medium" 
-                  disabled={!question.trim() || chat.isPending} 
-                  title="Kirim pertanyaan"
-                >
-                  {chat.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-                </Button>
+                <div className="absolute right-2 bottom-2">
+                  <Button
+                    type="submit"
+                    size="icon"
+                    disabled={!question.trim() || chat.isPending}
+                    className="size-8 rounded-full bg-foreground text-background hover:bg-foreground/90 disabled:opacity-20 transition-opacity"
+                    title="Kirim pertanyaan"
+                  >
+                    {chat.isPending ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : (
+                      <ArrowUp className="size-4" strokeWidth={2.5} />
+                    )}
+                  </Button>
+                </div>
               </div>
-              <p className="mx-auto mt-2 max-w-3xl text-center text-[10px] text-muted-foreground">
-                Jawaban AI dapat keliru. Verifikasi angka penting pada halaman laporan atau detail order.
-              </p>
             </form>
-          </CardContent>
-        </Card>
+            <p className="mt-2 text-center text-[10px] text-muted-foreground/60">
+              Jawaban AI diolah otomatis dari database internal. Selalu verifikasi data keuangan penting di halaman laporan.
+            </p>
+          </div>
+        </div>
       </div>
     </AdminLayout>
   );
