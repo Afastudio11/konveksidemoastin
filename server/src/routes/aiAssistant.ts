@@ -174,23 +174,23 @@ ${JSON.stringify(businessContext)}`,
     } | null;
 
     if (!groqResponse.ok) {
-      console.error('Groq API error:', groqResponse.status, payload?.error?.message || 'Unknown error');
+      console.error('AI API error:', groqResponse.status, payload?.error?.message || 'Unknown error');
       const message = groqResponse.status === 429
-        ? 'Kuota atau batas request Groq sedang tercapai'
-        : 'Groq gagal memproses pertanyaan';
+        ? 'Batas request tercapai. Silakan coba lagi sebentar.'
+        : 'Sistem AI gagal memproses pertanyaan. Silakan coba lagi.';
       return res.status(502).json({ error: message });
     }
 
     const answer = payload?.choices?.[0]?.message?.content?.trim();
-    if (!answer) return res.status(502).json({ error: 'Groq tidak mengembalikan jawaban' });
+    if (!answer) return res.status(502).json({ error: 'Sistem AI tidak mengembalikan jawaban' });
 
-    res.json({ answer, model, generatedAt: businessContext.generatedAt });
+    res.json({ answer, generatedAt: businessContext.generatedAt });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ error: 'Pertanyaan tidak valid', details: error.errors });
     }
     if (error instanceof Error && error.name === 'AbortError') {
-      return res.status(504).json({ error: 'Groq terlalu lama merespons. Silakan coba lagi.' });
+      return res.status(504).json({ error: 'Sistem AI terlalu lama merespons. Silakan coba lagi.' });
     }
     console.error('AI assistant error:', error);
     res.status(500).json({ error: 'Gagal memproses pertanyaan data' });

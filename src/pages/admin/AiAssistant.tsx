@@ -115,8 +115,9 @@ export default function AiAssistant() {
             <span className="font-semibold text-sm tracking-tight text-foreground">
               Asisten AI Bisnis
             </span>
-            <span className="inline-flex items-center rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground border border-border/60">
-              Llama 3.3 70B
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 text-[10px] font-medium border border-emerald-500/20">
+              <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Aktif
             </span>
           </div>
 
@@ -271,13 +272,8 @@ export default function AiAssistant() {
                         </div>
 
                         {/* Action buttons under response */}
-                        <div className="flex items-center gap-2 mt-3 pt-2 text-[11px] text-muted-foreground">
+                        <div className="flex items-center gap-2 mt-2 pt-1 text-[11px] text-muted-foreground">
                           <CopyButton text={message.content} />
-                          {message.model && (
-                            <span className="text-[10px] text-muted-foreground/60">
-                              {message.model}
-                            </span>
-                          )}
                         </div>
                       </div>
                     </div>
