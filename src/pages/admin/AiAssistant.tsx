@@ -1,6 +1,6 @@
 import { FormEvent, KeyboardEvent, useState, useRef, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { ArrowUp, Loader2, RotateCcw, Bot, User, Copy, Check, ArrowRight } from 'lucide-react';
+import { ArrowUp, Loader2, RotateCcw, User, Copy, Check, ArrowRight } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { toast } from 'sonner';
@@ -141,8 +141,8 @@ export default function AiAssistant() {
             /* Empty State (ChatGPT Landing) */
             <div className="flex flex-col items-center justify-center min-h-full py-12">
               <div className="max-w-2xl w-full text-center">
-                <div className="inline-flex items-center justify-center size-12 rounded-2xl bg-muted border border-border text-foreground mb-4 shadow-2xs">
-                  <Bot className="size-6 text-foreground" />
+                <div className="inline-flex items-center justify-center size-12 rounded-2xl bg-card border border-border/80 shadow-2xs mb-4 p-1.5">
+                  <img src="/ouruniform-logo.png" alt="ouruniform.id" className="size-full rounded-xl object-contain" />
                 </div>
                 <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground mb-2">
                   Ada yang bisa saya bantu tentang data bisnismu?
@@ -184,8 +184,8 @@ export default function AiAssistant() {
                     /* Assistant Output - ChatGPT Full Width Style */
                     <div className="flex gap-3 pr-4 sm:pr-8">
                       <div className="shrink-0 mt-0.5">
-                        <div className="size-7 rounded-lg bg-muted border border-border flex items-center justify-center text-foreground shadow-2xs">
-                          <Bot className="size-4" />
+                        <div className="size-7 rounded-lg bg-card border border-border/80 flex items-center justify-center p-1 shadow-2xs">
+                          <img src="/ouruniform-logo.png" alt="ouruniform AI" className="size-full rounded-xs object-contain" />
                         </div>
                       </div>
                       <div className="flex-1 min-w-0 text-xs sm:text-sm leading-relaxed text-foreground">
@@ -285,8 +285,8 @@ export default function AiAssistant() {
               {chat.isPending && (
                 <div className="flex gap-3 pr-8">
                   <div className="shrink-0 mt-0.5">
-                    <div className="size-7 rounded-lg bg-muted border border-border flex items-center justify-center text-foreground shadow-2xs">
-                      <Bot className="size-4 animate-pulse" />
+                    <div className="size-7 rounded-lg bg-card border border-border/80 flex items-center justify-center p-1 shadow-2xs">
+                      <img src="/ouruniform-logo.png" alt="ouruniform AI" className="size-full rounded-xs object-contain animate-pulse" />
                     </div>
                   </div>
                   <div className="flex items-center gap-2 text-xs text-muted-foreground pt-1.5">
