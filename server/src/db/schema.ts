@@ -31,6 +31,7 @@ export const menuPermissionEnum = pgEnum('menu_permission', [
   'expenses',
   'inventory',
   'financial_reports',
+  'ai_assistant',
   'activity_logs',
   'settings',
   'user_management'

@@ -15,7 +15,8 @@ import { auditLogsRoutes } from './routes/auditLogs';
 import invoiceRoutes from './routes/invoice';
 import { inventoryRoutes } from './routes/inventory';
 import { financialReportsRoutes } from './routes/financialReports';
-import { authMiddleware } from './middleware/auth';
+import { aiAssistantRoutes } from './routes/aiAssistant';
+import { authMiddleware, requirePermission } from './middleware/auth';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,6 +40,7 @@ app.use('/api/dashboard', authMiddleware, dashboardRoutes);
 app.use('/api/expenses', authMiddleware, expensesRoutes);
 app.use('/api/inventory', authMiddleware, inventoryRoutes);
 app.use('/api/financial-reports', authMiddleware, financialReportsRoutes);
+app.use('/api/ai-assistant', authMiddleware, requirePermission('ai_assistant'), aiAssistantRoutes);
 app.use('/api/audit-logs', authMiddleware, auditLogsRoutes);
 
 app.get('/api/health', (req, res) => {

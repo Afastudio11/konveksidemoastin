@@ -50,6 +50,8 @@ if [ ! -f ".env" ]; then
     cat > .env << EOF
 DB_PASSWORD=${DB_PASS}
 JWT_SECRET=${JWT_SEC}
+GROQ_API_KEY=
+GROQ_MODEL=openai/gpt-oss-120b
 EOF
     
     echo "✅ .env created"
@@ -60,6 +62,10 @@ EOF
     echo ""
 else
     echo "✅ .env sudah ada, skip..."
+fi
+
+if ! grep -q '^GROQ_API_KEY=.' .env; then
+    echo "⚠️  GROQ_API_KEY belum diisi. Menu Asisten AI akan aktif setelah key ditambahkan ke .env."
 fi
 
 # ============================================

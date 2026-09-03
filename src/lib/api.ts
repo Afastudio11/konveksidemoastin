@@ -382,6 +382,15 @@ export const api = {
     },
   },
 
+  aiAssistant: {
+    chat: (token: string, data: { question: string; history: Array<{ role: 'user' | 'assistant'; content: string }> }) =>
+      apiRequest<{ answer: string; model: string; generatedAt: string }>('/ai-assistant/chat', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        token,
+      }),
+  },
+
   auditLogs: {
     list: (token: string, params?: Record<string, string>) => {
       const query = params ? '?' + new URLSearchParams(params).toString() : '';

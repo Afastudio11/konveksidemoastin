@@ -8,6 +8,9 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+.env
+.env.*
+!.env.example
 # dist (uncommented for Hostinger deployment)
 dist-ssr
 *.local

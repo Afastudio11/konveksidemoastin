@@ -3,11 +3,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { id as idLocale } from 'date-fns/locale';
-import {
-  ArrowRight, BarChart3, CalendarIcon, CheckCircle2, Clock3,
-  Factory, FileSpreadsheet, FileText, Loader2, Package, Palette, Plus,
-  TrendingUp, Users, Wallet, X,
-} from 'lucide-react';
+import { CalendarIcon, Loader2, X } from 'lucide-react';
 import { toast } from 'sonner';
 
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -94,7 +90,7 @@ interface RecentOrder {
 }
 
 export default function AdminDashboard() {
-  const { token, user } = useAuth();
+  const { token } = useAuth();
   const navigate = useNavigate();
   const [filterType, setFilterType] = useState<'all' | 'month' | 'date'>('all');
   const [selectedMonth, setSelectedMonth] = useState(String(new Date().getMonth() + 1));
@@ -156,16 +152,16 @@ export default function AdminDashboard() {
   const totalProduction = pipelineStages.reduce((sum, [status]) => sum + (productionCounts.get(status) || 0), 0);
 
   const operations = [
-    ['Total Order', totalOrders, 'Order pada periode ini', Package, 'bg-blue-50 text-blue-700'],
-    ['Total Pelanggan', Number(stats?.totalCustomers || 0), 'Pelanggan bertransaksi', Users, 'bg-violet-50 text-violet-700'],
-    ['Order Aktif', Number(stats?.activeOrders || 0), 'Perlu ditindaklanjuti', Clock3, 'bg-amber-50 text-amber-700'],
-    ['Produksi Selesai', completedOrders, `${completionRate}% dari total order`, CheckCircle2, 'bg-emerald-50 text-emerald-700'],
+    ['Total Order', totalOrders, 'Order pada periode ini'],
+    ['Total Pelanggan', Number(stats?.totalCustomers || 0), 'Pelanggan bertransaksi'],
+    ['Order Aktif', Number(stats?.activeOrders || 0), 'Perlu ditindaklanjuti'],
+    ['Produksi Selesai', completedOrders, `${completionRate}% dari total order`],
   ] as const;
 
   const moneyMetrics = [
-    [filterType === 'all' ? 'Revenue Lunas' : 'Revenue Periode', Number(stats?.monthlyRevenue || 0), 'Pembayaran sudah lunas', TrendingUp, 'bg-emerald-50 text-emerald-700'],
-    ['DP Terbayar', Number(stats?.paidDpAmount || 0), 'Uang muka telah diterima', Wallet, 'bg-blue-50 text-blue-700'],
-    ['Belum Diterima', Number(stats?.pendingAmount || 0), 'Nominal masih tertahan', Clock3, 'bg-amber-50 text-amber-700'],
+    [filterType === 'all' ? 'Revenue Lunas' : 'Revenue Periode', Number(stats?.monthlyRevenue || 0), 'Pembayaran sudah lunas'],
+    ['DP Terbayar', Number(stats?.paidDpAmount || 0), 'Uang muka telah diterima'],
+    ['Belum Diterima', Number(stats?.pendingAmount || 0), 'Nominal masih tertahan'],
   ] as const;
 
   return (
@@ -174,29 +170,27 @@ export default function AdminDashboard() {
         <section className="space-y-4">
           <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
             <div>
-              <h1 className="text-xl font-semibold tracking-tight text-slate-950 sm:text-2xl">Selamat Datang, {user?.name?.split(' ')[0] || 'Admin'}! 👋</h1>
+              <h1 className="text-xl font-semibold tracking-tight text-slate-950 sm:text-2xl">Dashboard</h1>
               <p className="mt-1 max-w-2xl text-sm text-slate-500">
-                Pantau penjualan, pembayaran, stok, dan progres produksi dari satu workspace.
+                Ringkasan penjualan, pembayaran, stok, dan progres produksi.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" size="sm" className="h-9" onClick={() => exportExcel.mutate()} disabled={exportExcel.isPending}>
-                {exportExcel.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <FileSpreadsheet className="mr-2 h-4 w-4" />} Excel
+                {exportExcel.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}Export Excel
               </Button>
               <Button variant="outline" size="sm" className="h-9" onClick={() => exportPdf.mutate()} disabled={exportPdf.isPending}>
-                {exportPdf.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <FileText className="mr-2 h-4 w-4" />} PDF
+                {exportPdf.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}Export PDF
               </Button>
               <Button asChild size="sm" className="h-9 bg-slate-950 text-white hover:bg-slate-800">
-                <Link to="/admin/orders/new"><Plus className="mr-2 h-4 w-4" />Buat Order</Link>
+                <Link to="/admin/orders/new">Buat Order</Link>
               </Button>
             </div>
           </div>
 
           <div className="rounded-xl border border-slate-200 bg-white p-3">
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
-              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700">
-                <CalendarIcon className="h-4 w-4 text-blue-700" /> Periode data
-              </div>
+              <div className="text-sm font-semibold text-slate-700">Periode data</div>
               <div className="flex flex-1 flex-wrap items-center gap-2">
                 <Select value={filterType} onValueChange={(value: 'all' | 'month' | 'date') => setFilterType(value)}>
                   <SelectTrigger className="h-9 w-full bg-slate-50 sm:w-[165px]"><SelectValue /></SelectTrigger>
@@ -246,31 +240,26 @@ export default function AdminDashboard() {
         <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <Card className="relative overflow-hidden border-slate-200 bg-white">
             <CardContent className="relative flex h-full min-h-[145px] flex-col justify-between p-4">
-              <div className="flex items-start justify-between gap-4">
-                <div><p className="text-sm text-slate-500">{filterType === 'all' ? 'Total Omzet' : 'Omzet Periode'}</p>
-                  <p className="mt-2 text-2xl font-medium tracking-tight text-slate-950">{statsLoading ? 'Memuat...' : formatCurrency(omzet)}</p></div>
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-slate-50"><BarChart3 className="h-5 w-5 text-indigo-500" /></div>
-              </div>
+              <div><p className="text-sm text-slate-500">{filterType === 'all' ? 'Total Omzet' : 'Omzet Periode'}</p>
+                <p className="mt-2 text-2xl font-medium tracking-tight text-slate-950">{statsLoading ? 'Memuat...' : formatCurrency(omzet)}</p></div>
               <div className="flex items-center justify-between text-xs text-slate-400">
                 <span>Data {filterLabel.toLowerCase()}</span>
                 <span>+ {totalOrders.toLocaleString('id-ID')} order</span>
               </div>
             </CardContent>
           </Card>
-          {moneyMetrics.map(([label, value, helper, Icon, iconClass]) => <Card key={label} className="border-slate-200 shadow-sm">
+          {moneyMetrics.map(([label, value, helper]) => <Card key={label} className="border-slate-200 shadow-sm">
             <CardContent className="flex h-full min-h-[145px] flex-col justify-between p-4">
-              <div className="flex items-start justify-between gap-3"><div><p className="text-sm text-slate-500">{label}</p>
+              <div><p className="text-sm text-slate-500">{label}</p>
                 <p className="mt-2 break-words text-2xl font-medium tracking-tight text-slate-950">{statsLoading ? '-' : formatCurrency(value)}</p></div>
-                <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-slate-200 ${iconClass}`}><Icon className="h-5 w-5" /></div></div>
               <p className="text-xs text-slate-400">{helper}</p>
             </CardContent>
           </Card>)}
         </section>
 
         <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {operations.map(([label, value, helper, Icon, iconClass]) => <Card key={label} className="border-slate-200 shadow-sm">
-            <CardContent className="flex items-center gap-3 p-4">
-              <div className={`flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 ${iconClass}`}><Icon className="h-5 w-5" /></div>
+          {operations.map(([label, value, helper]) => <Card key={label} className="border-slate-200 shadow-sm">
+            <CardContent className="p-4">
               <div className="min-w-0"><p className="text-sm font-medium text-slate-500">{label}</p>
                 <p className="mt-0.5 text-2xl font-medium text-slate-950">{statsLoading ? '-' : value.toLocaleString('id-ID')}</p>
                 <p className="mt-1 truncate text-xs text-slate-400">{helper}</p></div>
@@ -282,8 +271,7 @@ export default function AdminDashboard() {
           <Card className="overflow-hidden border-slate-200 shadow-sm">
             <CardContent className="p-0">
               <div className="flex items-center justify-between gap-3 border-b border-slate-100 p-5">
-                <div><div className="flex items-center gap-2"><div className="rounded-lg bg-blue-50 p-2 text-blue-700"><Factory className="h-5 w-5" /></div>
-                  <h2 className="text-lg font-bold text-slate-950">Alur Produksi</h2></div>
+                <div><h2 className="text-lg font-semibold text-slate-950">Alur Produksi</h2>
                   <p className="mt-2 text-sm text-slate-500">Posisi order lunas pada setiap tahap produksi.</p></div>
                 <div className="rounded-xl bg-slate-50 px-3 py-2 text-right"><p className="text-xs text-slate-400">Dalam alur</p>
                   <p className="text-lg font-bold text-slate-900">{productionLoading ? '-' : totalProduction} order</p></div>
@@ -299,8 +287,7 @@ export default function AdminDashboard() {
           </Card>
 
           <Card className="border-slate-200 shadow-sm"><CardContent className="p-5">
-            <div className="flex items-center gap-2"><div className="rounded-lg bg-violet-50 p-2 text-violet-700"><Package className="h-5 w-5" /></div>
-              <h2 className="text-lg font-bold text-slate-950">Produk Terlaris</h2></div>
+            <h2 className="text-lg font-semibold text-slate-950">Produk Terlaris</h2>
             <p className="mt-2 text-sm text-slate-500">Produk dengan volume tertinggi.</p>
             <div className="mt-5 space-y-4">
               {analyticsLoading ? <LoadingBlock /> : !productAnalytics?.productSales?.length ? <EmptyBlock text="Belum ada data produk" />
@@ -317,7 +304,7 @@ export default function AdminDashboard() {
 
         <section className="grid gap-4 lg:grid-cols-2">
           <Card className="border-slate-200 shadow-sm"><CardContent className="p-5">
-            <SectionTitle icon={BarChart3} iconClass="bg-emerald-50 text-emerald-700" title="Kategori Terlaris" subtitle="Perbandingan volume berdasarkan kategori." />
+            <SectionTitle title="Kategori Terlaris" subtitle="Perbandingan volume berdasarkan kategori." />
             {analyticsLoading ? <LoadingBlock /> : !productAnalytics?.productCategorySales?.length ? <EmptyBlock text="Belum ada data kategori" />
               : <div className="space-y-5">{productAnalytics.productCategorySales.slice(0, 5).map((category, index) => {
                 const categoryLabel = category.productCategory === 'konveksi' ? 'Konveksi' : category.productCategory === 'percetakan' ? 'Percetakan' : category.productCategory;
@@ -330,7 +317,7 @@ export default function AdminDashboard() {
           </CardContent></Card>
 
           <Card className="border-slate-200 shadow-sm"><CardContent className="p-5">
-            <SectionTitle icon={Palette} iconClass="bg-pink-50 text-pink-700" title="Warna Terlaris" subtitle="Warna yang paling banyak masuk ke produksi." />
+            <SectionTitle title="Warna Terlaris" subtitle="Warna yang paling banyak masuk ke produksi." />
             {analyticsLoading ? <LoadingBlock /> : !productAnalytics?.colorSales?.length ? <EmptyBlock text="Belum ada data warna" />
               : <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">{productAnalytics.colorSales.slice(0, 9).map((color) => <div key={color.color}
                 className="flex items-center gap-2 rounded-xl border border-slate-100 bg-slate-50/70 p-3">
@@ -345,7 +332,7 @@ export default function AdminDashboard() {
           <div className="flex flex-col gap-3 border-b border-slate-100 p-5 sm:flex-row sm:items-center sm:justify-between">
             <div><h2 className="text-lg font-bold text-slate-950">Order Terbaru</h2>
               <p className="mt-1 text-sm text-slate-500">Klik baris untuk membuka detail dan tindak lanjut order.</p></div>
-            <Button asChild variant="outline" className="w-fit rounded-xl"><Link to="/admin/orders">Lihat Semua <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
+            <Button asChild variant="outline" className="w-fit"><Link to="/admin/orders">Lihat Semua</Link></Button>
           </div>
           <div className="overflow-x-auto"><Table>
             <TableHeader><TableRow className="bg-slate-50 hover:bg-slate-50">
@@ -362,9 +349,9 @@ export default function AdminDashboard() {
                 <TableCell className="font-semibold text-slate-900">{formatCurrency(Number(order.totalAmount))}</TableCell>
                 <TableCell>{statusBadge(order.paymentStatus, paymentStyles)}</TableCell><TableCell>{statusBadge(order.productionStatus, productionStyles)}</TableCell>
                 <TableCell className="whitespace-nowrap text-slate-500">{formatOrderDate(order.createdAt)}</TableCell>
-                <TableCell className="pr-5 text-right"><Button variant="ghost" size="sm" className="rounded-lg font-semibold text-blue-700 hover:bg-blue-50 hover:text-blue-800"
+                <TableCell className="pr-5 text-right"><Button variant="ghost" size="sm" className="font-semibold text-slate-700 hover:bg-slate-100 hover:text-slate-950"
                   onClick={(event) => { event.stopPropagation(); navigate(`/admin/orders/${order.id}`); }}>
-                  Cek Detail <ArrowRight className="ml-1.5 h-4 w-4" /></Button></TableCell>
+                  Cek Detail</Button></TableCell>
               </TableRow>)}</TableBody>
           </Table></div>
         </CardContent></Card>
@@ -381,9 +368,8 @@ function EmptyBlock({ text }: { text: string }) {
   return <div className="flex h-36 items-center justify-center text-sm text-slate-400">{text}</div>;
 }
 
-function SectionTitle({ icon: Icon, iconClass, title, subtitle }: {
-  icon: typeof BarChart3; iconClass: string; title: string; subtitle: string;
+function SectionTitle({ title, subtitle }: {
+  title: string; subtitle: string;
 }) {
-  return <div className="mb-5 flex items-center gap-3"><div className={`rounded-lg p-2 ${iconClass}`}><Icon className="h-5 w-5" /></div>
-    <div><h2 className="text-lg font-bold text-slate-950">{title}</h2><p className="text-sm text-slate-500">{subtitle}</p></div></div>;
+  return <div className="mb-5"><h2 className="text-lg font-semibold text-slate-950">{title}</h2><p className="text-sm text-slate-500">{subtitle}</p></div>;
 }

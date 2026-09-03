@@ -41,6 +41,8 @@ services:
       PGPASSWORD: Sekala123
       PGDATABASE: sekaladb
       JWT_SECRET: sekala-local-dev-secret
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GROQ_MODEL: ${GROQ_MODEL:-openai/gpt-oss-120b}
     networks:
       - sekala-local
 

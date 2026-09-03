@@ -9,6 +9,7 @@ export interface AuthRequest extends Request {
     email: string;
     name: string;
     role: string;
+    permissions?: string[];
   };
 }
 
@@ -27,6 +28,7 @@ export const authMiddleware = (req: AuthRequest, res: Response, next: NextFuncti
       email: string;
       name: string;
       role: string;
+      permissions?: string[];
     };
     req.user = decoded;
     next();
@@ -51,5 +53,13 @@ export const requireRole = (...roles: string[]) => {
     }
 
     next();
+  };
+};
+
+export const requirePermission = (permission: string) => {
+  return (req: AuthRequest, res: Response, next: NextFunction) => {
+    if (!req.user) return res.status(401).json({ error: 'Unauthorized' });
+    if (req.user.role === 'superadmin' || req.user.permissions?.includes(permission)) return next();
+    return res.status(403).json({ error: 'Forbidden: Insufficient permissions' });
   };
 };

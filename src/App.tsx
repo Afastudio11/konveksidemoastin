@@ -23,6 +23,7 @@ import AdminSettings from "./pages/admin/Settings";
 import AdminActivityLogs from "./pages/admin/ActivityLogs";
 import AdminUserManagement from "./pages/admin/UserManagement";
 import AdminInventory from "./pages/admin/Inventory";
+import AiAssistant from "./pages/admin/AiAssistant";
 
 const FinancialReports = lazy(() => import("./pages/admin/FinancialReports"));
 
@@ -137,6 +138,14 @@ const App = () => (
                   <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full" /></div>}>
                     <FinancialReports />
                   </Suspense>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/ai-assistant"
+              element={
+                <ProtectedRoute>
+                  <AiAssistant />
                 </ProtectedRoute>
               }
             />

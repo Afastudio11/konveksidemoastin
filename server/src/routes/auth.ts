@@ -21,6 +21,7 @@ const AVAILABLE_PERMISSIONS = [
   'expenses',
   'inventory',
   'financial_reports',
+  'ai_assistant',
   'activity_logs',
   'settings',
   'user_management'
