@@ -1,6 +1,6 @@
 import { FormEvent, KeyboardEvent, useState, useRef, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { ArrowUp, Loader2, RotateCcw, Sparkles, Bot, User, Copy, Check } from 'lucide-react';
+import { ArrowUp, Loader2, RotateCcw, Bot, User, Copy, Check, ArrowRight } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { toast } from 'sonner';
@@ -18,10 +18,10 @@ interface ChatMessage {
 }
 
 const suggestions = [
-  { icon: '📊', text: 'Berapa total omzet, kas diterima, dan piutang saat ini?' },
-  { icon: '📦', text: 'Bahan baku apa saja yang stoknya menipis atau habis?' },
-  { icon: '🏭', text: 'Order mana yang progres produksinya paling rendah & mendesak?' },
-  { icon: '🏆', text: 'Produk apa yang paling banyak terjual dan berapa nilainya?' },
+  'Berapa total omzet, kas diterima, dan piutang saat ini?',
+  'Bahan baku apa saja yang stoknya menipis atau habis?',
+  'Order mana yang progres produksinya paling rendah & mendesak?',
+  'Produk apa yang paling banyak terjual dan berapa nilainya?',
 ];
 
 function CopyButton({ text }: { text: string }) {
@@ -141,8 +141,8 @@ export default function AiAssistant() {
             /* Empty State (ChatGPT Landing) */
             <div className="flex flex-col items-center justify-center min-h-full py-12">
               <div className="max-w-2xl w-full text-center">
-                <div className="inline-flex items-center justify-center size-12 rounded-2xl bg-foreground text-background mb-4 shadow-sm">
-                  <Sparkles className="size-6" />
+                <div className="inline-flex items-center justify-center size-12 rounded-2xl bg-muted border border-border text-foreground mb-4 shadow-2xs">
+                  <Bot className="size-6 text-foreground" />
                 </div>
                 <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground mb-2">
                   Ada yang bisa saya bantu tentang data bisnismu?
@@ -152,17 +152,17 @@ export default function AiAssistant() {
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-left max-w-xl mx-auto">
-                  {suggestions.map((s) => (
+                  {suggestions.map((text) => (
                     <button
-                      key={s.text}
+                      key={text}
                       type="button"
-                      onClick={() => submitQuestion(s.text)}
-                      className="group flex items-start gap-3 rounded-xl border border-border/80 bg-card hover:bg-muted/40 p-3.5 text-xs sm:text-[13px] leading-relaxed text-foreground transition-all hover:border-foreground/25 cursor-pointer shadow-2xs"
+                      onClick={() => submitQuestion(text)}
+                      className="group flex items-center justify-between rounded-xl border border-border/80 bg-card hover:bg-muted/40 p-3.5 text-xs sm:text-[13px] leading-relaxed text-foreground transition-all hover:border-foreground/25 cursor-pointer shadow-2xs"
                     >
-                      <span className="text-base shrink-0 mt-0.5">{s.icon}</span>
                       <span className="text-muted-foreground group-hover:text-foreground transition-colors font-medium">
-                        {s.text}
+                        {text}
                       </span>
+                      <ArrowRight className="size-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0 ml-2" />
                     </button>
                   ))}
                 </div>

@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
 import {
   Atom,
-  Sparkles,
+  Bot,
   LayoutGrid,
   ChartArea,
   Users,
@@ -64,10 +64,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     const all = [
       {
         title: "AI Assistant",
-        icon: Sparkles,
+        icon: Bot,
         path: "/admin/ai-assistant",
         permission: "ai_assistant",
-        isGradient: true,
       },
       {
         title: "Dashboard",
