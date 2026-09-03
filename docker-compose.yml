@@ -29,6 +29,8 @@ services:
       dockerfile: Dockerfile
     container_name: sekala-app
     restart: unless-stopped
+    ports:
+      - "127.0.0.1:5003:5000"
     depends_on:
       db:
         condition: service_healthy
