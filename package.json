@@ -15,7 +15,8 @@
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:seed": "tsx server/src/seed.ts",
-    "db:seed-sample": "tsx server/src/seed-sample-data.ts"
+    "db:seed-sample": "tsx server/src/seed-sample-data.ts",
+    "db:seed-expenses": "tsx server/src/seed-september-expenses.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
